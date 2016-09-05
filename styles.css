@@ -1,3 +1,393 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+body {
+  font-size: 14px;
+  font-family: "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
+  -webkit-user-select: none;
+  cursor: default;
+}
+button {
+  font-size: 14px;
+  font-family: "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+.wrapper {
+  min-width: 700px;
+  margin: 10px;
+}
+.navigation {
+  padding: 0px;
+}
+.navigation button.stage {
+  height: 28px;
+  line-height: 28px;
+  font-size: 16px;
+  background: transparent;
+  display: inline-block;
+  padding: 0px 12px;
+  margin-right: 0px;
+  color: #DDD;
+  background-color: white;
+  box-sizing: border-box;
+  border-bottom: 2px solid #DDD;
+  cursor: default;
+}
+.navigation button.stage.active {
+  color: #2ca02c;
+  border-bottom-color: #2ca02c;
+}
+.navigation button.stage.fade {
+  color: #98df8a;
+  border-bottom-color: #98df8a;
+  cursor: pointer;
+}
+.stage-tab {
+  margin-top: 5px;
+  display: none;
+}
+.stage-tab.active {
+  display: block;
+}
+section {
+  margin: 0;
+  padding: 10px 0;
+  border-bottom: 2px solid #EEE;
+  margin-bottom: 10px;
+}
+h2 {
+  font-size: 16px;
+  color: #888;
+  height: 32px;
+  line-height: 32px;
+  font-size: 24px;
+  padding: 0 0;
+  margin: 0 0;
+}
+h3 {
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+  color: #444;
+  border-bottom: 1px solid #EEE;
+  margin: 10px 0;
+}
+p {
+  margin: 10px 0;
+}
+p-widget-row {
+  display: block;
+  margin: 10px 0;
+}
+p-widget-row p-widget-col {
+  display: inline-block;
+}
+p-widget-row p-widget-col.col-12 {
+  width: 100%;
+}
+p-widget-row p-widget-col.col-6 {
+  width: 40%;
+}
+p-widget-row p-widget-col label {
+  display: inline-block;
+  width: 60px;
+  text-align: right;
+  padding-right: 2px;
+}
+p-widget-row p-widget-col input {
+  width: calc(100% - 100px);
+}
+p-widget-row p-widget-col .error {
+  color: #d62728;
+}
+.ca-error {
+  color: #d62728;
+}
+.table-container {
+  overflow: scroll;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  margin: 10px 0;
+  width: 100%;
+  height: 400px;
+  box-sizing: border-box;
+}
+table {
+  word-break: keep-all;
+  white-space: nowrap;
+  border-collapse: collapse;
+}
+table .column-name {
+  font-weight: bold;
+}
+table th {
+  background: rgba(0, 0, 0, 0.1);
+  border: 1px solid white;
+  padding: 4px 8px;
+  min-width: 100px;
+  text-align: left;
+}
+table th.type_number {
+  text-align: right;
+}
+table th.type_text {
+  text-align: left;
+}
+table td {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid white;
+  padding: 4px 8px;
+}
+table td.type_number {
+  text-align: right;
+}
+table td.type_text {
+  text-align: left;
+}
+.chart-type {
+  display: inline-block;
+  border-radius: 2px;
+  width: 30%;
+  max-width: 150px;
+  background-color: rgba(0, 0, 0, 0.02);
+  padding: 5px;
+  cursor: pointer;
+}
+.chart-type img {
+  width: 100%;
+}
+.chart-type span {
+  margin-top: 3px;
+  display: block;
+  text-align: center;
+}
+.chart-type:hover {
+  background-color: #ffb574;
+}
+.chart-type.active {
+  background-color: #ff7f0e;
+}
+.chart-type.active span {
+  color: white;
+}
+button.btn,
+label.btn {
+  border-radius: 2px;
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  font-size: 16px;
+  padding: 0px 12px;
+  background-color: #ff7f0e;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  color: white;
+  cursor: pointer;
+}
+button.btn:hover,
+label.btn:hover {
+  background-color: #da6600;
+}
+button.btn-inline,
+label.btn-inline {
+  text-decoration: underline;
+}
+button.btn-inline:hover,
+label.btn-inline:hover {
+  color: #ff7f0e;
+}
+input[type="text"] {
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  background-color: #F8F8F8;
+  background-color: #FFF;
+  padding: 2px 5px;
+  border: 1px solid #DDD;
+  border-radius: 2px;
+}
+input[type="text"]:focus {
+  border: 1px solid #ff7f0e;
+  box-shadow: 0 0 5px rgba(255, 127, 14, 0.5);
+}
+select {
+  -webkit-appearance: none;
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  border-radius: 2px !important;
+  outline-radius: 0;
+  padding: 3px 6px;
+  padding-right: 16px;
+  background: url('triangle.svg') no-repeat right #F8F8F8;
+  background-size: auto 80%;
+  box-shadow: 0 0 2px #CCC;
+  cursor: pointer;
+}
+select:hover {
+  background: url('triangle-white.svg') no-repeat right rgba(255, 127, 14, 0.8);
+  color: white;
+}
+.chart-accent-container {
+  position: relative;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+.chart-accent-container > div.chart {
+  margin-right: 362px;
+  overflow: hidden;
+}
+.chart-accent-container > div.panel {
+  float: right;
+  box-shadow: 0 0 2px #444;
+  border: 1px solid #444;
+  overflow: hidden;
+}
+.row .col-4 {
+  float: left;
+  width: 30%;
+  padding-left: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.row .col-8 {
+  float: left;
+  width: 70%;
+  padding-right: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
 
     @font-face {
       font-family: 'chartaccent_icons';
@@ -2035,3 +2425,4 @@ chartaccent-input-widget {
   display: inline-block;
   border: 1px solid #AAA;
 }
+
