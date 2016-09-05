@@ -148,6 +148,19 @@ button {
 }
 .navigation {
   padding: 0px;
+  border-bottom: 2px solid #EEE;
+}
+.navigation .title {
+  font-size: 20px;
+  line-height: 28px;
+  height: 28px;
+  color: #666;
+  text-decoration: none;
+}
+.navigation .title:hover,
+.navigation .title:active,
+.navigation .title:focus {
+  color: #222;
 }
 .navigation button.stage {
   height: 28px;
@@ -155,22 +168,35 @@ button {
   font-size: 16px;
   background: transparent;
   display: inline-block;
-  padding: 0px 12px;
+  padding-right: 5px;
   margin-right: 0px;
   color: #DDD;
   background-color: white;
   box-sizing: border-box;
-  border-bottom: 2px solid #DDD;
   cursor: default;
 }
+.navigation button.stage .arrow {
+  margin-left: 5px;
+  color: #DDD;
+}
 .navigation button.stage.active {
-  color: #2ca02c;
-  border-bottom-color: #2ca02c;
+  color: #ff7f0e;
+}
+.navigation button.stage.active .arrow {
+  color: #DDD;
 }
 .navigation button.stage.fade {
-  color: #98df8a;
-  border-bottom-color: #98df8a;
+  color: #ffb574;
   cursor: pointer;
+}
+.navigation button.stage.fade .arrow {
+  color: #ffb574;
+}
+.navigation button.stage .arrow {
+  padding-left: 5px;
+}
+.navigation button.stage:last-child .arrow {
+  display: none;
 }
 .stage-tab {
   margin-top: 5px;
@@ -235,7 +261,7 @@ p-widget-row p-widget-col .error {
 }
 .table-container {
   overflow: scroll;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: 1px solid #EEE;
   margin: 10px 0;
   width: 100%;
   height: 400px;
@@ -308,6 +334,7 @@ label.btn {
   font-size: 16px;
   padding: 0px 12px;
   background-color: #ff7f0e;
+  border: 1px solid #ff7f0e;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   color: white;
   cursor: pointer;
@@ -315,6 +342,17 @@ label.btn {
 button.btn:hover,
 label.btn:hover {
   background-color: #da6600;
+  border: 1px solid #da6600;
+}
+button.btn:active,
+label.btn:active {
+  background-color: #a74e00;
+  border: 1px solid #a74e00;
+}
+button.btn:focus,
+label.btn:focus {
+  box-shadow: 0 0 10px rgba(255, 127, 14, 0.3);
+  border: 1px solid #a74e00;
 }
 button.btn-inline,
 label.btn-inline {
@@ -366,6 +404,7 @@ select:hover {
 }
 .chart-accent-container > div.chart {
   margin-right: 362px;
+  border: 1px solid #EEE;
   overflow: hidden;
 }
 .chart-accent-container > div.panel {

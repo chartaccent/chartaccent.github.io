@@ -9,9 +9,9 @@
 <body>
 
 <div class="wrapper">
-    <div class="navigation" data-bind="foreach: stages">
-        <button class="stage" data-bind="
-            text: strings.stages[$data],
+    <div class="navigation">
+        <a href="index.html" class="title" style="float: right">ChartAccent</a>
+        <span data-bind="foreach: stages"><button class="stage" data-bind="
             css: {
                 active: $root.current_stage() == $data,
                 fade: $root.stages.indexOf($root.current_stage()) > $root.stages.indexOf($data),
@@ -21,23 +21,25 @@
                     $root.set_current_stage($data)
                 }
             }
-        "></button>
+        "><span class="text" data-bind="text: strings.stages[$data]"></span><span class="arrow">&raquo;</span></button></span>
     </div>
 
     <div class="stage-tab" data-bind="css: { active: $root.current_stage() == 'import' }">
-        <section>
-            <h2>Choose data file (CSV)</h2>
-            <p>
-                <label class="btn" for="file-upload">Choose File</label>
-                <input id="file-upload" style="display: none;" type="file" accept=".csv" data-bind="event: { change: function() { importCSV($element.files[0]) } }" />
-                &nbsp; Your file will NOT be uploaded to our server.
-            </p>
-            <p>Load sample data:
-                <span data-bind="foreach: sample_datasets">
-                    <button class="btn-inline" style="margin-left: 10px" data-bind="click: function() { $root.importCSVFromURL($data.csv); }, text: $data.name"></button>
-                </span>
-            </p>
-        </section>
+        <div data-bind="ifnot: data_columns">
+            <section>
+                <h2>Choose data file (CSV)</h2>
+                <p>
+                    <label class="btn" for="file-upload">Choose File</label>
+                    <input id="file-upload" style="display: none;" type="file" accept=".csv" data-bind="event: { change: function() { importCSV($element.files[0]) } }" />
+                </p>
+                <p>Your file will NOT be uploaded to our server.</p>
+                <p>Load sample data:
+                    <span data-bind="foreach: sample_datasets">
+                        <button class="btn-inline" style="margin-left: 10px" data-bind="click: function() { $root.importCSVFromURL($data.csv); }, text: $data.name"></button>
+                    </span>
+                </p>
+            </section>
+        </div>
         <div data-bind="if: data_columns">
             <section>
                 <h2>Check column types and digits</h2>
@@ -95,9 +97,11 @@
         </section>
         <div data-bind="if: chart_type" class="row">
             <section>
-                <div data-bind="if: chart_information" class="col-8">
+                <div class="col-8">
                     <h2>Preview Chart</h2>
-                    <div class="chart-container" data-bind="chartaccent_chart: chart_information"></div>
+                    <div data-bind="if: chart_information">
+                        <div class="chart-container" data-bind="chartaccent_chart: chart_information"></div>
+                    </div>
                 </div>
                 <div class="col-4">
                     <h2>Specify chart options</h2>
@@ -267,6 +271,11 @@
                 <div style="clear: both"></div>
             </div>
         </section>
+        <p style="text-align: right">
+            <button class="btn" data-bind="click: $root.export_as.bind($root, 'gif')">Export Animated GIF</button>
+            <button class="btn" data-bind="click: $root.export_as.bind($root, 'png')">Export PNG</button>
+            <button class="btn" data-bind="click: $root.export_as.bind($root, 'svg')">Export SVG</button>
+        </p>
     </div>
 </div>
 <script type="text/javascript" src="chartaccent.js"></script>
