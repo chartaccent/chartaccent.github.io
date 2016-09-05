@@ -2579,7 +2579,7 @@ Expression.FunctionApply.prototype.clone = function() {
     for(var k in this.kwargs) {
         kwargs[k] = this.kwargs[k].clone();
     }
-    return new Expression.Function(this.funcitem.clone(), args, kwargs);
+    return new Expression.FunctionApply(this.funcitem.clone(), args, kwargs);
 };
 
 Expression.Globals.sum = function(args) {
