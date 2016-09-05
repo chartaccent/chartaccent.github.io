@@ -11170,6 +11170,56 @@ ChartRepresentation.prototype.redo = function() {
     }
 };
 
+ChartRepresentation.prototype.getImageDataURL = function(svg, scale, callback) {
+    var img = new Image();
+    img.onload = function() {
+        // Now that the image has loaded, put the image into a canvas element.
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width * scale;
+        canvas.height = img.height * scale;
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = "#FFF";
+        ctx.scale(scale, scale);
+        ctx.fillRect(0, 0, img.width, img.height);
+        ctx.drawImage(img, 0, 0);
+        callback(canvas);
+    };
+    img.src = svg;
+};
+
+ChartRepresentation.prototype.makeAnimation = function(callback) {
+    var self = this;
+    var currentState = this.saveState();
+    var svgs = [];
+    this.undo_history.forEach(function(state) {
+        self.loadState(state.state);
+        svgs.push(self.owner.getSVGDataURL());
+    });
+    self.loadState(currentState);
+    svgs.push(self.owner.getSVGDataURL());
+    var dataurls = [];
+    var gif = new GIF({
+        workers: 2,
+        workerScript: "js/gif.worker.js",
+        quality: 10
+    });
+    gif.on('finished', function(blob) {
+        console.log(blob);
+        callback(blob);
+    });
+    function convertCanvasIndex(i) {
+        if(i == svgs.length) {
+            gif.render();
+        } else {
+            self.getImageDataURL(svgs[i], 2, function(canvas) {
+                gif.addFrame(canvas);
+                convertCanvasIndex(i + 1);
+            });
+        }
+    }
+    convertCanvasIndex(0);
+}
+
 ChartRepresentation.Create = function(owner, info) {
     return new ChartRepresentation(owner, info);
 };
@@ -11251,6 +11301,10 @@ ChartAccent.prototype.getImageDataBlob = function(format, scale, callback) {
     };
     img.src = this.getSVGDataURL();
 };
+
+ChartAccent.prototype.getAnimatedGIFImages = function(callback) {
+    this.charts[0].makeAnimation(callback);
+}
 
 Module.Create = function(info) {
     return new ChartAccent(info);
@@ -42717,6 +42771,11 @@ function BaseChart(element, info, config) {
             self.chartaccent.getImageDataBlob('image/png', 4, function(blob) {
                 do_download(blob);
             });
+        }
+        if(type == "gif") {
+            self.chartaccent.getAnimatedGIFImages(function(blob) {
+                do_download(blob);
+            })
         }
     };
     if(config.chartaccent) {
