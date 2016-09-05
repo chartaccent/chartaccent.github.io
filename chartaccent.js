@@ -42759,9 +42759,10 @@ function BaseChart(element, info, config) {
     });
 
     var p_buttons = element.append("p").style("clear", "both").style("text-align", "right");
-    var export_as = function(type) {
+    var export_as = function(type, callback_complete) {
         var do_download = function(url) {
             saveAs(url, "chartaccent." + type);
+            callback_complete();
         };
         if(type == "svg") {
             var blob = self.chartaccent.getSVGDataBlob();
@@ -43465,8 +43466,12 @@ function ChartAccentStandaloneModel() {
         self.chart_type(id);
     };
 
+    self.export_status = ko.observable("");
     self.export_as = function(type) {
-        if(G_export_as) G_export_as(type);
+        self.export_status("Exporting...");
+        if(G_export_as) G_export_as(type, function() {
+            self.export_status("");
+        });
     }
 
     // Computed columns.
