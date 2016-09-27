@@ -413,6 +413,13 @@ select:hover {
   border: 1px solid #444;
   overflow: hidden;
 }
+.chart-accent-container > div.toolbar {
+  border: 1px solid #EEE;
+  background-color: #F8F8F8;
+  overflow: hidden;
+  margin-right: 362px;
+  padding: 4px;
+}
 .row .col-4 {
   float: left;
   width: 30%;
@@ -1079,7 +1086,8 @@ select:hover {
      }
      
 
-chartaccent-panel {
+chartaccent-panel,
+chartaccent-toolbar {
   /* HTML5 display-role reset for older browsers */
   cursor: default;
   display: block;
@@ -1089,84 +1097,163 @@ chartaccent-panel {
   line-height: 14px;
 }
 chartaccent-panel div,
+chartaccent-toolbar div,
 chartaccent-panel span,
+chartaccent-toolbar span,
 chartaccent-panel applet,
+chartaccent-toolbar applet,
 chartaccent-panel object,
+chartaccent-toolbar object,
 chartaccent-panel iframe,
+chartaccent-toolbar iframe,
 chartaccent-panel h1,
+chartaccent-toolbar h1,
 chartaccent-panel h2,
+chartaccent-toolbar h2,
 chartaccent-panel h3,
+chartaccent-toolbar h3,
 chartaccent-panel h4,
+chartaccent-toolbar h4,
 chartaccent-panel h5,
+chartaccent-toolbar h5,
 chartaccent-panel h6,
+chartaccent-toolbar h6,
 chartaccent-panel p,
+chartaccent-toolbar p,
 chartaccent-panel blockquote,
+chartaccent-toolbar blockquote,
 chartaccent-panel pre,
+chartaccent-toolbar pre,
 chartaccent-panel a,
+chartaccent-toolbar a,
 chartaccent-panel abbr,
+chartaccent-toolbar abbr,
 chartaccent-panel acronym,
+chartaccent-toolbar acronym,
 chartaccent-panel address,
+chartaccent-toolbar address,
 chartaccent-panel big,
+chartaccent-toolbar big,
 chartaccent-panel cite,
+chartaccent-toolbar cite,
 chartaccent-panel code,
+chartaccent-toolbar code,
 chartaccent-panel del,
+chartaccent-toolbar del,
 chartaccent-panel dfn,
+chartaccent-toolbar dfn,
 chartaccent-panel em,
+chartaccent-toolbar em,
 chartaccent-panel img,
+chartaccent-toolbar img,
 chartaccent-panel ins,
+chartaccent-toolbar ins,
 chartaccent-panel kbd,
+chartaccent-toolbar kbd,
 chartaccent-panel q,
+chartaccent-toolbar q,
 chartaccent-panel s,
+chartaccent-toolbar s,
 chartaccent-panel samp,
+chartaccent-toolbar samp,
 chartaccent-panel small,
+chartaccent-toolbar small,
 chartaccent-panel strike,
+chartaccent-toolbar strike,
 chartaccent-panel strong,
+chartaccent-toolbar strong,
 chartaccent-panel sub,
+chartaccent-toolbar sub,
 chartaccent-panel sup,
+chartaccent-toolbar sup,
 chartaccent-panel tt,
+chartaccent-toolbar tt,
 chartaccent-panel var,
+chartaccent-toolbar var,
 chartaccent-panel b,
+chartaccent-toolbar b,
 chartaccent-panel u,
+chartaccent-toolbar u,
 chartaccent-panel i,
+chartaccent-toolbar i,
 chartaccent-panel center,
+chartaccent-toolbar center,
 chartaccent-panel dl,
+chartaccent-toolbar dl,
 chartaccent-panel dt,
+chartaccent-toolbar dt,
 chartaccent-panel dd,
+chartaccent-toolbar dd,
 chartaccent-panel ol,
+chartaccent-toolbar ol,
 chartaccent-panel ul,
+chartaccent-toolbar ul,
 chartaccent-panel li,
+chartaccent-toolbar li,
 chartaccent-panel fieldset,
+chartaccent-toolbar fieldset,
 chartaccent-panel form,
+chartaccent-toolbar form,
 chartaccent-panel label,
+chartaccent-toolbar label,
 chartaccent-panel legend,
+chartaccent-toolbar legend,
 chartaccent-panel table,
+chartaccent-toolbar table,
 chartaccent-panel caption,
+chartaccent-toolbar caption,
 chartaccent-panel tbody,
+chartaccent-toolbar tbody,
 chartaccent-panel tfoot,
+chartaccent-toolbar tfoot,
 chartaccent-panel thead,
+chartaccent-toolbar thead,
 chartaccent-panel tr,
+chartaccent-toolbar tr,
 chartaccent-panel th,
+chartaccent-toolbar th,
 chartaccent-panel td,
+chartaccent-toolbar td,
 chartaccent-panel article,
+chartaccent-toolbar article,
 chartaccent-panel aside,
+chartaccent-toolbar aside,
 chartaccent-panel canvas,
+chartaccent-toolbar canvas,
 chartaccent-panel details,
+chartaccent-toolbar details,
 chartaccent-panel embed,
+chartaccent-toolbar embed,
 chartaccent-panel figure,
+chartaccent-toolbar figure,
 chartaccent-panel figcaption,
+chartaccent-toolbar figcaption,
 chartaccent-panel footer,
+chartaccent-toolbar footer,
 chartaccent-panel header,
+chartaccent-toolbar header,
 chartaccent-panel hgroup,
+chartaccent-toolbar hgroup,
 chartaccent-panel menu,
+chartaccent-toolbar menu,
 chartaccent-panel nav,
+chartaccent-toolbar nav,
 chartaccent-panel output,
+chartaccent-toolbar output,
 chartaccent-panel ruby,
+chartaccent-toolbar ruby,
 chartaccent-panel section,
+chartaccent-toolbar section,
 chartaccent-panel summary,
+chartaccent-toolbar summary,
 chartaccent-panel time,
+chartaccent-toolbar time,
 chartaccent-panel mark,
+chartaccent-toolbar mark,
 chartaccent-panel audio,
-chartaccent-panel video {
+chartaccent-toolbar audio,
+chartaccent-panel video,
+chartaccent-toolbar video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -1175,54 +1262,87 @@ chartaccent-panel video {
   vertical-align: baseline;
 }
 chartaccent-panel article,
+chartaccent-toolbar article,
 chartaccent-panel aside,
+chartaccent-toolbar aside,
 chartaccent-panel details,
+chartaccent-toolbar details,
 chartaccent-panel figcaption,
+chartaccent-toolbar figcaption,
 chartaccent-panel figure,
+chartaccent-toolbar figure,
 chartaccent-panel footer,
+chartaccent-toolbar footer,
 chartaccent-panel header,
+chartaccent-toolbar header,
 chartaccent-panel hgroup,
+chartaccent-toolbar hgroup,
 chartaccent-panel menu,
+chartaccent-toolbar menu,
 chartaccent-panel nav,
-chartaccent-panel section {
+chartaccent-toolbar nav,
+chartaccent-panel section,
+chartaccent-toolbar section {
   display: block;
 }
-chartaccent-panel body {
+chartaccent-panel body,
+chartaccent-toolbar body {
   line-height: 1;
 }
 chartaccent-panel ol,
-chartaccent-panel ul {
+chartaccent-toolbar ol,
+chartaccent-panel ul,
+chartaccent-toolbar ul {
   list-style: none;
 }
 chartaccent-panel blockquote,
-chartaccent-panel q {
+chartaccent-toolbar blockquote,
+chartaccent-panel q,
+chartaccent-toolbar q {
   quotes: none;
 }
 chartaccent-panel blockquote:before,
+chartaccent-toolbar blockquote:before,
 chartaccent-panel blockquote:after,
+chartaccent-toolbar blockquote:after,
 chartaccent-panel q:before,
-chartaccent-panel q:after {
+chartaccent-toolbar q:before,
+chartaccent-panel q:after,
+chartaccent-toolbar q:after {
   content: '';
   content: none;
 }
-chartaccent-panel table {
+chartaccent-panel table,
+chartaccent-toolbar table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-chartaccent-panel .float-right {
+chartaccent-panel .float-right,
+chartaccent-toolbar .float-right {
   float: right;
 }
 chartaccent-panel header,
+chartaccent-toolbar header,
 chartaccent-panel footer,
+chartaccent-toolbar footer,
 chartaccent-panel section,
+chartaccent-toolbar section,
 chartaccent-panel h1,
+chartaccent-toolbar h1,
 chartaccent-panel h2,
+chartaccent-toolbar h2,
 chartaccent-panel h3,
+chartaccent-toolbar h3,
 chartaccent-panel h4,
+chartaccent-toolbar h4,
 chartaccent-panel p,
+chartaccent-toolbar p,
 chartaccent-panel div,
+chartaccent-toolbar div,
 chartaccent-panel span,
-chartaccent-panel label {
+chartaccent-toolbar span,
+chartaccent-panel label,
+chartaccent-toolbar label {
   margin: 0;
   padding: 0;
   border: none;
@@ -1230,35 +1350,46 @@ chartaccent-panel label {
   font-size: 1em;
   line-height: 1em;
 }
-chartaccent-panel header {
+chartaccent-panel header,
+chartaccent-toolbar header {
   font-size: 14px;
   background: linear-gradient(#666, #555);
   color: white;
   padding: 5px 3px;
 }
 chartaccent-panel p,
+chartaccent-toolbar p,
 chartaccent-panel ul,
-chartaccent-panel ol {
+chartaccent-toolbar ul,
+chartaccent-panel ol,
+chartaccent-toolbar ol {
   margin: 4px 0;
   padding: 0 3px;
 }
-chartaccent-panel dl {
+chartaccent-panel dl,
+chartaccent-toolbar dl {
   margin: 2px 0;
   padding: 0 3px;
 }
 chartaccent-panel ul,
-chartaccent-panel ol {
+chartaccent-toolbar ul,
+chartaccent-panel ol,
+chartaccent-toolbar ol {
   list-style-type: none;
 }
-chartaccent-panel .inline-widgets {
+chartaccent-panel .inline-widgets,
+chartaccent-toolbar .inline-widgets {
   line-height: 28px;
 }
 chartaccent-panel dl dd,
-chartaccent-panel dl dt {
+chartaccent-toolbar dl dd,
+chartaccent-panel dl dt,
+chartaccent-toolbar dl dt {
   margin: 0;
   padding: 0;
 }
-chartaccent-panel dl dt {
+chartaccent-panel dl dt,
+chartaccent-toolbar dl dt {
   display: block;
   float: left;
   font-size: 12px;
@@ -1268,12 +1399,14 @@ chartaccent-panel dl dt {
   line-height: 28px;
   text-align: right;
 }
-chartaccent-panel dl dd {
+chartaccent-panel dl dd,
+chartaccent-toolbar dl dd {
   display: block;
   margin-left: 47px;
   line-height: 28px;
 }
-chartaccent-panel input {
+chartaccent-panel input,
+chartaccent-toolbar input {
   margin: 0;
   padding: 0;
   outline: 0;
@@ -1289,20 +1422,25 @@ chartaccent-panel input {
   border-radius: 2px;
 }
 chartaccent-panel input:focus,
-chartaccent-panel input:hover {
+chartaccent-toolbar input:focus,
+chartaccent-panel input:hover,
+chartaccent-toolbar input:hover {
   border: 1px solid #AAA;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
 }
-chartaccent-panel .input-updown {
+chartaccent-panel .input-updown,
+chartaccent-toolbar .input-updown {
   display: inline-block;
   height: 24px;
 }
-chartaccent-panel .input-updown input {
+chartaccent-panel .input-updown input,
+chartaccent-toolbar .input-updown input {
   border: 1px solid #CCC;
   border-radius: 2px 0 0 2px;
   border-right: none;
 }
-chartaccent-panel .input-updown > span {
+chartaccent-panel .input-updown > span,
+chartaccent-toolbar .input-updown > span {
   display: inline-block;
   height: 24px;
   width: 12px;
@@ -1311,7 +1449,9 @@ chartaccent-panel .input-updown > span {
   overflow: hidden;
 }
 chartaccent-panel .input-updown > span .btn-up,
-chartaccent-panel .input-updown > span .btn-down {
+chartaccent-toolbar .input-updown > span .btn-up,
+chartaccent-panel .input-updown > span .btn-down,
+chartaccent-toolbar .input-updown > span .btn-down {
   display: block;
   top: 0;
   left: 0;
@@ -1324,31 +1464,42 @@ chartaccent-panel .input-updown > span .btn-down {
   background: #CCC;
 }
 chartaccent-panel .input-updown > span .btn-up:hover,
+chartaccent-toolbar .input-updown > span .btn-up:hover,
 chartaccent-panel .input-updown > span .btn-down:hover,
+chartaccent-toolbar .input-updown > span .btn-down:hover,
 chartaccent-panel .input-updown > span .btn-up.active,
-chartaccent-panel .input-updown > span .btn-down.active {
+chartaccent-toolbar .input-updown > span .btn-up.active,
+chartaccent-panel .input-updown > span .btn-down.active,
+chartaccent-toolbar .input-updown > span .btn-down.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
 chartaccent-panel .input-updown > span .btn-up:active,
-chartaccent-panel .input-updown > span .btn-down:active {
+chartaccent-toolbar .input-updown > span .btn-up:active,
+chartaccent-panel .input-updown > span .btn-down:active,
+chartaccent-toolbar .input-updown > span .btn-down:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
 chartaccent-panel .input-updown > span .btn-up:hover.active,
-chartaccent-panel .input-updown > span .btn-down:hover.active {
+chartaccent-toolbar .input-updown > span .btn-up:hover.active,
+chartaccent-panel .input-updown > span .btn-down:hover.active,
+chartaccent-toolbar .input-updown > span .btn-down:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-panel .input-fontsize {
+chartaccent-panel .input-fontsize,
+chartaccent-toolbar .input-fontsize {
   display: inline-block;
   height: 24px;
 }
-chartaccent-panel .input-fontsize input {
+chartaccent-panel .input-fontsize input,
+chartaccent-toolbar .input-fontsize input {
   border: 1px solid #CCC;
   border-radius: 2px 0 0 2px;
   border-right: none;
 }
-chartaccent-panel .input-fontsize .dropdown {
+chartaccent-panel .input-fontsize .dropdown,
+chartaccent-toolbar .input-fontsize .dropdown {
   display: inline-block;
   height: 24px;
   width: 14px;
@@ -1360,31 +1511,39 @@ chartaccent-panel .input-fontsize .dropdown {
   border-radius: 0 2px 2px 0;
 }
 chartaccent-panel .input-fontsize .dropdown:hover,
-chartaccent-panel .input-fontsize .dropdown.active {
+chartaccent-toolbar .input-fontsize .dropdown:hover,
+chartaccent-panel .input-fontsize .dropdown.active,
+chartaccent-toolbar .input-fontsize .dropdown.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-panel .input-fontsize .dropdown:active {
+chartaccent-panel .input-fontsize .dropdown:active,
+chartaccent-toolbar .input-fontsize .dropdown:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-panel .input-fontsize .dropdown:hover.active {
+chartaccent-panel .input-fontsize .dropdown:hover.active,
+chartaccent-toolbar .input-fontsize .dropdown:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-panel .input-fontsize .btn {
+chartaccent-panel .input-fontsize .btn,
+chartaccent-toolbar .input-fontsize .btn {
   margin-left: 1px;
 }
-chartaccent-panel section.annotations {
+chartaccent-panel section.annotations,
+chartaccent-toolbar section.annotations {
   position: relative;
 }
-chartaccent-panel section.annotations .position-separator {
+chartaccent-panel section.annotations .position-separator,
+chartaccent-toolbar section.annotations .position-separator {
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
   background-color: rgba(0, 0, 0, 0.6);
 }
-chartaccent-panel section.annotations > div > div.annotation {
+chartaccent-panel section.annotations > div > div.annotation,
+chartaccent-toolbar section.annotations > div > div.annotation {
   margin: 0;
   padding: 0 3px;
   font-size: 14px;
@@ -1393,7 +1552,8 @@ chartaccent-panel section.annotations > div > div.annotation {
   cursor: pointer;
   background-color: #FFFFFF;
 }
-chartaccent-panel section.annotations > div > div.annotation .btn {
+chartaccent-panel section.annotations > div > div.annotation .btn,
+chartaccent-toolbar section.annotations > div > div.annotation .btn {
   padding: 2px 2px;
   font-size: 10px;
   line-height: 12px;
@@ -1402,15 +1562,18 @@ chartaccent-panel section.annotations > div > div.annotation .btn {
   vertical-align: top;
   border: none;
 }
-chartaccent-panel section.annotations > div > div.annotation .btn.btn-danger {
+chartaccent-panel section.annotations > div > div.annotation .btn.btn-danger,
+chartaccent-toolbar section.annotations > div > div.annotation .btn.btn-danger {
   background: #efa7a7;
   color: #550f10;
 }
-chartaccent-panel section.annotations > div > div.annotation .btn.btn-danger:hover {
+chartaccent-panel section.annotations > div > div.annotation .btn.btn-danger:hover,
+chartaccent-toolbar section.annotations > div > div.annotation .btn.btn-danger:hover {
   background: #d62728;
   color: white;
 }
-chartaccent-panel section.annotations > div > div.annotation .icon {
+chartaccent-panel section.annotations > div > div.annotation .icon,
+chartaccent-toolbar section.annotations > div > div.annotation .icon {
   display: inline-block;
   padding: 2px 2px;
   font-size: 10px;
@@ -1420,10 +1583,12 @@ chartaccent-panel section.annotations > div > div.annotation .icon {
   vertical-align: top;
   border: none;
 }
-chartaccent-panel section.annotations > div > div.annotation .left {
+chartaccent-panel section.annotations > div > div.annotation .left,
+chartaccent-toolbar section.annotations > div > div.annotation .left {
   float: left;
 }
-chartaccent-panel section.annotations > div > div.annotation label {
+chartaccent-panel section.annotations > div > div.annotation label,
+chartaccent-toolbar section.annotations > div > div.annotation label {
   display: block;
   margin-left: 32px;
   margin-right: 24px;
@@ -1433,25 +1598,32 @@ chartaccent-panel section.annotations > div > div.annotation label {
   white-space: nowrap;
   cursor: pointer;
 }
-chartaccent-panel section.annotations > div > div.annotation .right {
+chartaccent-panel section.annotations > div > div.annotation .right,
+chartaccent-toolbar section.annotations > div > div.annotation .right {
   float: right;
 }
-chartaccent-panel section.annotations > div > div.annotation:not(:last-child) {
+chartaccent-panel section.annotations > div > div.annotation:not(:last-child),
+chartaccent-toolbar section.annotations > div > div.annotation:not(:last-child) {
   border-bottom: 1px solid #F0F0F0;
 }
-chartaccent-panel section.annotations > div > div.annotation.active {
+chartaccent-panel section.annotations > div > div.annotation.active,
+chartaccent-toolbar section.annotations > div > div.annotation.active {
   background-color: #E0E0E0;
 }
-chartaccent-panel section.annotations > div > div.annotation:hover {
+chartaccent-panel section.annotations > div > div.annotation:hover,
+chartaccent-toolbar section.annotations > div > div.annotation:hover {
   background-color: #F0F0F0;
 }
-chartaccent-panel section.annotations > div > div.annotation:hover.active {
+chartaccent-panel section.annotations > div > div.annotation:hover.active,
+chartaccent-toolbar section.annotations > div > div.annotation:hover.active {
   background-color: #D8D8D8;
 }
-chartaccent-panel .arrayeditor-container {
+chartaccent-panel .arrayeditor-container,
+chartaccent-toolbar .arrayeditor-container {
   overflow: hidden;
 }
-chartaccent-panel .arrayeditor-container:after {
+chartaccent-panel .arrayeditor-container:after,
+chartaccent-toolbar .arrayeditor-container:after {
   content: " ";
   /* Older browser do not support empty content */
   visibility: hidden;
@@ -1460,13 +1632,16 @@ chartaccent-panel .arrayeditor-container:after {
   clear: both;
 }
 chartaccent-panel .arrayeditor-none,
-chartaccent-panel p.nothing {
+chartaccent-toolbar .arrayeditor-none,
+chartaccent-panel p.nothing,
+chartaccent-toolbar p.nothing {
   margin: 4px 0;
   padding: 0 3px;
   font-size: 12px;
   color: gray;
 }
-chartaccent-panel .btn {
+chartaccent-panel .btn,
+chartaccent-toolbar .btn {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
@@ -1477,42 +1652,53 @@ chartaccent-panel .btn {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 chartaccent-panel .btn:hover,
-chartaccent-panel .btn.active {
+chartaccent-toolbar .btn:hover,
+chartaccent-panel .btn.active,
+chartaccent-toolbar .btn.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-panel .btn:active {
+chartaccent-panel .btn:active,
+chartaccent-toolbar .btn:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-panel .btn:hover.active {
+chartaccent-panel .btn:hover.active,
+chartaccent-toolbar .btn:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-panel .btn.btn-toggle {
+chartaccent-panel .btn.btn-toggle,
+chartaccent-toolbar .btn.btn-toggle {
   background-color: #F0F0F0;
   color: black;
 }
-chartaccent-panel .btn.btn-toggle.active {
+chartaccent-panel .btn.btn-toggle.active,
+chartaccent-toolbar .btn.btn-toggle.active {
   background-color: #606060;
   color: white;
 }
-chartaccent-panel .btn.btn-toggle:hover {
+chartaccent-panel .btn.btn-toggle:hover,
+chartaccent-toolbar .btn.btn-toggle:hover {
   background-color: #d7d7d7;
   color: black;
 }
-chartaccent-panel .btn.btn-toggle:hover.active {
+chartaccent-panel .btn.btn-toggle:hover.active,
+chartaccent-toolbar .btn.btn-toggle:hover.active {
   background-color: #474747;
   color: white;
 }
-chartaccent-panel .btn.btn-toggle:active {
+chartaccent-panel .btn.btn-toggle:active,
+chartaccent-toolbar .btn.btn-toggle:active {
   background-color: #bdbdbd;
   color: black;
 }
-chartaccent-panel .btn.btn-toggle:active.active {
+chartaccent-panel .btn.btn-toggle:active.active,
+chartaccent-toolbar .btn.btn-toggle:active.active {
   background-color: #7a7a7a;
   color: white;
 }
-chartaccent-panel .btn-group-switch {
+chartaccent-panel .btn-group-switch,
+chartaccent-toolbar .btn-group-switch {
   display: inline-block;
   vertical-align: baseline;
   background-color: rgba(0, 0, 0, 0.05);
@@ -1522,33 +1708,41 @@ chartaccent-panel .btn-group-switch {
   padding-bottom: 1px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5) inset;
 }
-chartaccent-panel .btn-group-switch > span {
+chartaccent-panel .btn-group-switch > span,
+chartaccent-toolbar .btn-group-switch > span {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
   border-radius: 2px;
 }
-chartaccent-panel .btn-group-switch > span:hover {
+chartaccent-panel .btn-group-switch > span:hover,
+chartaccent-toolbar .btn-group-switch > span:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
-chartaccent-panel .btn-group-switch > span.active {
+chartaccent-panel .btn-group-switch > span.active,
+chartaccent-toolbar .btn-group-switch > span.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-panel .btn-group-switch > span:active {
+chartaccent-panel .btn-group-switch > span:active,
+chartaccent-toolbar .btn-group-switch > span:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-panel .btn-group-switch > span:not(:last-child) {
+chartaccent-panel .btn-group-switch > span:not(:last-child),
+chartaccent-toolbar .btn-group-switch > span:not(:last-child) {
   margin-right: 1px;
 }
-chartaccent-panel .btn-group-switch > span:first-child {
+chartaccent-panel .btn-group-switch > span:first-child,
+chartaccent-toolbar .btn-group-switch > span:first-child {
   margin-left: 1px;
 }
-chartaccent-panel .btn-group-switch > span:last-child {
+chartaccent-panel .btn-group-switch > span:last-child,
+chartaccent-toolbar .btn-group-switch > span:last-child {
   margin-right: 1px;
 }
-chartaccent-panel .toggle-btn {
+chartaccent-panel .toggle-btn,
+chartaccent-toolbar .toggle-btn {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
@@ -1557,28 +1751,43 @@ chartaccent-panel .toggle-btn {
   border-radius: 2px;
   color: black;
 }
-chartaccent-panel .toggle-btn.active {
+chartaccent-panel .toggle-btn.active,
+chartaccent-toolbar .toggle-btn.active {
   background-color: #606060;
   color: white;
 }
-chartaccent-panel .toggle-btn:hover {
+chartaccent-panel .toggle-btn:hover,
+chartaccent-toolbar .toggle-btn:hover {
   background-color: #d7d7d7;
   color: black;
 }
-chartaccent-panel .toggle-btn:hover.active {
+chartaccent-panel .toggle-btn:hover.active,
+chartaccent-toolbar .toggle-btn:hover.active {
   background-color: #474747;
   color: white;
 }
-chartaccent-panel .toggle-btn:active {
+chartaccent-panel .toggle-btn:active,
+chartaccent-toolbar .toggle-btn:active {
   background-color: #bdbdbd;
   color: black;
 }
-chartaccent-panel .toggle-btn:active.active {
+chartaccent-panel .toggle-btn:active.active,
+chartaccent-toolbar .toggle-btn:active.active {
   background-color: #7a7a7a;
   color: white;
 }
-chartaccent-panel h2 {
+chartaccent-panel h2,
+chartaccent-toolbar h2 {
   color: black;
+}
+chartaccent-toolbar .sep {
+  border-right: 1px solid #F0F0F0;
+  line-height: 1em;
+  display: inline-block;
+  vertical-align: top;
+  height: 24px;
+  padding-left: 8px;
+  margin-right: 8px;
 }
 chartaccent-popout {
   /* HTML5 display-role reset for older browsers */
