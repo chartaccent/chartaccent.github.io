@@ -262,6 +262,37 @@ p-widget-row p-widget-col .error {
 .ca-error {
   color: #d62728;
 }
+.sample-datasets > li {
+  border: 1px solid #EEE;
+  display: inline-block;
+  width: 250px;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 0 5px #EEE;
+  cursor: pointer;
+}
+.sample-datasets > li span {
+  display: block;
+}
+.sample-datasets > li .name {
+  color: #000;
+}
+.sample-datasets > li .hint {
+  color: #888;
+  margin-top: 2px;
+  font-size: 0.8em;
+}
+.sample-datasets > li img {
+  width: 100%;
+  opacity: 0.4;
+}
+.sample-datasets > li:hover {
+  border: 1px solid #ff7f0e;
+  box-shadow: 0 0 5px #ffb574;
+}
+.sample-datasets > li:hover img {
+  opacity: 1;
+}
 .table-container {
   overflow: scroll;
   border: 1px solid #EEE;
