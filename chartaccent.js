@@ -43776,6 +43776,15 @@ function ChartAccentStandaloneModel() {
     }, self);
 };
 
+ChartAccentStandaloneModel.prototype.gotoPreviousStage = function() {
+    let current = this.current_stage();
+    if(current == "annotation") this.current_stage("visualization");
+    if(current == "visualization") this.current_stage("import");
+    if(current == "import") {
+        window.location = "index.html";
+    }
+}
+
 ChartAccentStandaloneModel.prototype.resetChartInformation = function() {
     var self = this;
     self.chart_type(null);
@@ -43870,4 +43879,31 @@ ko.applyBindings(model);
 //     model.current_stage("annotation");
 // });
 
+window.onload = function () {
+    if (typeof history.pushState === "function") {
+        history.pushState("jibberish", null, null);
+        window.onpopstate = function () {
+            history.pushState('newjibberish', null, null);
+            // Handle the back (or forward) buttons here
+            // Will NOT handle refresh, use onbeforeunload for this.
+            model.gotoPreviousStage();
+        };
+    }
+    else {
+        var ignoreHashChange = true;
+        window.onhashchange = function () {
+            if (!ignoreHashChange) {
+                ignoreHashChange = true;
+                window.location.hash = Math.random();
+                // Detect and redirect change here
+                // Works in older FF and IE9
+                // * it does mess with your hash symbol (anchor?) pound sign
+                // delimiter on the end of the URL
+            }
+            else {
+                ignoreHashChange = false;
+            }
+        };
+    }
+}
 },{"../../build/chart-accent":1,"./charts":9,"chroma-js":2,"d3":3,"jquery":4,"knockout":5}]},{},[10]);
