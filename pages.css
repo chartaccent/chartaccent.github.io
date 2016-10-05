@@ -6966,12 +6966,12 @@ p {
   bottom: -32px;
 }
 .carousel-control {
-  color: #444;
+  color: #888;
   text-shadow: 0 0 3px #CCC;
 }
 .carousel-control:hover,
 .carousel-control:active {
-  color: #000;
+  color: #444;
   text-shadow: 0 0 3px #AAA;
 }
 .carousel-control .icon-prev,
