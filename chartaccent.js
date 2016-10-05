@@ -8490,6 +8490,48 @@ Annotation.prototype.toString = function() {
     return "TODO: Description";
 };
 
+Annotation.prototype.summarize = function() {
+    var target = "unknown";
+    if(this.target.type == "range") {
+        var rangeToString = function(range) {
+            if(Expression.isSimpleFunction(range, "range")) {
+                return "range";
+            } else {
+                if(range instanceof Expression.FunctionApply) {
+                    return "@" + range.funcitem.name;
+                }
+                return "value";
+            }
+        };
+        if(this.target_inherit) {
+            var mode_string = {
+                "within": "within",
+                "without": "outside",
+                "above": ">",
+                "below": "<",
+                "within-or-equal": "within or equal",
+                "without-or-equal": "outside or equal",
+                "above-or-equal": ">=",
+                "below-or-equal": "<="
+            };
+            var axis = this.target.axis.mode == "x" ? "X" : "Y";
+            target = axis + ":" + mode_string[this.target_inherit.mode] + "," + rangeToString(this.target.range);
+        } else {
+            var axis = this.target.axis.mode == "x" ? "X" : "Y";
+            target = axis + ":" + rangeToString(this.target.range);
+        }
+    }
+    if(this.target.type == "items") {
+        var total_items = 0;
+        this.target.items.forEach(function(desc) {
+            total_items += desc.items.length;
+        });
+        target = "series:" + this.target.items.length + "," + total_items;
+    }
+    var visibles = this.components.filter(function(d) { return d.visible; }).map(function(d) { return d.type; }).join(",");
+    return target + "|" + visibles;
+}
+
 Annotation.prototype.getAllItems = function() {
     var data_items = new Set();
     this.target.items.forEach(function(desc) {
@@ -9824,6 +9866,8 @@ var ChartRepresentation = function(owner, info) {
     this.undo_history = [];
     this.redo_history = [];
 
+    this.event_tracker = info.event_tracker;
+
     this.layer_annotation = owner.layer_annotation.append("g")
     .attr("transform", "translate(" + info.bounds.origin_x + "," + info.bounds.origin_y + ")");
 
@@ -11131,12 +11175,23 @@ ChartRepresentation.prototype.loadState = function(state) {
     this._should_ignore_undo_log = false;
 };
 
+ChartRepresentation.prototype.summarizeState = function(state) {
+    if(state == null) state = this.saveState();
+    var annotations = state.annotations;
+    return annotations.map((function(annotation) {
+        return annotation.summarize();
+    })).join(";");
+}
+
 ChartRepresentation.prototype.saveStateForUndo = function() {
     if(this._should_ignore_undo_log) return;
     var current_time = new Date().getTime() / 1000.0;
     var action = {
         timestamp: current_time,
         state: this.saveState()
+    }
+    if(this.event_tracker != null) {
+        this.event_tracker("state", this.summarizeState(action.state));
     }
     // Action grouping.
     if(this.undo_history.length > 0 && this.undo_history[this.undo_history.length - 1].timestamp > current_time - 0.1) {
@@ -11245,6 +11300,10 @@ var ChartAccent = function(info) {
     }
     this.svg = svg;
 };
+
+ChartAccent.prototype.summarizeState = function() {
+    return this.charts[0].summarizeState();
+}
 
 ChartAccent.prototype.AddChart = function(info) {
     var repr = ChartRepresentation.Create(this, info);
@@ -42792,6 +42851,7 @@ function BaseChart(element, info, config) {
                 do_download(blob);
             })
         }
+        this.trackEvent("export:" + type, self.chartaccent.summarizeState());
     };
     if(config.chartaccent) {
         if(config.chartaccent_info && config.chartaccent_info.setExportFunction) {
@@ -42816,6 +42876,11 @@ BaseChart.prototype._determine_y_format = function() {
     });
     return "." + max_digits + "f";
 };
+
+
+BaseChart.prototype.trackEvent = function(action, label) {
+    trackEvent("annotation:" + this.info.type, action, label);
+}
 
 BaseChart.prototype._determine_xy_format = function() {
     var info = this.info;
@@ -42962,6 +43027,7 @@ BaseChart.prototype._create_barchart = function() {
         });
         // Annotatable chart.
         var chart = chart_accent.AddChart({
+            event_tracker: this.trackEvent.bind(this),
             bounds: {
                 x: 0, y: 0,
                 width: width + margin.left + margin.right,
@@ -43140,6 +43206,7 @@ BaseChart.prototype._create_linechart = function() {
         });
         // Annotatable chart.
         var chart = chart_accent.AddChart({
+            event_tracker: this.trackEvent.bind(this),
             bounds: {
                 x: 0, y: 0,
                 width: width + margin.left + margin.right,
@@ -43353,6 +43420,7 @@ BaseChart.prototype._create_scatterplot = function() {
         });
         // Annotatable chart.
         var chart = chart_accent.AddChart({
+            event_tracker: this.trackEvent.bind(this),
             bounds: {
                 x: 0, y: 0,
                 width: width + margin.left + margin.right,
@@ -43596,6 +43664,9 @@ function ChartAccentStandaloneModel() {
 
     self.set_current_stage = function(stage) {
         self.current_stage(stage);
+        if(stage == "annotation") {
+            trackEvent("annotation", "start", "chart:" + self.chart_type());
+        }
     };
 
     self.set_chart_type = function(id) {
@@ -43845,6 +43916,8 @@ ChartAccentStandaloneModel.prototype.importCSVFromText = function(csv_text) {
         return { name: d, type: ko.observable(type), digits: ko.observable(max_digits) }
     }));
     self.data_rows(objects);
+    // Track:
+    trackEvent("dataset", "import", "columns:" + header.length + ",rows:" + objects.length);
 };
 
 ChartAccentStandaloneModel.prototype.importCSVFromURL = function(url, callback) {
