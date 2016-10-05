@@ -710,7 +710,7 @@ var Styles = {
         // if(obj.paint_order === undefined) obj.paint_order = "fill";
         // if(obj.blending_mode === undefined) obj.blending_mode = "normal";
         if(obj.font_family === undefined) obj.font_family = "Helvetica";
-        if(obj.font_size === undefined) obj.font_size = 16;
+        if(obj.font_size === undefined) obj.font_size = 14;
         return obj;
     },
     applyStyle: function(style, selection) {
@@ -760,7 +760,7 @@ var Styles = {
                 stroke: null,
                 stroke_width: 2,
                 font_family: "Helvetica",
-                font_size: 20
+                font_size: 14
             };
         }
         if(type == "item-label") {
@@ -8098,11 +8098,11 @@ Annotation.prototype.startPopoutEditor = function(RC) {
                     [ "dt", { text: "Line" } ],
                     [ "dd", [
                         [ "span", { $: "input_label_line" } ]
+                    ]],
+                    [ "dt", { text: "Anchor" } ],
+                    [ "dd", [
+                        [ "span", { $: "input_label_anchor" } ]
                     ]]
-                    // [ "dt", { text: "Anchor" } ],
-                    // [ "dd", [
-                    //     [ "span", { $: "input_label_anchor" } ]
-                    // ]]
                 ]]
             ]);
             MakeEasyStringExpressionInput(tree.input_label_text, component.text, function(expr) {
@@ -10051,7 +10051,7 @@ var ChartRepresentation = function(owner, info) {
     this.default_lasso_label_expression = info.default_lasso_label_expression;
 
     this.default_lasso_label = "item-label";
-    this.default_lasso_label_expression = 'value';
+    // this.default_lasso_label_expression = 'value';
 
     var context_items = { };
     if(info.tables) {
@@ -43223,6 +43223,12 @@ BaseChart.prototype._create_scatterplot = function() {
     var size_column = info.size_column;
 
     var value_format = this._determine_xy_format();
+    var name_format = "value";
+    if(name_column) {
+        if(typeof(rows[0][name_column]) == "number") {
+            name_format = 'format(".1f", value)';
+        }
+    }
 
     var scale_x = d3.scale.linear()
         .range([0, width]);
@@ -43358,7 +43364,7 @@ BaseChart.prototype._create_scatterplot = function() {
                 x: scale_x, y: scale_y     // D3 axis.
             },
             selection_mode: "lasso",
-            default_lasso_label_expression: 'format("' + value_format + '", value)',
+            default_lasso_label_expression: name_format,
             tables: [
                 { name: "data", data: info.rows, isDefault: true }
             ],
@@ -43437,7 +43443,7 @@ var strings = {
     stages: {
         "import": "Import Data",
         "visualization": "Create Chart",
-        "annotation": "Annotate and Export"
+        "annotation": "Annotate"
     },
     types: {
         "text": "Text",
