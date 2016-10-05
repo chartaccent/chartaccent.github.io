@@ -43289,6 +43289,29 @@ BaseChart.prototype._create_scatterplot = function() {
         .style("text-anchor", "end")
         .text(info.scale_y_label);
 
+    if(info.connect_points) {
+        var lines = svg.selectAll(".line")
+            .data(groups == null ? [null] : groups)
+            .enter().append("path").attr("class", "line")
+            .attr("d", function(d) {
+                console.log(d);
+                var items = rows.filter(function(r) {
+                    if(!d) return true;
+                    return r[color_column] == d;
+                });
+                console.log(items);
+                var linef = d3.svg.line()
+                    .x(function(d) { return scale_x(d[x_column]); })
+                    .y(function(d) { return scale_y(d[y_column]); })
+                    .interpolate("linear");
+                console.log(linef);
+                return linef(items);
+            })
+            .style("stroke", function(d, idx) { return colors[idx]; })
+            .style("stroke-width", 2)
+            .style("fill", "none");
+    }
+
     var dots = svg.selectAll(".dot")
         .data(rows)
       .enter().append("circle")
@@ -43517,6 +43540,7 @@ function ChartAccentStandaloneModel() {
         x_column: ko.observable(null),
         y_column: ko.observable(null),                          // for scatterplot
         name_column: ko.observable(null),
+        connect_points: ko.observable(false),
         color_column: ko.observable(null),
         size_column: ko.observable(null),
         size_scale: ko.observable(1),
@@ -43728,6 +43752,7 @@ function ChartAccentStandaloneModel() {
                 scale_x_max: parse_scale_limits(self.chart_options.scale_x_max()),
                 scale_y_max: parse_scale_limits(self.chart_options.scale_y_max()),
                 scale_y_label: self.chart_options.scale_y_label(),
+                connect_points: self.chart_options.connect_points(),
                 title: self.chart_options.title(),
                 width: self.chart_options.width(),
                 height: self.chart_options.height()
@@ -43744,6 +43769,7 @@ ChartAccentStandaloneModel.prototype.resetChartInformation = function() {
     self.chart_options.x_column(null);
     self.chart_options.y_column(null);
     self.chart_options.name_column(null);
+    self.chart_options.connect_points(false);
     self.chart_options.color_column(null);
     self.chart_options.size_column(null);
     self.chart_options.size_scale(1);
