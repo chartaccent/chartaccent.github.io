@@ -123,6 +123,18 @@ button.button-chart-type {
       color: white; }
   button.button-chart-type:focus {
     box-shadow: 0 0 5px #ff9f3b; }
+  button.button-chart-type.disabled {
+    color: #858585; }
+    button.button-chart-type.disabled img {
+      filter: grayscale(1); }
+    button.button-chart-type.disabled:hover {
+      background-color: #dfdfdf; }
+    button.button-chart-type.disabled.active {
+      background-color: #dfdfdf; }
+      button.button-chart-type.disabled.active span {
+        color: white; }
+    button.button-chart-type.disabled:focus {
+      box-shadow: 0 0 5px #dfdfdf; }
 
 button.button-dropdown {
   display: block;
@@ -253,6 +265,12 @@ input[type="text"], input[type="number"] {
         width: 10px;
         height: 10px;
         cursor: nwse-resize; }
+        .chart-view > .chart > .chart-container > .corner-resize img {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 10px;
+          height: 10px; }
 
 h2 {
   font-size: 16px;
@@ -431,9 +449,11 @@ table {
     background: rgba(0, 0, 0, 0.02);
     border: 1px solid white;
     padding: 4px 8px; }
-    table td.type_number {
-      text-align: right; }
-    table td.type_text {
+    table td.rowtype-number, table td.rowtype-integer {
+      text-align: right;
+      font-family: "Menlo", "Monaco", "monospace";
+      font-size: 13px; }
+    table td.rowtype-string {
       text-align: left; }
 
 /*# sourceMappingURL=bundle.css.map */

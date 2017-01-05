@@ -48,7 +48,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
-	var store_1 = __webpack_require__(35);
+	var store_1 = __webpack_require__(36);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// let sample = globalStore.samples[4];
@@ -83,10 +83,10 @@
 	};
 	var React = __webpack_require__(1);
 	var navigationView_1 = __webpack_require__(4);
-	var loadDataView_1 = __webpack_require__(5);
-	var reviewDataView_1 = __webpack_require__(14);
-	var createChartView_1 = __webpack_require__(15);
-	var chartView_1 = __webpack_require__(20);
+	var loadDataView_1 = __webpack_require__(13);
+	var reviewDataView_1 = __webpack_require__(15);
+	var createChartView_1 = __webpack_require__(16);
+	var chartView_1 = __webpack_require__(21);
 	var MainView = (function (_super) {
 	    __extends(MainView, _super);
 	    function MainView(props) {
@@ -144,8 +144,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var controls_1 = __webpack_require__(7);
-	var Actions = __webpack_require__(9);
+	var controls_1 = __webpack_require__(5);
+	var Actions = __webpack_require__(8);
 	var NavigationView = (function (_super) {
 	    __extends(NavigationView, _super);
 	    function NavigationView() {
@@ -198,86 +198,14 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var controls_1 = __webpack_require__(7);
-	var Actions = __webpack_require__(9);
-	var LoadDataView = (function (_super) {
-	    __extends(LoadDataView, _super);
-	    function LoadDataView() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    LoadDataView.prototype.render = function () {
-	        var _this = this;
-	        return (React.createElement("section", { className: "section-load-data" },
-	            React.createElement("h2", null, "Choose Data File (CSV)"),
-	            React.createElement("p", null,
-	                React.createElement(controls_1.Button, { text: "Choose File", onClick: function () {
-	                        _this.refs.inputFileForm.reset();
-	                        _this.refs.inputFile.onchange = function () {
-	                            if (_this.refs.inputFile.files.length == 1) {
-	                                _this.refs.selectSample.value = "load";
-	                                var file = _this.refs.inputFile.files[0];
-	                                var fileName_1 = file.name;
-	                                var fileReader_1 = new FileReader();
-	                                fileReader_1.onload = function () {
-	                                    var content = fileReader_1.result;
-	                                    new Actions.LoadData(fileName_1, content, "csv").dispatch();
-	                                };
-	                                fileReader_1.readAsText(file, "utf-8");
-	                            }
-	                            else {
-	                            }
-	                        };
-	                        _this.refs.inputFile.click();
-	                    } }),
-	                React.createElement("span", null, " or "),
-	                React.createElement("select", { ref: "selectSample", onChange: function () {
-	                        var samples = _this.props.store.samples.filter(function (sample) { return sample.name == _this.refs.selectSample.value; });
-	                        if (samples.length > 0) {
-	                            var sample_1 = samples[0];
-	                            d3.text(sample_1.csv, "text/plain", function (err, data) {
-	                                if (!err) {
-	                                    new Actions.LoadData(sample_1.csv, data, "csv").dispatch();
-	                                }
-	                            });
-	                        }
-	                    } },
-	                    React.createElement("option", { value: "load", selected: true, disabled: true }, "load sample dataset..."),
-	                    this.props.store.samples.map(function (sample) { return (React.createElement("option", { value: sample.name }, sample.name)); })),
-	                React.createElement("form", { ref: "inputFileForm" },
-	                    React.createElement("input", { ref: "inputFile", className: "invisible", type: "file", accept: ".csv" }))),
-	            React.createElement("p", { className: "note" }, "Your file will NOT be uploaded to our server.")));
-	    };
-	    return LoadDataView;
-	}(React.Component));
-	exports.LoadDataView = LoadDataView;
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports) {
-
-	module.exports = d3;
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var button_1 = __webpack_require__(8);
+	var button_1 = __webpack_require__(6);
 	exports.Button = button_1.Button;
-	var rule_1 = __webpack_require__(44);
+	var rule_1 = __webpack_require__(7);
 	exports.HorizontalRule = rule_1.HorizontalRule;
 
 
 /***/ },
-/* 8 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -310,7 +238,7 @@
 
 
 /***/ },
-/* 9 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -319,7 +247,31 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var flux_1 = __webpack_require__(10);
+	var React = __webpack_require__(1);
+	var HorizontalRule = (function (_super) {
+	    __extends(HorizontalRule, _super);
+	    function HorizontalRule() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    HorizontalRule.prototype.render = function () {
+	        return (React.createElement("div", { className: "horizontal-rule" }));
+	    };
+	    return HorizontalRule;
+	}(React.Component));
+	exports.HorizontalRule = HorizontalRule;
+
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var flux_1 = __webpack_require__(9);
 	exports.globalDispatcher = new flux_1.Dispatcher();
 	var Action = (function () {
 	    function Action() {
@@ -498,7 +450,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -510,11 +462,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(11);
+	module.exports.Dispatcher = __webpack_require__(10);
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -536,7 +488,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(13);
+	var invariant = __webpack_require__(12);
 	
 	var _prefix = 'ID_';
 	
@@ -748,10 +700,10 @@
 	})();
 	
 	module.exports = Dispatcher;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -937,7 +889,7 @@
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -995,10 +947,10 @@
 	}
 	
 	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1008,34 +960,66 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var controls_1 = __webpack_require__(7);
-	var ReviewDataView = (function (_super) {
-	    __extends(ReviewDataView, _super);
-	    function ReviewDataView() {
+	var d3 = __webpack_require__(14);
+	var controls_1 = __webpack_require__(5);
+	var inputWidgets_1 = __webpack_require__(17);
+	var Actions = __webpack_require__(8);
+	var LoadDataView = (function (_super) {
+	    __extends(LoadDataView, _super);
+	    function LoadDataView() {
 	        return _super.apply(this, arguments) || this;
 	    }
-	    ReviewDataView.prototype.onDatasetChanged = function () {
-	        this.forceUpdate();
+	    LoadDataView.prototype.render = function () {
+	        var _this = this;
+	        return (React.createElement("section", { className: "section-load-data" },
+	            React.createElement("h2", null, "Choose Data File (CSV)"),
+	            React.createElement("p", null,
+	                React.createElement(controls_1.Button, { text: "Choose File", onClick: function () {
+	                        _this.refs.inputFileForm.reset();
+	                        _this.refs.inputFile.onchange = function () {
+	                            if (_this.refs.inputFile.files.length == 1) {
+	                                var file = _this.refs.inputFile.files[0];
+	                                var fileName_1 = file.name;
+	                                var fileReader_1 = new FileReader();
+	                                fileReader_1.onload = function () {
+	                                    var content = fileReader_1.result;
+	                                    new Actions.LoadData(fileName_1, content, "csv").dispatch();
+	                                };
+	                                fileReader_1.readAsText(file, "utf-8");
+	                            }
+	                            else {
+	                            }
+	                        };
+	                        _this.refs.inputFile.click();
+	                    } }),
+	                React.createElement("span", null, " or "),
+	                React.createElement("div", { style: { width: "300px", display: "inline-block" } },
+	                    React.createElement(inputWidgets_1.ColumnWidget, { columnCount: 6, candidates: this.props.store.samples.map(function (d) { return d.name; }), column: null, contentOnly: true, nullText: "load sample dataset...", onChange: function (sampleName) {
+	                            var samples = _this.props.store.samples.filter(function (s) { return s.name == sampleName; });
+	                            if (samples.length > 0) {
+	                                var sample_1 = samples[0];
+	                                d3.text(sample_1.csv, "text/plain", function (err, data) {
+	                                    if (!err) {
+	                                        var name_1 = sample_1.csv.slice(sample_1.csv.lastIndexOf("/") + 1);
+	                                        new Actions.LoadData(name_1, data, "csv").dispatch();
+	                                    }
+	                                });
+	                            }
+	                        }, text: "or" })),
+	                React.createElement("form", { ref: "inputFileForm" },
+	                    React.createElement("input", { ref: "inputFile", className: "invisible", type: "file", accept: ".csv" }))),
+	            React.createElement("p", { className: "note" }, "Your file will not be uploaded to our server.")));
 	    };
-	    ReviewDataView.prototype.render = function () {
-	        var dataset = this.props.dataset;
-	        return (React.createElement("section", { className: "section-review-data" },
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null, "Review Data"),
-	            React.createElement("p", { className: "note" }, "ChartAccent automatically detect data types and set the number of displayed digits."),
-	            React.createElement("div", { className: "table-container" },
-	                React.createElement("table", null,
-	                    React.createElement("thead", null,
-	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); })),
-	                        React.createElement("tr", { className: "column-type" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.type); }))),
-	                    React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
-	                        return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index }, row[column.name]); })));
-	                    }))))));
-	    };
-	    return ReviewDataView;
+	    return LoadDataView;
 	}(React.Component));
-	exports.ReviewDataView = ReviewDataView;
+	exports.LoadDataView = LoadDataView;
 
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	module.exports = d3;
 
 /***/ },
 /* 15 */
@@ -1048,9 +1032,74 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var Actions = __webpack_require__(9);
-	var InputWidgets = __webpack_require__(16);
-	var controls_1 = __webpack_require__(7);
+	var d3 = __webpack_require__(14);
+	var controls_1 = __webpack_require__(5);
+	var ReviewDataView = (function (_super) {
+	    __extends(ReviewDataView, _super);
+	    function ReviewDataView() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    ReviewDataView.prototype.onDatasetChanged = function () {
+	        this.forceUpdate();
+	    };
+	    ReviewDataView.prototype.formatValue = function (type, format, value) {
+	        if (value == null)
+	            return "N/A";
+	        switch (type) {
+	            case "string": {
+	                return value.toString();
+	            }
+	            case "integer":
+	            case "number": {
+	                var fmt = d3.format(format);
+	                return fmt(value);
+	            }
+	            case "date": {
+	                var fmt = d3.time.format(format);
+	                return fmt(value);
+	            }
+	            default: {
+	                return value.toString();
+	            }
+	        }
+	    };
+	    ReviewDataView.prototype.render = function () {
+	        var _this = this;
+	        var dataset = this.props.dataset;
+	        return (React.createElement("section", { className: "section-review-data" },
+	            React.createElement(controls_1.HorizontalRule, null),
+	            React.createElement("h2", null,
+	                "Review Data: ",
+	                this.props.dataset.fileName),
+	            React.createElement("div", { className: "table-container" },
+	                React.createElement("table", null,
+	                    React.createElement("thead", null,
+	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
+	                    React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
+	                        return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index, className: "rowtype-" + column.type }, _this.formatValue(column.type, column.format, row[column.name])); })));
+	                    }))))));
+	    };
+	    return ReviewDataView;
+	}(React.Component));
+	exports.ReviewDataView = ReviewDataView;
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var Actions = __webpack_require__(8);
+	var model_1 = __webpack_require__(18);
+	var utils_1 = __webpack_require__(46);
+	var InputWidgets = __webpack_require__(17);
+	var controls_1 = __webpack_require__(5);
 	var ChartTypeView = (function (_super) {
 	    __extends(ChartTypeView, _super);
 	    function ChartTypeView() {
@@ -1063,8 +1112,8 @@
 	            { type: "line-chart", "caption": "Line Chart", thumbnail: "assets/images/line-chart.png" },
 	            { type: "scatterplot", "caption": "Scatterplot", thumbnail: "assets/images/scatterplot.png" }
 	        ];
-	        return (React.createElement("p", null, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : ""), onClick: function () {
-	                if (_this.props.onChange != null) {
+	        return (React.createElement("p", null, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
+	                if (_this.props.onChange != null && _this.props.isEnabled(item.type)) {
 	                    _this.props.onChange(item.type);
 	                }
 	            } },
@@ -1099,11 +1148,8 @@
 	    };
 	    CreateChartView.prototype.renderForBarOrLineChart = function (type) {
 	        var chart = this.props.chart;
-	        var xColumnCandidates = chart.dataset.columns
-	            .map(function (d) { return d.name; });
-	        var yColumnCandidates = chart.dataset.columns
-	            .filter(function (d) { return d.type == "number" || d.type == "integer" || d.type == "date"; })
-	            .map(function (d) { return d.name; });
+	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(chart.dataset);
+	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
 	        return (React.createElement("div", null,
 	            React.createElement("div", { className: "widget-row widget-row-p" },
 	                React.createElement(InputWidgets.ColumnsWidget, { columnCount: 4, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } }),
@@ -1112,9 +1158,7 @@
 	    };
 	    CreateChartView.prototype.renderForScatterplot = function () {
 	        var chart = this.props.chart;
-	        var xyColumnCandidates = chart.dataset.columns
-	            .filter(function (d) { return d.type == "number" || d.type == "integer" || d.type == "date"; })
-	            .map(function (d) { return d.name; });
+	        var xyColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
 	        var groupColumnCandidates = chart.dataset.columns
 	            .filter(function (d) { return d.type == "string"; })
 	            .map(function (d) { return d.name; });
@@ -1134,7 +1178,7 @@
 	        return (React.createElement("section", { className: "section-create-chart" },
 	            React.createElement(controls_1.HorizontalRule, null),
 	            React.createElement("h2", null, "Create Chart"),
-	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); } }),
+	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); }, isEnabled: function (type) { return model_1.Defaults.isChartValid(dataset, type); } }),
 	            chart.type != null ?
 	                React.createElement("div", { className: "chart-options" },
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
@@ -1150,7 +1194,7 @@
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1168,8 +1212,8 @@
 	    return t;
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var model_1 = __webpack_require__(17);
+	var d3 = __webpack_require__(14);
+	var model_1 = __webpack_require__(18);
 	var RowWidget = (function (_super) {
 	    __extends(RowWidget, _super);
 	    function RowWidget() {
@@ -1179,9 +1223,14 @@
 	        return null;
 	    };
 	    RowWidget.prototype.render = function () {
-	        return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
-	            React.createElement("label", { title: this.props.title }, this.props.text),
-	            React.createElement("div", { className: "widget-content" }, this.renderWidget())));
+	        if (this.props.contentOnly) {
+	            return this.renderWidget();
+	        }
+	        else {
+	            return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
+	                React.createElement("label", { title: this.props.title }, this.props.text),
+	                React.createElement("div", { className: "widget-content" }, this.renderWidget())));
+	        }
 	    };
 	    return RowWidget;
 	}(React.Component));
@@ -1336,7 +1385,7 @@
 	        return _super.apply(this, arguments) || this;
 	    }
 	    ColumnWidget.prototype.renderButton = function () {
-	        return React.createElement("span", null, this.props.column || "(none)");
+	        return React.createElement("span", null, this.props.column || (this.props.nullText || "(none)"));
 	    };
 	    ColumnWidget.prototype.renderListItems = function () {
 	        var _this = this;
@@ -1436,20 +1485,21 @@
 
 
 /***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var defaults_1 = __webpack_require__(18);
-	exports.Defaults = defaults_1.Defaults;
-
-
-/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var utils_1 = __webpack_require__(19);
+	var defaults_1 = __webpack_require__(19);
+	exports.Defaults = defaults_1.Defaults;
+
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var utils_1 = __webpack_require__(46);
+	var utils_2 = __webpack_require__(20);
 	var Defaults;
 	(function (Defaults) {
 	    Defaults.colors = [
@@ -1462,6 +1512,7 @@
 	        { name: "colorbrewer7", colors: ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f"] },
 	        { name: "colorbrewer8", colors: ["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462"] }
 	    ];
+	    Defaults.defaultColors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#e6ab02"];
 	    function label(text, fontSize) {
 	        if (text === void 0) { text = ""; }
 	        if (fontSize === void 0) { fontSize = 14; }
@@ -1480,10 +1531,12 @@
 	    }
 	    Defaults.scale = scale;
 	    function barChart(dataset) {
-	        var xColumn = dataset.columns
-	            .filter(function (d) { return d.type == "string"; })[0].name;
-	        var yColumns = dataset.columns
-	            .filter(function (d) { return d.type == "number" || d.type == "integer" || d.type == "date"; }).slice(0, 2).map(function (d) { return d.name; });
+	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(dataset, 20);
+	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(dataset);
+	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
+	            return null;
+	        var xColumn = xColumnCandidates[0];
+	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
 	            type: "bar-chart",
@@ -1502,10 +1555,12 @@
 	    }
 	    Defaults.barChart = barChart;
 	    function lineChart(dataset) {
-	        var xColumn = dataset.columns
-	            .filter(function (d) { return d.type == "string"; })[0].name;
-	        var yColumns = dataset.columns
-	            .filter(function (d) { return d.type == "number" || d.type == "integer" || d.type == "date"; }).slice(0, 2).map(function (d) { return d.name; });
+	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(dataset, 20);
+	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(dataset);
+	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
+	            return null;
+	        var xColumn = xColumnCandidates[0];
+	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
 	            type: "line-chart",
@@ -1524,11 +1579,14 @@
 	    }
 	    Defaults.lineChart = lineChart;
 	    function scatterplotChart(dataset) {
-	        var _a = dataset.columns
-	            .filter(function (d) { return d.type == "number" || d.type == "integer" || d.type == "date"; }).slice(0, 2).map(function (d) { return d.name; }), xColumn = _a[0], yColumn = _a[1];
+	        var xyColumnCandidates = utils_1.getColumnsForContinuousAxis(dataset);
+	        if (xyColumnCandidates.length < 2)
+	            return null;
+	        var xColumn = xyColumnCandidates[0];
+	        var yColumn = xyColumnCandidates[1];
 	        var stringColumns = dataset.columns
 	            .filter(function (d) { return d.type == "string"; }).map(function (d) {
-	            var values = utils_1.getUniqueValues(dataset.rows.map(function (row) { return row[d.name].toString(); }));
+	            var values = utils_2.getUniqueValues(dataset.rows.map(function (row) { return row[d.name].toString(); }));
 	            return {
 	                name: d.name,
 	                uniqueValues: values.length
@@ -1555,39 +1613,46 @@
 	            xScale: Defaults.scale("linear"),
 	            yScale: Defaults.scale("linear"),
 	            legendLabel: Defaults.label("Series"),
-	            colors: Defaults.colors[1].colors
+	            colors: this.defaultColors
 	        };
 	    }
 	    Defaults.scatterplotChart = scatterplotChart;
+	    function nullChart() {
+	        return {
+	            dataset: null,
+	            type: null,
+	            title: Defaults.label("", 16),
+	            width: 800,
+	            height: 400,
+	            colors: this.defaultColors
+	        };
+	    }
+	    Defaults.nullChart = nullChart;
 	    function chart(dataset) {
 	        if (dataset != null) {
-	            // return Defaults.scatterplotChart(dataset);
-	            return {
-	                dataset: dataset,
-	                type: null,
-	                title: Defaults.label(dataset.fileName, 16),
-	                width: 800,
-	                height: 400,
-	                colors: Defaults.colors[1].colors
-	            };
+	            return Defaults.barChart(dataset) || Defaults.scatterplotChart(dataset) || Defaults.nullChart();
 	        }
 	        else {
-	            return {
-	                dataset: null,
-	                type: null,
-	                title: Defaults.label("", 16),
-	                width: 800,
-	                height: 400,
-	                colors: Defaults.colors[1].colors
-	            };
+	            return Defaults.nullChart();
 	        }
 	    }
 	    Defaults.chart = chart;
+	    function isChartValid(dataset, chart) {
+	        if (!dataset)
+	            return false;
+	        switch (chart) {
+	            case "bar-chart": return Defaults.barChart(dataset) ? true : false;
+	            case "line-chart": return Defaults.lineChart(dataset) ? true : false;
+	            case "scatterplot": return Defaults.scatterplotChart(dataset) ? true : false;
+	        }
+	        return false;
+	    }
+	    Defaults.isChartValid = isChartValid;
 	})(Defaults = exports.Defaults || (exports.Defaults = {}));
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1604,10 +1669,24 @@
 	    return result;
 	}
 	exports.getUniqueValues = getUniqueValues;
+	function isDistinctValues(values) {
+	    var visited = {};
+	    for (var _i = 0, values_2 = values; _i < values_2.length; _i++) {
+	        var item = values_2[_i];
+	        if (visited[item]) {
+	            return false;
+	        }
+	        else {
+	            visited[item] = true;
+	        }
+	    }
+	    return true;
+	}
+	exports.isDistinctValues = isDistinctValues;
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1617,13 +1696,13 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var Actions = __webpack_require__(9);
-	var barChart_1 = __webpack_require__(21);
-	var lineChart_1 = __webpack_require__(24);
-	var scatterplot_1 = __webpack_require__(25);
-	var controls_1 = __webpack_require__(7);
-	var ChartAccent = __webpack_require__(26);
+	var d3 = __webpack_require__(14);
+	var Actions = __webpack_require__(8);
+	var barChart_1 = __webpack_require__(22);
+	var lineChart_1 = __webpack_require__(25);
+	var scatterplot_1 = __webpack_require__(26);
+	var controls_1 = __webpack_require__(5);
+	var ChartAccent = __webpack_require__(27);
 	var ChartView = (function (_super) {
 	    __extends(ChartView, _super);
 	    function ChartView(props) {
@@ -1709,7 +1788,8 @@
 	                React.createElement("div", { className: "chart" },
 	                    React.createElement("div", { className: "chart-container", style: { width: this.props.chart.width + "px", height: this.props.chart.height + "px" } },
 	                        this.renderChartView(),
-	                        React.createElement("div", { className: "corner-resize", onMouseDown: function (e) { return _this.onResizeStart(e); } })))),
+	                        React.createElement("div", { className: "corner-resize", onMouseDown: function (e) { return _this.onResizeStart(e); } },
+	                            React.createElement("img", { src: "assets/images/corner.svg" }))))),
 	            React.createElement(controls_1.HorizontalRule, null),
 	            React.createElement("h2", null, "Export"),
 	            React.createElement("p", null,
@@ -1745,7 +1825,7 @@
 
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1755,9 +1835,9 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var baseChart_1 = __webpack_require__(22);
-	var elements_1 = __webpack_require__(23);
+	var d3 = __webpack_require__(14);
+	var baseChart_1 = __webpack_require__(23);
+	var elements_1 = __webpack_require__(24);
 	var BarChartView = (function (_super) {
 	    __extends(BarChartView, _super);
 	    function BarChartView() {
@@ -1824,6 +1904,9 @@
 	        var _a = this.d3GetXAxis(), xScale = _a.xScale, xAxis = _a.xAxis;
 	        var _b = this.d3GetYAxis(), yScale = _b.yScale, yAxis = _b.yAxis;
 	        var valueFormat = ".1f";
+	        if (chart.yColumns && chart.yColumns.length > 0) {
+	            valueFormat = elements_1.findColumnFormat(chart.dataset, chart.yColumns[0]);
+	        }
 	        var valueFormatExpression = 'format("' + valueFormat + '", value)';
 	        var chartRepresentation = chartaccent.AddChart({
 	            event_tracker: this.props.eventTracker,
@@ -1906,7 +1989,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1916,8 +1999,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var elements_1 = __webpack_require__(23);
+	var d3 = __webpack_require__(14);
+	var elements_1 = __webpack_require__(24);
 	var BaseChartView = (function (_super) {
 	    __extends(BaseChartView, _super);
 	    function BaseChartView(props) {
@@ -2029,7 +2112,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2081,10 +2164,19 @@
 	    return ChartLabel;
 	}(React.Component));
 	exports.ChartLabel = ChartLabel;
+	function findColumnFormat(dataset, columnName) {
+	    for (var _i = 0, _a = dataset.columns; _i < _a.length; _i++) {
+	        var column = _a[_i];
+	        if (column.name == columnName)
+	            return column.format;
+	    }
+	    return ".1f";
+	}
+	exports.findColumnFormat = findColumnFormat;
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2094,9 +2186,9 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var baseChart_1 = __webpack_require__(22);
-	var elements_1 = __webpack_require__(23);
+	var d3 = __webpack_require__(14);
+	var baseChart_1 = __webpack_require__(23);
+	var elements_1 = __webpack_require__(24);
 	var LineChartView = (function (_super) {
 	    __extends(LineChartView, _super);
 	    function LineChartView() {
@@ -2170,6 +2262,9 @@
 	        var _a = this.d3GetXAxis(), xScale = _a.xScale, xAxis = _a.xAxis;
 	        var _b = this.d3GetYAxis(), yScale = _b.yScale, yAxis = _b.yAxis;
 	        var valueFormat = ".1f";
+	        if (chart.yColumns && chart.yColumns.length > 0) {
+	            valueFormat = elements_1.findColumnFormat(chart.dataset, chart.yColumns[0]);
+	        }
 	        var valueFormatExpression = 'format("' + valueFormat + '", value)';
 	        var chartRepresentation = chartaccent.AddChart({
 	            event_tracker: this.props.eventTracker,
@@ -2253,7 +2348,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2263,10 +2358,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(6);
-	var baseChart_1 = __webpack_require__(22);
-	var elements_1 = __webpack_require__(23);
-	var utils_1 = __webpack_require__(19);
+	var d3 = __webpack_require__(14);
+	var baseChart_1 = __webpack_require__(23);
+	var elements_1 = __webpack_require__(24);
+	var utils_1 = __webpack_require__(20);
 	var ScatterplotView = (function (_super) {
 	    __extends(ScatterplotView, _super);
 	    function ScatterplotView() {
@@ -2363,12 +2458,14 @@
 	        chartRepresentation.addAxis({
 	            axis: "x",
 	            origin_y: chart.height - this._margin.bottom,
-	            name: chart.xLabel.text
+	            name: chart.xLabel.text,
+	            default_format: elements_1.findColumnFormat(chart.dataset, chart.xColumn)
 	        });
 	        chartRepresentation.addAxis({
 	            axis: "y",
 	            origin_x: this._margin.left,
-	            name: chart.yLabel.text
+	            name: chart.yLabel.text,
+	            default_format: elements_1.findColumnFormat(chart.dataset, chart.yColumn)
 	        });
 	        chartRepresentation.addSeriesFromD3Selection({
 	            name: "Data",
@@ -2420,10 +2517,10 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(6), __webpack_require__(27), __webpack_require__(29), __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(14), __webpack_require__(28), __webpack_require__(30), __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
 	    var jQuery = $;
 	    typeahead.loadjQueryPlugin();
 	    var Module = {};
@@ -14177,7 +14274,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {
@@ -16661,10 +16758,10 @@
 	
 	}).call(this);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(28)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)(module)))
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -16680,7 +16777,7 @@
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -26906,17 +27003,17 @@
 
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    "Bloodhound": __webpack_require__(31),
-	    "loadjQueryPlugin": function() {__webpack_require__(32);}
+	    "Bloodhound": __webpack_require__(32),
+	    "loadjQueryPlugin": function() {__webpack_require__(33);}
 	};
 
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -26927,7 +27024,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(29) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -27839,7 +27936,7 @@
 	});
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {/*!
@@ -27850,7 +27947,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(29) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -28763,7 +28860,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(29) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -30293,10 +30390,10 @@
 	        }
 	    })();
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(33).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34).setImmediate))
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
@@ -30349,13 +30446,13 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(34);
+	__webpack_require__(35);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -30545,10 +30642,10 @@
 	    attachTo.clearImmediate = clearImmediate;
 	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)))
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30557,11 +30654,11 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var model_1 = __webpack_require__(17);
-	var Actions = __webpack_require__(9);
-	var samples_1 = __webpack_require__(36);
-	var utils_1 = __webpack_require__(37);
-	var fbemitter_1 = __webpack_require__(38);
+	var model_1 = __webpack_require__(18);
+	var Actions = __webpack_require__(8);
+	var samples_1 = __webpack_require__(37);
+	var utils_1 = __webpack_require__(46);
+	var fbemitter_1 = __webpack_require__(39);
 	var logger_1 = __webpack_require__(45);
 	var MainStore = (function (_super) {
 	    __extends(MainStore, _super);
@@ -30758,7 +30855,7 @@
 
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports) {
 
 	// Declare sample datasets
@@ -30804,114 +30901,8 @@
 
 
 /***/ },
-/* 37 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var d3 = __webpack_require__(6);
-	// Infer column type.
-	// Adapted from datalib: https://github.com/vega/datalib/blob/master/src/import/type.js
-	var TESTS = {
-	    boolean: function (x) { return x.toLowerCase() === "true" || x.toLowerCase() === "false"; },
-	    integer: function (x) { return TESTS["number"](x) && (+x.replace(/\,/g, "")) === ~~(+x.replace(/\,/g, "")); },
-	    number: function (x) { return !isNaN(+x.replace(/\,/g, "")); },
-	    date: function (x) { return !isNaN(Date.parse(x)); },
-	};
-	var CONVERTERS = {
-	    boolean: function (x) { return x.toLowerCase() === "true" ? true : false; },
-	    integer: function (x) { return +x.replace(/\,/g, ""); },
-	    number: function (x) { return +x.replace(/\,/g, ""); },
-	    date: function (x) { return Date.parse(x); },
-	    string: function (x) { return x; }
-	};
-	function inferColumnType(values) {
-	    // console.log(values);
-	    var candidates = ["boolean", "integer", "number", "date"];
-	    for (var i = 0; i < values.length; i++) {
-	        var v = values[i];
-	        // skip empty values
-	        if (v == null)
-	            continue;
-	        v = v.trim();
-	        if (v == "")
-	            continue;
-	        // test for remaining candidates
-	        for (var j = 0; j < candidates.length; j++) {
-	            if (!TESTS[candidates[j]](v)) {
-	                // console.log(candidates[j], "fail at", v);
-	                candidates.splice(j, 1);
-	                j -= 1;
-	            }
-	        }
-	        // if no types left, return "string"
-	        if (candidates.length == 0)
-	            return "string";
-	    }
-	    return candidates[0];
-	}
-	exports.inferColumnType = inferColumnType;
-	function convertColumnType(value, type) {
-	    if (value == null)
-	        return null;
-	    return CONVERTERS[type](value);
-	}
-	exports.convertColumnType = convertColumnType;
-	function parseDataset(fileName, content, type) {
-	    var rows;
-	    switch (type) {
-	        case "csv":
-	            {
-	                rows = d3.csv.parseRows(content);
-	            }
-	            break;
-	        case "tsv":
-	            {
-	                rows = d3.tsv.parseRows(content);
-	            }
-	            break;
-	        default:
-	            {
-	                rows = [[]];
-	            }
-	            break;
-	    }
-	    // Remove empty rows if any
-	    rows = rows.filter(function (row) { return row.length > 0; });
-	    if (rows.length > 0) {
-	        var header = rows[0];
-	        var columns_1 = header.map(function (name, index) {
-	            // Infer column type
-	            var values = rows.slice(1).map(function (row) { return row[index]; });
-	            var type = inferColumnType(values);
-	            return {
-	                name: name,
-	                type: type
-	            };
-	        });
-	        var outRows = rows.slice(1).map(function (row) {
-	            var out = {};
-	            columns_1.forEach(function (column, index) {
-	                out[column.name] = convertColumnType(row[index], column.type) || null;
-	            });
-	            return out;
-	        });
-	        var dataset = {
-	            columns: columns_1,
-	            rawFile: content,
-	            fileName: fileName,
-	            rows: outRows,
-	            type: type
-	        };
-	        return dataset;
-	    }
-	    else {
-	    }
-	}
-	exports.parseDataset = parseDataset;
-
-
-/***/ },
-/* 38 */
+/* 38 */,
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -30924,15 +30915,15 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(39),
-	  EmitterSubscription : __webpack_require__(40)
+	  EventEmitter: __webpack_require__(40),
+	  EmitterSubscription : __webpack_require__(41)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -30951,11 +30942,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(40);
-	var EventSubscriptionVendor = __webpack_require__(42);
+	var EmitterSubscription = __webpack_require__(41);
+	var EventSubscriptionVendor = __webpack_require__(43);
 	
-	var emptyFunction = __webpack_require__(43);
-	var invariant = __webpack_require__(13);
+	var emptyFunction = __webpack_require__(44);
+	var invariant = __webpack_require__(12);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -31126,10 +31117,10 @@
 	})();
 	
 	module.exports = BaseEventEmitter;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31150,7 +31141,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(41);
+	var EventSubscription = __webpack_require__(42);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -31182,7 +31173,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/**
@@ -31236,7 +31227,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31255,7 +31246,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(13);
+	var invariant = __webpack_require__(12);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -31342,10 +31333,10 @@
 	})();
 	
 	module.exports = EventSubscriptionVendor;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31388,30 +31379,6 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 44 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var HorizontalRule = (function (_super) {
-	    __extends(HorizontalRule, _super);
-	    function HorizontalRule() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    HorizontalRule.prototype.render = function () {
-	        return (React.createElement("div", { className: "horizontal-rule" }));
-	    };
-	    return HorizontalRule;
-	}(React.Component));
-	exports.HorizontalRule = HorizontalRule;
-
-
-/***/ },
 /* 45 */
 /***/ function(module, exports) {
 
@@ -31440,6 +31407,167 @@
 	    return ActionLogger;
 	}());
 	exports.ActionLogger = ActionLogger;
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var utils_1 = __webpack_require__(20);
+	var d3 = __webpack_require__(14);
+	// Infer column type.
+	// Adapted from datalib: https://github.com/vega/datalib/blob/master/src/import/type.js
+	var TESTS = {
+	    boolean: function (x) { return x.toLowerCase() === "true" || x.toLowerCase() === "false"; },
+	    integer: function (x) { return TESTS["number"](x) && (+x.replace(/\,/g, "")) === ~~(+x.replace(/\,/g, "")); },
+	    number: function (x) { return !isNaN(+x.replace(/\,/g, "")); },
+	    date: function (x) { return !isNaN(Date.parse(x)); },
+	};
+	var CONVERTERS = {
+	    boolean: function (x) { return x.toLowerCase() === "true" ? true : false; },
+	    integer: function (x) { return +x.replace(/\,/g, ""); },
+	    number: function (x) { return +x.replace(/\,/g, ""); },
+	    date: function (x) { return Date.parse(x); },
+	    string: function (x) { return x; }
+	};
+	function inferColumnType(values) {
+	    // console.log(values);
+	    var candidates = ["boolean", "integer", "number", "date"];
+	    for (var i = 0; i < values.length; i++) {
+	        var v = values[i];
+	        // skip empty values
+	        if (v == null)
+	            continue;
+	        v = v.trim();
+	        if (v == "")
+	            continue;
+	        // test for remaining candidates
+	        for (var j = 0; j < candidates.length; j++) {
+	            if (!TESTS[candidates[j]](v)) {
+	                // console.log(candidates[j], "fail at", v);
+	                candidates.splice(j, 1);
+	                j -= 1;
+	            }
+	        }
+	        // if no types left, return "string"
+	        if (candidates.length == 0)
+	            return "string";
+	    }
+	    return candidates[0];
+	}
+	exports.inferColumnType = inferColumnType;
+	function convertColumnType(value, type) {
+	    if (value == null)
+	        return null;
+	    return CONVERTERS[type](value);
+	}
+	exports.convertColumnType = convertColumnType;
+	function parseDataset(fileName, content, type) {
+	    var rows;
+	    switch (type) {
+	        case "csv":
+	            {
+	                rows = d3.csv.parseRows(content);
+	            }
+	            break;
+	        case "tsv":
+	            {
+	                rows = d3.tsv.parseRows(content);
+	            }
+	            break;
+	        default:
+	            {
+	                rows = [[]];
+	            }
+	            break;
+	    }
+	    // Remove empty rows if any
+	    rows = rows.filter(function (row) { return row.length > 0; });
+	    if (rows.length > 0) {
+	        var header = rows[0];
+	        var columns_1 = header.map(function (name, index) {
+	            // Infer column type
+	            var values = rows.slice(1).map(function (row) { return row[index]; });
+	            var type = inferColumnType(values);
+	            var format = undefined;
+	            if (type == "integer")
+	                format = ".0f";
+	            if (type == "number") {
+	                var valuesFixed = values.map(function (d) { return +d; }).filter(function (d) { return !isNaN(d); }).map(function (d) { return d.toFixed(10); });
+	                valuesFixed = valuesFixed.map(function (d) {
+	                    var m = d.match(/\.([0-9]{10})$/);
+	                    if (m)
+	                        return m[1];
+	                    else
+	                        return "0000000000";
+	                });
+	                var k_1;
+	                for (k_1 = 10 - 1; k_1 >= 0; k_1--) {
+	                    if (valuesFixed.every(function (v) { return v[k_1] == "0"; })) {
+	                        continue;
+	                    }
+	                    else {
+	                        break;
+	                    }
+	                }
+	                format = "." + (k_1 + 1) + "f";
+	            }
+	            if (type == "date")
+	                format = "%Y/%m/%d-%H:%M:%S";
+	            return {
+	                name: name,
+	                type: type,
+	                format: format
+	            };
+	        });
+	        var outRows = rows.slice(1).map(function (row) {
+	            var out = {};
+	            columns_1.forEach(function (column, index) {
+	                out[column.name] = convertColumnType(row[index], column.type) || null;
+	            });
+	            return out;
+	        });
+	        var dataset = {
+	            columns: columns_1,
+	            rawFile: content,
+	            fileName: fileName,
+	            rows: outRows,
+	            type: type
+	        };
+	        return dataset;
+	    }
+	    else {
+	    }
+	}
+	exports.parseDataset = parseDataset;
+	function getColumnsSummary(dataset) {
+	    return dataset.columns.map(function (column) {
+	        var values = dataset.rows.filter(function (row) { return row[column.name] != null; }).map(function (row) { return row[column.name].toString(); });
+	        var uniqueValues = utils_1.getUniqueValues(values);
+	        return {
+	            name: column.name,
+	            type: column.type,
+	            format: column.format,
+	            values: values,
+	            uniqueValues: uniqueValues,
+	            isDistinctValues: utils_1.isDistinctValues(values)
+	        };
+	    });
+	}
+	exports.getColumnsSummary = getColumnsSummary;
+	function getColumnsForDistinctAxis(dataset, maxUniqueValues) {
+	    if (maxUniqueValues === void 0) { maxUniqueValues = 1e10; }
+	    var summary = getColumnsSummary(dataset);
+	    var candidates = summary.filter(function (c) { return c.isDistinctValues && c.type == "string" && c.uniqueValues.length <= maxUniqueValues; });
+	    return candidates.map(function (c) { return c.name; });
+	}
+	exports.getColumnsForDistinctAxis = getColumnsForDistinctAxis;
+	function getColumnsForContinuousAxis(dataset) {
+	    var candidates = dataset.columns.filter(function (d) { return d.type == "integer" || d.type == "number"; });
+	    return candidates.map(function (c) { return c.name; });
+	}
+	exports.getColumnsForContinuousAxis = getColumnsForContinuousAxis;
 
 
 /***/ }
