@@ -144,19 +144,23 @@ button.button-dropdown {
   margin: 0;
   padding: 0 10px;
   border-radius: 2px !important;
-  box-shadow: 0 0 2px #CCC;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   padding-right: 30px;
   box-sizing: border-box;
-  background: url("../images/triangle.svg") no-repeat right #F8F8F8; }
+  background: url("../images/triangle.svg") no-repeat right #F8F8F8;
+  border: 1px solid #CCC; }
   button.button-dropdown:hover {
     background: url("../images/triangle-white.svg") no-repeat right #ff9f3b;
+    border: 1px solid #fa8119;
     color: white; }
   button.button-dropdown.active {
     background: url("../images/triangle-white.svg") no-repeat right #fa8119;
+    border: 1px solid #d76400;
     color: white; }
   button.button-dropdown:focus {
-    box-shadow: 0 0 5px #ff9f3b; }
+    box-shadow: 0 0 5px #ff9f3b;
+    border: 1px solid #fa8119; }
 
 button.button-dropdown-list-item {
   display: block;

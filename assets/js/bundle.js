@@ -48,7 +48,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
-	var store_1 = __webpack_require__(36);
+	var store_1 = __webpack_require__(37);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// let sample = globalStore.samples[4];
@@ -84,9 +84,9 @@
 	var React = __webpack_require__(1);
 	var navigationView_1 = __webpack_require__(4);
 	var loadDataView_1 = __webpack_require__(13);
-	var reviewDataView_1 = __webpack_require__(15);
-	var createChartView_1 = __webpack_require__(16);
-	var chartView_1 = __webpack_require__(21);
+	var reviewDataView_1 = __webpack_require__(20);
+	var createChartView_1 = __webpack_require__(21);
+	var chartView_1 = __webpack_require__(22);
 	var MainView = (function (_super) {
 	    __extends(MainView, _super);
 	    function MainView(props) {
@@ -962,7 +962,7 @@
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
 	var controls_1 = __webpack_require__(5);
-	var inputWidgets_1 = __webpack_require__(17);
+	var inputWidgets_1 = __webpack_require__(15);
 	var Actions = __webpack_require__(8);
 	var LoadDataView = (function (_super) {
 	    __extends(LoadDataView, _super);
@@ -1031,178 +1031,6 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var controls_1 = __webpack_require__(5);
-	var ReviewDataView = (function (_super) {
-	    __extends(ReviewDataView, _super);
-	    function ReviewDataView() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    ReviewDataView.prototype.onDatasetChanged = function () {
-	        this.forceUpdate();
-	    };
-	    ReviewDataView.prototype.formatValue = function (type, format, value) {
-	        if (value == null)
-	            return "N/A";
-	        switch (type) {
-	            case "string": {
-	                return value.toString();
-	            }
-	            case "integer":
-	            case "number": {
-	                var fmt = d3.format(format);
-	                return fmt(value);
-	            }
-	            case "date": {
-	                var fmt = d3.time.format(format);
-	                return fmt(value);
-	            }
-	            default: {
-	                return value.toString();
-	            }
-	        }
-	    };
-	    ReviewDataView.prototype.render = function () {
-	        var _this = this;
-	        var dataset = this.props.dataset;
-	        return (React.createElement("section", { className: "section-review-data" },
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null,
-	                "Review Data: ",
-	                this.props.dataset.fileName),
-	            React.createElement("div", { className: "table-container" },
-	                React.createElement("table", null,
-	                    React.createElement("thead", null,
-	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
-	                    React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
-	                        return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index, className: "rowtype-" + column.type }, _this.formatValue(column.type, column.format, row[column.name])); })));
-	                    }))))));
-	    };
-	    return ReviewDataView;
-	}(React.Component));
-	exports.ReviewDataView = ReviewDataView;
-
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var Actions = __webpack_require__(8);
-	var model_1 = __webpack_require__(18);
-	var utils_1 = __webpack_require__(46);
-	var InputWidgets = __webpack_require__(17);
-	var controls_1 = __webpack_require__(5);
-	var ChartTypeView = (function (_super) {
-	    __extends(ChartTypeView, _super);
-	    function ChartTypeView() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    ChartTypeView.prototype.render = function () {
-	        var _this = this;
-	        var chartTypes = [
-	            { type: "bar-chart", "caption": "Bar Chart", thumbnail: "assets/images/bar-chart.png" },
-	            { type: "line-chart", "caption": "Line Chart", thumbnail: "assets/images/line-chart.png" },
-	            { type: "scatterplot", "caption": "Scatterplot", thumbnail: "assets/images/scatterplot.png" }
-	        ];
-	        return (React.createElement("p", null, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
-	                if (_this.props.onChange != null && _this.props.isEnabled(item.type)) {
-	                    _this.props.onChange(item.type);
-	                }
-	            } },
-	            React.createElement("img", { src: item.thumbnail }),
-	            React.createElement("span", null, item.caption))); })));
-	    };
-	    return ChartTypeView;
-	}(React.Component));
-	exports.ChartTypeView = ChartTypeView;
-	var CreateChartView = (function (_super) {
-	    __extends(CreateChartView, _super);
-	    function CreateChartView() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    CreateChartView.prototype.onChartChanged = function () {
-	        this.forceUpdate();
-	    };
-	    CreateChartView.prototype.renderFor = function (type) {
-	        switch (type) {
-	            case "line-chart":
-	            case "bar-chart":
-	                {
-	                    return this.renderForBarOrLineChart(type);
-	                }
-	                ;
-	            case "scatterplot":
-	                {
-	                    return this.renderForScatterplot();
-	                }
-	                ;
-	        }
-	    };
-	    CreateChartView.prototype.renderForBarOrLineChart = function (type) {
-	        var chart = this.props.chart;
-	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(chart.dataset);
-	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
-	        return (React.createElement("div", null,
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ColumnsWidget, { columnCount: 4, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "X Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 4, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
-	    };
-	    CreateChartView.prototype.renderForScatterplot = function () {
-	        var chart = this.props.chart;
-	        var xyColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
-	        var groupColumnCandidates = chart.dataset.columns
-	            .filter(function (d) { return d.type == "string"; })
-	            .map(function (d) { return d.name; });
-	        return (React.createElement("div", null,
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Name", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })),
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "X Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
-	    };
-	    CreateChartView.prototype.render = function () {
-	        var chart = this.props.chart;
-	        var dataset = chart.dataset;
-	        return (React.createElement("section", { className: "section-create-chart" },
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null, "Create Chart"),
-	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); }, isEnabled: function (type) { return model_1.Defaults.isChartValid(dataset, type); } }),
-	            chart.type != null ?
-	                React.createElement("div", { className: "chart-options" },
-	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 5, text: "Title", title: "enter chart title", label: chart.title, onChange: function (newTitle) { return new Actions.UpdateChartTitle(chart, newTitle).dispatch(); } }),
-	                        React.createElement(InputWidgets.WidthHeightWidget, { columnCount: 3, text: "Title", title: "enter chart title", width: chart.width, height: chart.height, onChange: function (newWidth, newHeight) { return new Actions.UpdateChartWidthHeight(chart, newWidth, newHeight).dispatch(); } }),
-	                        React.createElement(InputWidgets.ColorsWidget, { columnCount: 4, text: "Colors", title: "choose a color palette", colors: chart.colors || [], onChange: function (newColors) { return new Actions.UpdateChartColors(chart, newColors).dispatch(); } })),
-	                    this.renderFor(chart.type))
-	                : null));
-	    };
-	    return CreateChartView;
-	}(React.Component));
-	exports.CreateChartView = CreateChartView;
-
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
 	var __assign = (this && this.__assign) || Object.assign || function(t) {
 	    for (var s, i = 1, n = arguments.length; i < n; i++) {
 	        s = arguments[i];
@@ -1213,7 +1041,7 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var model_1 = __webpack_require__(18);
+	var model_1 = __webpack_require__(16);
 	var RowWidget = (function (_super) {
 	    __extends(RowWidget, _super);
 	    function RowWidget() {
@@ -1454,7 +1282,7 @@
 	        return true;
 	    };
 	    ColorsWidget.prototype.renderColors = function (colors) {
-	        return colors.map(function (c) { return (React.createElement("span", { style: { backgroundColor: c, display: "inline-block", width: "10px", height: "1em", margin: "0 2px", verticalAlign: "middle", outline: "1px solid white" } })); });
+	        return colors.slice(0, 6).map(function (c) { return (React.createElement("span", { style: { backgroundColor: c, display: "inline-block", width: "10px", height: "1em", margin: "0 2px", verticalAlign: "middle", outline: "1px solid white" } })); });
 	    };
 	    ColorsWidget.prototype.renderButton = function () {
 	        var _this = this;
@@ -1465,7 +1293,7 @@
 	            }
 	        });
 	        return (React.createElement("span", null,
-	            this.renderColors(this.props.colors),
+	            this.renderColors(this.props.colors.slice(0, 6)),
 	            " ",
 	            name));
 	    };
@@ -1485,21 +1313,21 @@
 
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var defaults_1 = __webpack_require__(19);
+	var defaults_1 = __webpack_require__(17);
 	exports.Defaults = defaults_1.Defaults;
 
 
 /***/ },
-/* 19 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var utils_1 = __webpack_require__(46);
-	var utils_2 = __webpack_require__(20);
+	var utils_1 = __webpack_require__(18);
+	var utils_2 = __webpack_require__(19);
 	var Defaults;
 	(function (Defaults) {
 	    Defaults.colors = [
@@ -1510,7 +1338,20 @@
 	        { name: "colorbrewer5", colors: ["#b3e2cd", "#fdcdac", "#cbd5e8", "#f4cae4", "#e6f5c9", "#fff2ae"] },
 	        { name: "colorbrewer6", colors: ["#e41a1c", "#377eb8", "#4daf4a", "#984ea3", "#ff7f00", "#ffff33"] },
 	        { name: "colorbrewer7", colors: ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f"] },
-	        { name: "colorbrewer8", colors: ["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462"] }
+	        { name: "colorbrewer8", colors: ["#8dd3c7", "#ffffb3", "#bebada", "#fb8072", "#80b1d3", "#fdb462"] },
+	        { name: "Purple-Gray 12", colors: ["#7b66d2", "#a699e8", "#dc5fbd", "#ffc0da", "#5f5a41", "#b4b19b", "#995688", "#d898ba", "#ab6ad5", "#d098ee", "#8b7c6e", "#dbd4c5"] },
+	        { name: "Tableau 20", colors: ["#1f77b4", "#aec7e8", "#ff7f0e", "#ffbb78", "#2ca02c", "#98df8a", "#d62728", "#ff9896", "#9467bd", "#c5b0d5", "#8c564b", "#c49c94", "#e377c2", "#f7b6d2", "#7f7f7f", "#c7c7c7", "#bcbd22", "#dbdb8d", "#17becf", "#9edae5"] },
+	        { name: "Green-Orange 6", colors: ["#32a251", "#ff7f0f", "#3cb7cc", "#ffd94a", "#39737c", "#b85a0d"] },
+	        { name: "Color Blind 10", colors: ["#006ba4", "#ff800e", "#ababab", "#595959", "#5f9ed1", "#c85200", "#898989", "#a2c8ec", "#ffbc79", "#cfcfcf"] },
+	        { name: "Blue-Red 6", colors: ["#2c69b0", "#f02720", "#ac613c", "#6ba3d6", "#ea6b73", "#e9c39b"] },
+	        { name: "Blue-Red 12", colors: ["#2c69b0", "#b5c8e2", "#f02720", "#ffb6b0", "#ac613c", "#e9c39b", "#6ba3d6", "#b5dffd", "#ac8763", "#ddc9b4", "#bd0a36", "#f4737a"] },
+	        { name: "Tableau 10 Light", colors: ["#aec7e8", "#ffbb78", "#98df8a", "#ff9896", "#c5b0d5", "#c49c94", "#f7b6d2", "#c7c7c7", "#dbdb8d", "#9edae5"] },
+	        { name: "Purple-Gray 6", colors: ["#7b66d2", "#dc5fbd", "#94917b", "#995688", "#d098ee", "#d7d5c5"] },
+	        { name: "Tableau 10 Medium", colors: ["#729ece", "#ff9e4a", "#67bf5c", "#ed665d", "#ad8bc9", "#a8786e", "#ed97ca", "#a2a2a2", "#cdcc5d", "#6dccda"] },
+	        { name: "Green-Orange 12", colors: ["#32a251", "#acd98d", "#ff7f0f", "#ffb977", "#3cb7cc", "#98d9e4", "#b85a0d", "#ffd94a", "#39737c", "#86b4a9", "#82853b", "#ccc94d"] },
+	        { name: "Tableau 10", colors: ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"] },
+	        { name: "Traffic Light", colors: ["#b10318", "#dba13a", "#309343", "#d82526", "#ffc156", "#69b764", "#f26c64", "#ffdd71", "#9fcd99"] },
+	        { name: "Gray 5", colors: ["#60636a", "#a5acaf", "#414451", "#8f8782", "#cfcfcf"] }
 	    ];
 	    Defaults.defaultColors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#e6ab02"];
 	    function label(text, fontSize) {
@@ -1652,7 +1493,168 @@
 
 
 /***/ },
-/* 20 */
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var utils_1 = __webpack_require__(19);
+	var d3 = __webpack_require__(14);
+	// Infer column type.
+	// Adapted from datalib: https://github.com/vega/datalib/blob/master/src/import/type.js
+	var TESTS = {
+	    boolean: function (x) { return x.toLowerCase() === "true" || x.toLowerCase() === "false"; },
+	    integer: function (x) { return TESTS["number"](x) && (+x.replace(/\,/g, "")) === ~~(+x.replace(/\,/g, "")); },
+	    number: function (x) { return !isNaN(+x.replace(/\,/g, "")); },
+	    date: function (x) { return !isNaN(Date.parse(x)); },
+	};
+	var CONVERTERS = {
+	    boolean: function (x) { return x.toLowerCase() === "true" ? true : false; },
+	    integer: function (x) { return +x.replace(/\,/g, ""); },
+	    number: function (x) { return +x.replace(/\,/g, ""); },
+	    date: function (x) { return Date.parse(x); },
+	    string: function (x) { return x; }
+	};
+	function inferColumnType(values) {
+	    // console.log(values);
+	    var candidates = ["boolean", "integer", "number", "date"];
+	    for (var i = 0; i < values.length; i++) {
+	        var v = values[i];
+	        // skip empty values
+	        if (v == null)
+	            continue;
+	        v = v.trim();
+	        if (v == "")
+	            continue;
+	        // test for remaining candidates
+	        for (var j = 0; j < candidates.length; j++) {
+	            if (!TESTS[candidates[j]](v)) {
+	                // console.log(candidates[j], "fail at", v);
+	                candidates.splice(j, 1);
+	                j -= 1;
+	            }
+	        }
+	        // if no types left, return "string"
+	        if (candidates.length == 0)
+	            return "string";
+	    }
+	    return candidates[0];
+	}
+	exports.inferColumnType = inferColumnType;
+	function convertColumnType(value, type) {
+	    if (value == null)
+	        return null;
+	    return CONVERTERS[type](value);
+	}
+	exports.convertColumnType = convertColumnType;
+	function parseDataset(fileName, content, type) {
+	    var rows;
+	    switch (type) {
+	        case "csv":
+	            {
+	                rows = d3.csv.parseRows(content);
+	            }
+	            break;
+	        case "tsv":
+	            {
+	                rows = d3.tsv.parseRows(content);
+	            }
+	            break;
+	        default:
+	            {
+	                rows = [[]];
+	            }
+	            break;
+	    }
+	    // Remove empty rows if any
+	    rows = rows.filter(function (row) { return row.length > 0; });
+	    if (rows.length > 0) {
+	        var header = rows[0];
+	        var columns_1 = header.map(function (name, index) {
+	            // Infer column type
+	            var values = rows.slice(1).map(function (row) { return row[index]; });
+	            var type = inferColumnType(values);
+	            var format = undefined;
+	            if (type == "integer")
+	                format = ".0f";
+	            if (type == "number") {
+	                var valuesFixed = values.map(function (d) { return +d; }).filter(function (d) { return !isNaN(d); }).map(function (d) { return d.toFixed(10); });
+	                valuesFixed = valuesFixed.map(function (d) {
+	                    var m = d.match(/\.([0-9]{10})$/);
+	                    if (m)
+	                        return m[1];
+	                    else
+	                        return "0000000000";
+	                });
+	                var k_1;
+	                for (k_1 = 10 - 1; k_1 >= 0; k_1--) {
+	                    if (valuesFixed.every(function (v) { return v[k_1] == "0"; })) {
+	                        continue;
+	                    }
+	                    else {
+	                        break;
+	                    }
+	                }
+	                format = "." + (k_1 + 1) + "f";
+	            }
+	            if (type == "date")
+	                format = "%Y/%m/%d-%H:%M:%S";
+	            return {
+	                name: name,
+	                type: type,
+	                format: format
+	            };
+	        });
+	        var outRows = rows.slice(1).map(function (row) {
+	            var out = {};
+	            columns_1.forEach(function (column, index) {
+	                out[column.name] = convertColumnType(row[index], column.type) || null;
+	            });
+	            return out;
+	        });
+	        var dataset = {
+	            columns: columns_1,
+	            rawFile: content,
+	            fileName: fileName,
+	            rows: outRows,
+	            type: type
+	        };
+	        return dataset;
+	    }
+	    else {
+	    }
+	}
+	exports.parseDataset = parseDataset;
+	function getColumnsSummary(dataset) {
+	    return dataset.columns.map(function (column) {
+	        var values = dataset.rows.filter(function (row) { return row[column.name] != null; }).map(function (row) { return row[column.name].toString(); });
+	        var uniqueValues = utils_1.getUniqueValues(values);
+	        return {
+	            name: column.name,
+	            type: column.type,
+	            format: column.format,
+	            values: values,
+	            uniqueValues: uniqueValues,
+	            isDistinctValues: utils_1.isDistinctValues(values)
+	        };
+	    });
+	}
+	exports.getColumnsSummary = getColumnsSummary;
+	function getColumnsForDistinctAxis(dataset, maxUniqueValues) {
+	    if (maxUniqueValues === void 0) { maxUniqueValues = 1e10; }
+	    var summary = getColumnsSummary(dataset);
+	    var candidates = summary.filter(function (c) { return c.isDistinctValues && c.type == "string" && c.uniqueValues.length <= maxUniqueValues; });
+	    return candidates.map(function (c) { return c.name; });
+	}
+	exports.getColumnsForDistinctAxis = getColumnsForDistinctAxis;
+	function getColumnsForContinuousAxis(dataset) {
+	    var candidates = dataset.columns.filter(function (d) { return d.type == "integer" || d.type == "number"; });
+	    return candidates.map(function (c) { return c.name; });
+	}
+	exports.getColumnsForContinuousAxis = getColumnsForContinuousAxis;
+
+
+/***/ },
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1686,7 +1688,179 @@
 
 
 /***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var d3 = __webpack_require__(14);
+	var controls_1 = __webpack_require__(5);
+	var ReviewDataView = (function (_super) {
+	    __extends(ReviewDataView, _super);
+	    function ReviewDataView() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    ReviewDataView.prototype.onDatasetChanged = function () {
+	        this.forceUpdate();
+	    };
+	    ReviewDataView.prototype.formatValue = function (type, format, value) {
+	        if (value == null)
+	            return "N/A";
+	        switch (type) {
+	            case "string": {
+	                return value.toString();
+	            }
+	            case "integer":
+	            case "number": {
+	                var fmt = d3.format(format);
+	                return fmt(value);
+	            }
+	            case "date": {
+	                var fmt = d3.time.format(format);
+	                return fmt(value);
+	            }
+	            default: {
+	                return value.toString();
+	            }
+	        }
+	    };
+	    ReviewDataView.prototype.render = function () {
+	        var _this = this;
+	        var dataset = this.props.dataset;
+	        return (React.createElement("section", { className: "section-review-data" },
+	            React.createElement(controls_1.HorizontalRule, null),
+	            React.createElement("h2", null,
+	                "Review Data: ",
+	                this.props.dataset.fileName),
+	            React.createElement("div", { className: "table-container" },
+	                React.createElement("table", null,
+	                    React.createElement("thead", null,
+	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
+	                    React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
+	                        return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index, className: "rowtype-" + column.type }, _this.formatValue(column.type, column.format, row[column.name])); })));
+	                    }))))));
+	    };
+	    return ReviewDataView;
+	}(React.Component));
+	exports.ReviewDataView = ReviewDataView;
+
+
+/***/ },
 /* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var Actions = __webpack_require__(8);
+	var model_1 = __webpack_require__(16);
+	var utils_1 = __webpack_require__(18);
+	var InputWidgets = __webpack_require__(15);
+	var controls_1 = __webpack_require__(5);
+	var ChartTypeView = (function (_super) {
+	    __extends(ChartTypeView, _super);
+	    function ChartTypeView() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    ChartTypeView.prototype.render = function () {
+	        var _this = this;
+	        var chartTypes = [
+	            { type: "bar-chart", "caption": "Bar Chart", thumbnail: "assets/images/bar-chart.png" },
+	            { type: "line-chart", "caption": "Line Chart", thumbnail: "assets/images/line-chart.png" },
+	            { type: "scatterplot", "caption": "Scatterplot", thumbnail: "assets/images/scatterplot.png" }
+	        ];
+	        return (React.createElement("p", null, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
+	                if (_this.props.onChange != null && _this.props.isEnabled(item.type)) {
+	                    _this.props.onChange(item.type);
+	                }
+	            } },
+	            React.createElement("img", { src: item.thumbnail }),
+	            React.createElement("span", null, item.caption))); })));
+	    };
+	    return ChartTypeView;
+	}(React.Component));
+	exports.ChartTypeView = ChartTypeView;
+	var CreateChartView = (function (_super) {
+	    __extends(CreateChartView, _super);
+	    function CreateChartView() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    CreateChartView.prototype.onChartChanged = function () {
+	        this.forceUpdate();
+	    };
+	    CreateChartView.prototype.renderFor = function (type) {
+	        switch (type) {
+	            case "line-chart":
+	            case "bar-chart":
+	                {
+	                    return this.renderForBarOrLineChart(type);
+	                }
+	                ;
+	            case "scatterplot":
+	                {
+	                    return this.renderForScatterplot();
+	                }
+	                ;
+	        }
+	    };
+	    CreateChartView.prototype.renderForBarOrLineChart = function (type) {
+	        var chart = this.props.chart;
+	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(chart.dataset);
+	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
+	        return (React.createElement("div", null,
+	            React.createElement("div", { className: "widget-row widget-row-p" },
+	                React.createElement(InputWidgets.ColumnsWidget, { columnCount: 4, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } }),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "X Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
+	                React.createElement(InputWidgets.LabelWidget, { columnCount: 4, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
+	    };
+	    CreateChartView.prototype.renderForScatterplot = function () {
+	        var chart = this.props.chart;
+	        var xyColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
+	        var groupColumnCandidates = chart.dataset.columns
+	            .filter(function (d) { return d.type == "string"; })
+	            .map(function (d) { return d.name; });
+	        return (React.createElement("div", null,
+	            React.createElement("div", { className: "widget-row widget-row-p" },
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } }),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Name", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })),
+	            React.createElement("div", { className: "widget-row widget-row-p" },
+	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "X Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } }),
+	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
+	    };
+	    CreateChartView.prototype.render = function () {
+	        var chart = this.props.chart;
+	        var dataset = chart.dataset;
+	        return (React.createElement("section", { className: "section-create-chart" },
+	            React.createElement(controls_1.HorizontalRule, null),
+	            React.createElement("h2", null, "Create Chart"),
+	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); }, isEnabled: function (type) { return model_1.Defaults.isChartValid(dataset, type); } }),
+	            chart.type != null ?
+	                React.createElement("div", { className: "chart-options" },
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 5, text: "Title", title: "enter chart title", label: chart.title, onChange: function (newTitle) { return new Actions.UpdateChartTitle(chart, newTitle).dispatch(); } }),
+	                        React.createElement(InputWidgets.WidthHeightWidget, { columnCount: 3, text: "Title", title: "enter chart title", width: chart.width, height: chart.height, onChange: function (newWidth, newHeight) { return new Actions.UpdateChartWidthHeight(chart, newWidth, newHeight).dispatch(); } }),
+	                        React.createElement(InputWidgets.ColorsWidget, { columnCount: 4, text: "Colors", title: "choose a color palette", colors: chart.colors || [], onChange: function (newColors) { return new Actions.UpdateChartColors(chart, newColors).dispatch(); } })),
+	                    this.renderFor(chart.type))
+	                : null));
+	    };
+	    return CreateChartView;
+	}(React.Component));
+	exports.CreateChartView = CreateChartView;
+
+
+/***/ },
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1698,11 +1872,11 @@
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
 	var Actions = __webpack_require__(8);
-	var barChart_1 = __webpack_require__(22);
-	var lineChart_1 = __webpack_require__(25);
-	var scatterplot_1 = __webpack_require__(26);
+	var barChart_1 = __webpack_require__(23);
+	var lineChart_1 = __webpack_require__(26);
+	var scatterplot_1 = __webpack_require__(27);
 	var controls_1 = __webpack_require__(5);
-	var ChartAccent = __webpack_require__(27);
+	var ChartAccent = __webpack_require__(28);
 	var ChartView = (function (_super) {
 	    __extends(ChartView, _super);
 	    function ChartView(props) {
@@ -1825,7 +1999,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1836,8 +2010,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(23);
-	var elements_1 = __webpack_require__(24);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var BarChartView = (function (_super) {
 	    __extends(BarChartView, _super);
 	    function BarChartView() {
@@ -1989,7 +2163,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2000,7 +2174,7 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var elements_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var BaseChartView = (function (_super) {
 	    __extends(BaseChartView, _super);
 	    function BaseChartView(props) {
@@ -2112,7 +2286,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2176,7 +2350,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2187,8 +2361,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(23);
-	var elements_1 = __webpack_require__(24);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var LineChartView = (function (_super) {
 	    __extends(LineChartView, _super);
 	    function LineChartView() {
@@ -2348,7 +2522,7 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2359,9 +2533,9 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(23);
-	var elements_1 = __webpack_require__(24);
-	var utils_1 = __webpack_require__(20);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
+	var utils_1 = __webpack_require__(19);
 	var ScatterplotView = (function (_super) {
 	    __extends(ScatterplotView, _super);
 	    function ScatterplotView() {
@@ -2517,10 +2691,10 @@
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(14), __webpack_require__(28), __webpack_require__(30), __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(14), __webpack_require__(29), __webpack_require__(31), __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
 	    var jQuery = $;
 	    typeahead.loadjQueryPlugin();
 	    var Module = {};
@@ -14274,7 +14448,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {
@@ -16758,10 +16932,10 @@
 	
 	}).call(this);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(29)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module)))
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -16777,7 +16951,7 @@
 
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27003,17 +27177,17 @@
 
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    "Bloodhound": __webpack_require__(32),
-	    "loadjQueryPlugin": function() {__webpack_require__(33);}
+	    "Bloodhound": __webpack_require__(33),
+	    "loadjQueryPlugin": function() {__webpack_require__(34);}
 	};
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27024,7 +27198,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -27936,7 +28110,7 @@
 	});
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {/*!
@@ -27947,7 +28121,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -28860,7 +29034,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(30) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -30390,10 +30564,10 @@
 	        }
 	    })();
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35).setImmediate))
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
@@ -30446,13 +30620,13 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(35);
+	__webpack_require__(36);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -30645,7 +30819,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)))
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30654,10 +30828,10 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var model_1 = __webpack_require__(18);
+	var model_1 = __webpack_require__(16);
 	var Actions = __webpack_require__(8);
-	var samples_1 = __webpack_require__(37);
-	var utils_1 = __webpack_require__(46);
+	var samples_1 = __webpack_require__(38);
+	var utils_1 = __webpack_require__(18);
 	var fbemitter_1 = __webpack_require__(39);
 	var logger_1 = __webpack_require__(45);
 	var MainStore = (function (_super) {
@@ -30855,7 +31029,7 @@
 
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 	// Declare sample datasets
@@ -30901,7 +31075,6 @@
 
 
 /***/ },
-/* 38 */,
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31407,167 +31580,6 @@
 	    return ActionLogger;
 	}());
 	exports.ActionLogger = ActionLogger;
-
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var utils_1 = __webpack_require__(20);
-	var d3 = __webpack_require__(14);
-	// Infer column type.
-	// Adapted from datalib: https://github.com/vega/datalib/blob/master/src/import/type.js
-	var TESTS = {
-	    boolean: function (x) { return x.toLowerCase() === "true" || x.toLowerCase() === "false"; },
-	    integer: function (x) { return TESTS["number"](x) && (+x.replace(/\,/g, "")) === ~~(+x.replace(/\,/g, "")); },
-	    number: function (x) { return !isNaN(+x.replace(/\,/g, "")); },
-	    date: function (x) { return !isNaN(Date.parse(x)); },
-	};
-	var CONVERTERS = {
-	    boolean: function (x) { return x.toLowerCase() === "true" ? true : false; },
-	    integer: function (x) { return +x.replace(/\,/g, ""); },
-	    number: function (x) { return +x.replace(/\,/g, ""); },
-	    date: function (x) { return Date.parse(x); },
-	    string: function (x) { return x; }
-	};
-	function inferColumnType(values) {
-	    // console.log(values);
-	    var candidates = ["boolean", "integer", "number", "date"];
-	    for (var i = 0; i < values.length; i++) {
-	        var v = values[i];
-	        // skip empty values
-	        if (v == null)
-	            continue;
-	        v = v.trim();
-	        if (v == "")
-	            continue;
-	        // test for remaining candidates
-	        for (var j = 0; j < candidates.length; j++) {
-	            if (!TESTS[candidates[j]](v)) {
-	                // console.log(candidates[j], "fail at", v);
-	                candidates.splice(j, 1);
-	                j -= 1;
-	            }
-	        }
-	        // if no types left, return "string"
-	        if (candidates.length == 0)
-	            return "string";
-	    }
-	    return candidates[0];
-	}
-	exports.inferColumnType = inferColumnType;
-	function convertColumnType(value, type) {
-	    if (value == null)
-	        return null;
-	    return CONVERTERS[type](value);
-	}
-	exports.convertColumnType = convertColumnType;
-	function parseDataset(fileName, content, type) {
-	    var rows;
-	    switch (type) {
-	        case "csv":
-	            {
-	                rows = d3.csv.parseRows(content);
-	            }
-	            break;
-	        case "tsv":
-	            {
-	                rows = d3.tsv.parseRows(content);
-	            }
-	            break;
-	        default:
-	            {
-	                rows = [[]];
-	            }
-	            break;
-	    }
-	    // Remove empty rows if any
-	    rows = rows.filter(function (row) { return row.length > 0; });
-	    if (rows.length > 0) {
-	        var header = rows[0];
-	        var columns_1 = header.map(function (name, index) {
-	            // Infer column type
-	            var values = rows.slice(1).map(function (row) { return row[index]; });
-	            var type = inferColumnType(values);
-	            var format = undefined;
-	            if (type == "integer")
-	                format = ".0f";
-	            if (type == "number") {
-	                var valuesFixed = values.map(function (d) { return +d; }).filter(function (d) { return !isNaN(d); }).map(function (d) { return d.toFixed(10); });
-	                valuesFixed = valuesFixed.map(function (d) {
-	                    var m = d.match(/\.([0-9]{10})$/);
-	                    if (m)
-	                        return m[1];
-	                    else
-	                        return "0000000000";
-	                });
-	                var k_1;
-	                for (k_1 = 10 - 1; k_1 >= 0; k_1--) {
-	                    if (valuesFixed.every(function (v) { return v[k_1] == "0"; })) {
-	                        continue;
-	                    }
-	                    else {
-	                        break;
-	                    }
-	                }
-	                format = "." + (k_1 + 1) + "f";
-	            }
-	            if (type == "date")
-	                format = "%Y/%m/%d-%H:%M:%S";
-	            return {
-	                name: name,
-	                type: type,
-	                format: format
-	            };
-	        });
-	        var outRows = rows.slice(1).map(function (row) {
-	            var out = {};
-	            columns_1.forEach(function (column, index) {
-	                out[column.name] = convertColumnType(row[index], column.type) || null;
-	            });
-	            return out;
-	        });
-	        var dataset = {
-	            columns: columns_1,
-	            rawFile: content,
-	            fileName: fileName,
-	            rows: outRows,
-	            type: type
-	        };
-	        return dataset;
-	    }
-	    else {
-	    }
-	}
-	exports.parseDataset = parseDataset;
-	function getColumnsSummary(dataset) {
-	    return dataset.columns.map(function (column) {
-	        var values = dataset.rows.filter(function (row) { return row[column.name] != null; }).map(function (row) { return row[column.name].toString(); });
-	        var uniqueValues = utils_1.getUniqueValues(values);
-	        return {
-	            name: column.name,
-	            type: column.type,
-	            format: column.format,
-	            values: values,
-	            uniqueValues: uniqueValues,
-	            isDistinctValues: utils_1.isDistinctValues(values)
-	        };
-	    });
-	}
-	exports.getColumnsSummary = getColumnsSummary;
-	function getColumnsForDistinctAxis(dataset, maxUniqueValues) {
-	    if (maxUniqueValues === void 0) { maxUniqueValues = 1e10; }
-	    var summary = getColumnsSummary(dataset);
-	    var candidates = summary.filter(function (c) { return c.isDistinctValues && c.type == "string" && c.uniqueValues.length <= maxUniqueValues; });
-	    return candidates.map(function (c) { return c.name; });
-	}
-	exports.getColumnsForDistinctAxis = getColumnsForDistinctAxis;
-	function getColumnsForContinuousAxis(dataset) {
-	    var candidates = dataset.columns.filter(function (d) { return d.type == "integer" || d.type == "number"; });
-	    return candidates.map(function (c) { return c.name; });
-	}
-	exports.getColumnsForContinuousAxis = getColumnsForContinuousAxis;
 
 
 /***/ }
