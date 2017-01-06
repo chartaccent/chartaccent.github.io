@@ -116,3 +116,18 @@ p {
 .carousel-inner > .item {
     transition: 1s ease-in-out transform;
 }
+
+.author-card {
+    display: inline-block;
+    width: 150px;
+    text-align: center;
+    margin: 10px;
+    img {
+        width: 80%;
+    }
+    span {
+        font-size: 1.2em;
+        margin-top: 5px;
+        display: block;
+    }
+}
