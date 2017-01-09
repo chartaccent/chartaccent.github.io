@@ -49,14 +49,17 @@
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
 	var store_1 = __webpack_require__(37);
+	var d3 = __webpack_require__(14);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
-	// let sample = globalStore.samples[4];
-	// d3.text(sample.csv, "text/plain", (err, data) => {
-	//     if(!err) {
-	//         new Actions.LoadData(sample.csv, data, "csv").dispatch();
-	//     }
-	// }); 
+	// We can add some test code here
+	var Actions = __webpack_require__(8);
+	var sample = exports.globalStore.samples[4];
+	d3.text(sample.csv, "text/plain", function (err, data) {
+	    if (!err) {
+	        new Actions.LoadData(sample.csv, data, "csv").dispatch();
+	    }
+	});
 
 
 /***/ },
@@ -372,6 +375,17 @@
 	    return UpdateChartGroupColumn;
 	}(UpdateChart));
 	exports.UpdateChartGroupColumn = UpdateChartGroupColumn;
+	var UpdateChartSizeColumn = (function (_super) {
+	    __extends(UpdateChartSizeColumn, _super);
+	    function UpdateChartSizeColumn(chart, newSizeColumn) {
+	        var _this = _super.call(this, chart) || this;
+	        _this.chart = chart;
+	        _this.newSizeColumn = newSizeColumn;
+	        return _this;
+	    }
+	    return UpdateChartSizeColumn;
+	}(UpdateChart));
+	exports.UpdateChartSizeColumn = UpdateChartSizeColumn;
 	var UpdateChartNameColumn = (function (_super) {
 	    __extends(UpdateChartNameColumn, _super);
 	    function UpdateChartNameColumn(chart, newNameColumn) {
@@ -1041,6 +1055,7 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
+	var controls_1 = __webpack_require__(5);
 	var model_1 = __webpack_require__(16);
 	var RowWidget = (function (_super) {
 	    __extends(RowWidget, _super);
@@ -1063,6 +1078,18 @@
 	    return RowWidget;
 	}(React.Component));
 	exports.RowWidget = RowWidget;
+	function isTargetInElement(target, element) {
+	    var result = false;
+	    var item = target;
+	    while (item && item != document.body && item != document) {
+	        if (item == element) {
+	            result = true;
+	            break;
+	        }
+	        item = item.parentNode;
+	    }
+	    return result;
+	}
 	var LabelWidget = (function (_super) {
 	    __extends(LabelWidget, _super);
 	    function LabelWidget(props) {
@@ -1070,6 +1097,7 @@
 	        _this.state = {
 	            currentLabel: _this.props.label != null ? __assign({}, _this.props.label) : model_1.Defaults.label("")
 	        };
+	        _this.onMouseDown = _this.onMouseDown.bind(_this);
 	        return _this;
 	    }
 	    LabelWidget.prototype.componentWillReceiveProps = function (nextProps) {
@@ -1080,17 +1108,63 @@
 	    LabelWidget.prototype.sendEvent = function () {
 	        this.props.onChange(this.state.currentLabel);
 	    };
+	    LabelWidget.prototype.onMouseDown = function (e) {
+	        if (!isTargetInElement(e.target, this.refs.dropdownContainer)) {
+	            this.completeDropdown();
+	        }
+	    };
+	    LabelWidget.prototype.startDropdown = function () {
+	        this.refs.dropdownContainer.style.display = "block";
+	        // d3.select(this.refs.dropdownButton).classed("active", true);
+	        window.addEventListener("mousedown", this.onMouseDown);
+	    };
+	    LabelWidget.prototype.completeDropdown = function () {
+	        this.refs.dropdownContainer.style.display = "none";
+	        // d3.select(this.refs.dropdownButton).classed("active", false);
+	        window.removeEventListener("mousedown", this.onMouseDown);
+	    };
 	    LabelWidget.prototype.renderWidget = function () {
 	        var _this = this;
 	        var label = this.state.currentLabel;
-	        return (React.createElement("input", { type: "text", ref: "input", placeholder: this.props.title, value: label.text, onChange: function (e) {
-	                _this.state.currentLabel.text = _this.refs.input.value;
-	                _this.setState({ currentLabel: _this.state.currentLabel });
-	            }, onBlur: function () { return _this.sendEvent(); }, onKeyDown: function (e) {
-	                if (e.keyCode == 13) {
-	                    _this.sendEvent();
-	                }
-	            } }));
+	        return (React.createElement("span", { className: "label-widget" },
+	            React.createElement("input", { type: "text", ref: "input", placeholder: this.props.title, value: label.text, onChange: function (e) {
+	                    _this.state.currentLabel.text = _this.refs.input.value;
+	                    _this.setState({ currentLabel: _this.state.currentLabel });
+	                }, onBlur: function () { return _this.sendEvent(); }, onKeyDown: function (e) {
+	                    if (e.keyCode == 13) {
+	                        _this.sendEvent();
+	                    }
+	                } }),
+	            React.createElement("span", { className: "controls" },
+	                React.createElement(controls_1.Button, { ref: "dropdownButton", type: "small", text: "...", onClick: function (e) { return _this.startDropdown(); } })),
+	            React.createElement("div", { className: "dropdown", ref: "dropdownContainer" },
+	                React.createElement("div", { className: "widget-row widget-row-p" },
+	                    React.createElement("div", { className: "col-12" },
+	                        React.createElement("label", null, "Color"),
+	                        React.createElement("div", { className: "widget-content" },
+	                            React.createElement("input", { ref: "inputColor", type: "color", value: label.color, onChange: function (e) {
+	                                    _this.state.currentLabel.color = _this.refs.inputColor.value;
+	                                    _this.setState({ currentLabel: _this.state.currentLabel });
+	                                    _this.sendEvent();
+	                                } })))),
+	                React.createElement("div", { className: "widget-row widget-row-p" },
+	                    React.createElement("div", { className: "col-12" },
+	                        React.createElement("label", null, "Font"),
+	                        React.createElement("div", { className: "widget-content" },
+	                            React.createElement("select", { value: label.fontFamily, onChange: function (e) {
+	                                    _this.state.currentLabel.fontFamily = e.target.value;
+	                                    _this.setState({ currentLabel: _this.state.currentLabel });
+	                                    _this.sendEvent();
+	                                } }, model_1.Defaults.fonts.map(function (f) { return React.createElement("option", { value: f }, f); }))))),
+	                React.createElement("div", { className: "widget-row widget-row-p" },
+	                    React.createElement("div", { className: "col-12" },
+	                        React.createElement("label", null, "Size"),
+	                        React.createElement("div", { className: "widget-content" },
+	                            React.createElement("input", { type: "number", value: label.fontSize, onChange: function (e) {
+	                                    _this.state.currentLabel.fontSize = +e.target.value;
+	                                    _this.setState({ currentLabel: _this.state.currentLabel });
+	                                    _this.sendEvent();
+	                                } })))))));
 	    };
 	    return LabelWidget;
 	}(RowWidget));
@@ -1177,20 +1251,8 @@
 	            React.createElement("button", { className: "button-dropdown", onClick: function () { return _this.startDropdown(); }, ref: "dropdownButton" }, this.renderButton()),
 	            React.createElement("div", { className: "dropdown-list", ref: "dropdownList" }, this.renderListItems())));
 	    };
-	    DropdownListWidget.prototype.isTargetInElement = function (target, element) {
-	        var result = false;
-	        var item = target;
-	        while (item && item != document.body && item != document) {
-	            if (item == element) {
-	                result = true;
-	                break;
-	            }
-	            item = item.parentNode;
-	        }
-	        return result;
-	    };
 	    DropdownListWidget.prototype.onMouseDown = function (e) {
-	        if (!this.isTargetInElement(e.target, this.refs.dropdownList)) {
+	        if (!isTargetInElement(e.target, this.refs.dropdownList)) {
 	            this.completeDropdown();
 	        }
 	    };
@@ -1354,6 +1416,21 @@
 	        { name: "Gray 5", colors: ["#60636a", "#a5acaf", "#414451", "#8f8782", "#cfcfcf"] }
 	    ];
 	    Defaults.defaultColors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#e6ab02"];
+	    Defaults.fonts = [
+	        "Helvetica",
+	        "Arial",
+	        "Lucida Grande",
+	        "Geneva",
+	        "Verdana",
+	        "Tahoma",
+	        "Comic Sans MS",
+	        "Impact",
+	        "Georgia",
+	        "Times",
+	        "Palatino",
+	        "Consolas",
+	        "Lucida Console"
+	    ];
 	    function label(text, fontSize) {
 	        if (text === void 0) { text = ""; }
 	        if (fontSize === void 0) { fontSize = 14; }
@@ -1361,7 +1438,8 @@
 	            text: text,
 	            fontFamily: "Arial",
 	            fontSize: fontSize,
-	            fontStyle: "regular"
+	            fontStyle: "regular",
+	            color: "#000000"
 	        };
 	    }
 	    Defaults.label = label;
@@ -1381,7 +1459,7 @@
 	        return {
 	            dataset: dataset,
 	            type: "bar-chart",
-	            title: Defaults.label(dataset.fileName, 16),
+	            title: Defaults.label(dataset.fileName, 20),
 	            width: 800,
 	            height: 400,
 	            xColumn: xColumn,
@@ -1405,7 +1483,7 @@
 	        return {
 	            dataset: dataset,
 	            type: "line-chart",
-	            title: Defaults.label(dataset.fileName, 16),
+	            title: Defaults.label(dataset.fileName, 20),
 	            width: 800,
 	            height: 400,
 	            xColumn: xColumn,
@@ -1425,6 +1503,7 @@
 	            return null;
 	        var xColumn = xyColumnCandidates[0];
 	        var yColumn = xyColumnCandidates[1];
+	        var sizeColumn = null; // xyColumnCandidates[2] || null;
 	        var stringColumns = dataset.columns
 	            .filter(function (d) { return d.type == "string"; }).map(function (d) {
 	            var values = utils_2.getUniqueValues(dataset.rows.map(function (row) { return row[d.name].toString(); }));
@@ -1442,11 +1521,12 @@
 	        return {
 	            dataset: dataset,
 	            type: "scatterplot",
-	            title: Defaults.label(dataset.fileName, 16),
+	            title: Defaults.label(dataset.fileName, 20),
 	            width: 800,
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumn: yColumn,
+	            sizeColumn: sizeColumn,
 	            groupColumn: groupColumn,
 	            nameColumn: nameColumn,
 	            xLabel: Defaults.label(xColumn),
@@ -1462,7 +1542,7 @@
 	        return {
 	            dataset: null,
 	            type: null,
-	            title: Defaults.label("", 16),
+	            title: Defaults.label("", 20),
 	            width: 800,
 	            height: 400,
 	            colors: this.defaultColors
@@ -1685,6 +1765,14 @@
 	    return true;
 	}
 	exports.isDistinctValues = isDistinctValues;
+	function isSameArray(a, b) {
+	    return a.length == b.length && a.every(function (p, i) { return b[i] == p; });
+	}
+	exports.isSameArray = isSameArray;
+	function isSubset(small, large) {
+	    return small.every(function (a) { return large.indexOf(a) >= 0; });
+	}
+	exports.isSubset = isSubset;
 
 
 /***/ },
@@ -1833,10 +1921,11 @@
 	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
 	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } }),
 	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Name", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Size", title: "choose a column for size", column: chart.sizeColumn, allowNull: true, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartSizeColumn(chart, newColumn).dispatch(); } })),
 	            React.createElement("div", { className: "widget-row widget-row-p" },
 	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "X Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
+	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }),
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } }))));
 	    };
 	    CreateChartView.prototype.render = function () {
 	        var chart = this.props.chart;
@@ -1877,6 +1966,7 @@
 	var scatterplot_1 = __webpack_require__(27);
 	var controls_1 = __webpack_require__(5);
 	var ChartAccent = __webpack_require__(28);
+	var utils_1 = __webpack_require__(19);
 	var ChartView = (function (_super) {
 	    __extends(ChartView, _super);
 	    function ChartView(props) {
@@ -1890,9 +1980,62 @@
 	        d3.select(this.refs.chartView.getAnnotationLayer()).selectAll("*").remove();
 	        d3.select(this.refs.panelContainer).selectAll("*").remove();
 	        d3.select(this.refs.toolbarContainer).selectAll("*").remove();
+	        var chart = this.props.chart;
+	        var newChartInfo;
+	        switch (this.props.chart.type) {
+	            case "bar-chart":
+	            case "line-chart":
+	                {
+	                    newChartInfo = {
+	                        type: chart.type,
+	                        dataLength: chart.dataset.rows.length,
+	                        xColumns: [chart.xColumn],
+	                        yColumns: chart.yColumns,
+	                        groupColumn: null
+	                    };
+	                }
+	                break;
+	            case "scatterplot":
+	                {
+	                    newChartInfo = {
+	                        type: chart.type,
+	                        dataLength: chart.dataset.rows.length,
+	                        xColumns: [chart.xColumn],
+	                        yColumns: [chart.yColumn],
+	                        groupColumn: chart.groupColumn
+	                    };
+	                }
+	                break;
+	        }
 	        var saved;
-	        if (this.chartAccent) {
-	            saved = this.chartAccent.saveAnnotations();
+	        if (this.chartAccent && this.currentChartInfo) {
+	            // Check if the old and new chart are consistent:
+	            var shouldSave = false;
+	            switch (newChartInfo.type) {
+	                case "bar-chart":
+	                case "line-chart":
+	                    {
+	                        if (this.currentChartInfo.type == "bar-chart" || this.currentChartInfo.type == "line-chart") {
+	                            shouldSave =
+	                                utils_1.isSameArray(this.currentChartInfo.xColumns, newChartInfo.xColumns) &&
+	                                    utils_1.isSubset(this.currentChartInfo.yColumns, newChartInfo.yColumns);
+	                        }
+	                    }
+	                    break;
+	                case "scatterplot":
+	                    {
+	                        if (this.currentChartInfo.type == "scatterplot") {
+	                            shouldSave =
+	                                utils_1.isSameArray(this.currentChartInfo.xColumns, newChartInfo.xColumns) &&
+	                                    utils_1.isSameArray(this.currentChartInfo.yColumns, newChartInfo.yColumns) &&
+	                                    this.currentChartInfo.groupColumn == newChartInfo.groupColumn;
+	                        }
+	                    }
+	                    break;
+	            }
+	            if (shouldSave) {
+	                saved = this.chartAccent.saveAnnotations();
+	            }
 	        }
 	        this.chartAccent = ChartAccent.Create({
 	            layer_background: d3.select(this.refs.chartView.getAnnotationBackgroundLayer()),
@@ -1901,6 +2044,7 @@
 	            toolbar: d3.select(this.refs.toolbarContainer),
 	        });
 	        this.refs.chartView.configureChartAccent(this.chartAccent);
+	        this.currentChartInfo = newChartInfo;
 	        if (saved) {
 	            try {
 	                this.chartAccent.loadAnnotations(saved);
@@ -2332,7 +2476,8 @@
 	                    fontSize: label.fontSize || 12,
 	                    fontWeight: label.fontStyle == "bold" || label.fontStyle == "bold-italic" ? "bold" : "normal",
 	                    fontStyle: label.fontStyle == "italic" || label.fontStyle == "bold-italic" ? "italic" : "normal",
-	                    textAnchor: this.props.anchor || "middle"
+	                    textAnchor: this.props.anchor || "middle",
+	                    fill: label.color
 	                } }, label.text)));
 	    };
 	    return ChartLabel;
@@ -2557,6 +2702,16 @@
 	        var sel = d3.select(this._scatterplotChartLayer);
 	        var _a = this.d3GetXAxis(), xScale = _a.xScale, xAxis = _a.xAxis;
 	        var _b = this.d3GetYAxis(), yScale = _b.yScale, yAxis = _b.yAxis;
+	        var sizeScale = null;
+	        if (chart.sizeColumn) {
+	            sizeScale = d3.scale.pow()
+	                .domain([
+	                0,
+	                d3.max(chart.dataset.rows, function (r) { return +r[chart.sizeColumn]; })
+	            ])
+	                .range([0, 20])
+	                .exponent(0.5);
+	        }
 	        d3.select(this._scatterplotChartXAxis).call(xAxis).call(elements_1.applyAxisStyle);
 	        d3.select(this._scatterplotChartYAxis).call(yAxis).call(elements_1.applyAxisStyle);
 	        d3.select(this._scatterplotChartContent).selectAll("*").remove();
@@ -2565,7 +2720,7 @@
 	        points.enter().append("circle")
 	            .attr("cx", function (d) { return xScale(+d[chart.xColumn]); })
 	            .attr("cy", function (d) { return yScale(+d[chart.yColumn]); })
-	            .attr("r", 5)
+	            .attr("r", chart.sizeColumn ? function (d) { return sizeScale(+d[chart.sizeColumn]); } : function (d) { return 5; })
 	            .style("stroke", "none")
 	            .style("fill", chart.colors[0]);
 	        if (chart.groupColumn != null) {
@@ -2652,8 +2807,8 @@
 	                if (axis == "y")
 	                    return d[chart.yColumn];
 	            },
-	            getValue: function (d) { return d[chart.nameColumn]; },
-	            itemToString: function (d) { return d[chart.nameColumn]; },
+	            getValue: chart.nameColumn ? function (d) { return d[chart.nameColumn]; } : function (d) { return "Item"; },
+	            itemToString: chart.nameColumn ? function (d) { return d[chart.nameColumn]; } : function (d) { return "Item"; },
 	            visibility: function (f) { }
 	        });
 	        if (chart.groupColumn) {
@@ -30984,6 +31139,11 @@
 	            this._chart.groupColumn = action.newGroupColumn;
 	            this.emitChartChanged();
 	            this.logger.log("chart/groupcolumn", "");
+	        }
+	        if (action instanceof Actions.UpdateChartSizeColumn) {
+	            this._chart.sizeColumn = action.newSizeColumn;
+	            this.emitChartChanged();
+	            this.logger.log("chart/sizecolumn", "");
 	        }
 	        if (action instanceof Actions.UpdateChartNameColumn) {
 	            this._chart.nameColumn = action.newNameColumn;

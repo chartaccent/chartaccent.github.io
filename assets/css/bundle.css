@@ -162,6 +162,31 @@ button.button-dropdown {
     box-shadow: 0 0 5px #ff9f3b;
     border: 1px solid #fa8119; }
 
+button.button-small {
+  display: block;
+  line-height: 23px;
+  width: 100%;
+  text-align: left;
+  margin: 0;
+  padding: 0 10px;
+  border-radius: 2px !important;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  box-sizing: border-box;
+  background: #F8F8F8;
+  border: 1px solid #CCC; }
+  button.button-small:hover {
+    background: #ff9f3b;
+    border: 1px solid #fa8119;
+    color: white; }
+  button.button-small.active {
+    background: #fa8119;
+    border: 1px solid #d76400;
+    color: white; }
+  button.button-small:focus {
+    box-shadow: 0 0 5px #ff9f3b;
+    border: 1px solid #fa8119; }
+
 button.button-dropdown-list-item {
   display: block;
   line-height: 23px;
@@ -196,7 +221,7 @@ input[type="text"], input[type="number"] {
   font-size: 14px;
   background-color: #F8F8F8;
   background-color: #FFF;
-  padding: 2px 5px;
+  padding: 3px 5px;
   border: 1px solid #DDD;
   border-radius: 2px;
   width: 100%;
@@ -275,6 +300,46 @@ input[type="text"], input[type="number"] {
           top: 0;
           width: 10px;
           height: 10px; }
+
+input[type="color"] {
+  height: 25px;
+  box-sizing: border-box;
+  border-radius: 2px;
+  width: 50px;
+  padding: 1px;
+  background: #FFF;
+  border: 1px solid #DDD;
+  outline: none; }
+  input[type="color"]:focus {
+    border: 1px solid #fa8119;
+    box-shadow: 0 0 5px #ff9f3b; }
+
+.label-widget {
+  position: relative;
+  display: inline-block;
+  width: 100%; }
+  .label-widget > input[type="text"] {
+    width: calc(100% - 40px); }
+  .label-widget > .controls {
+    float: right; }
+  .label-widget > .dropdown {
+    display: none;
+    position: absolute;
+    border-radius: 2px;
+    box-shadow: 0 0 2px #CCC;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #858585;
+    box-sizing: border-box;
+    outline: none;
+    right: 0px;
+    top: 25px;
+    width: 250px;
+    padding: 0 10px;
+    z-index: 1000000;
+    background: #FFFFFF; }
 
 h2 {
   font-size: 16px;
