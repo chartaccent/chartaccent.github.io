@@ -49,17 +49,16 @@
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
 	var store_1 = __webpack_require__(37);
-	var d3 = __webpack_require__(14);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// We can add some test code here
-	var Actions = __webpack_require__(8);
-	var sample = exports.globalStore.samples[4];
-	d3.text(sample.csv, "text/plain", function (err, data) {
-	    if (!err) {
-	        new Actions.LoadData(sample.csv, data, "csv").dispatch();
-	    }
-	});
+	// import * as Actions from "./store/actions";
+	// let sample = globalStore.samples[4];
+	// d3.text(sample.csv, "text/plain", (err, data) => {
+	//     if(!err) {
+	//         new Actions.LoadData(sample.csv, data, "csv").dispatch();
+	//     }
+	// }); 
 
 
 /***/ },
