@@ -144,7 +144,7 @@ button.button-dropdown {
   margin: 0;
   padding: 0 10px;
   border-radius: 2px !important;
-  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   padding-right: 30px;
   box-sizing: border-box;
@@ -174,7 +174,7 @@ button.button-small {
   cursor: pointer;
   box-sizing: border-box;
   background: #F8F8F8;
-  border: 1px solid #CCC; }
+  border: 1px solid #DDD; }
   button.button-small:hover {
     background: #ff9f3b;
     border: 1px solid #fa8119;
@@ -319,9 +319,22 @@ input[type="color"] {
   display: inline-block;
   width: 100%; }
   .label-widget > input[type="text"] {
-    width: calc(100% - 40px); }
+    width: calc(100% - 32px);
+    border-right: none;
+    border-radius: 2px 0 0 2px; }
+    .label-widget > input[type="text"]:focus {
+      border-right: 1px solid #fa8119; }
   .label-widget > .controls {
     float: right; }
+    .label-widget > .controls button {
+      width: 32px;
+      padding: 0;
+      text-align: center;
+      border-radius: 0 2px 2px 0 !important;
+      box-shadow: none; }
+      .label-widget > .controls button:focus {
+        box-shadow: 0 0 5px #ff9f3b;
+        border: 1px solid #fa8119; }
   .label-widget > .dropdown {
     display: none;
     position: absolute;
@@ -353,7 +366,7 @@ h2 {
 
 a {
   text-decoration: none;
-  color: black; }
+  color: #00519a; }
   a:hover {
     color: #4487d7;
     text-decoration: underline; }
@@ -480,15 +493,20 @@ body {
   z-index: 100000; }
 
 .navigation-view {
-  margin: 0px 10px;
+  margin: 0px 24px;
   height: 40px;
   line-height: 40px; }
   .navigation-view a.title {
+    color: black;
     margin-right: 15px;
     font-size: 18px; }
+  .navigation-view .pull-right {
+    float: right;
+    height: 40px;
+    line-height: 40px; }
 
 section {
-  margin: 10px 10px; }
+  margin: 10px 24px; }
 
 .table-container {
   overflow: scroll;

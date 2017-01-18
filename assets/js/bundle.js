@@ -49,16 +49,11 @@
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
 	var store_1 = __webpack_require__(37);
+	var Actions = __webpack_require__(8);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// We can add some test code here
-	// import * as Actions from "./store/actions";
-	// let sample = globalStore.samples[4];
-	// d3.text(sample.csv, "text/plain", (err, data) => {
-	//     if(!err) {
-	//         new Actions.LoadData(sample.csv, data, "csv").dispatch();
-	//     }
-	// }); 
+	new Actions.StartIntroduction().dispatch();
 
 
 /***/ },
@@ -127,7 +122,7 @@
 	            React.createElement("div", { className: "main-wrapper" },
 	                React.createElement(loadDataView_1.LoadDataView, { store: this.props.store }),
 	                this.state.dataset != null ? React.createElement(reviewDataView_1.ReviewDataView, { dataset: this.state.dataset }) : null,
-	                this.state.chart != null ? React.createElement(createChartView_1.CreateChartView, { chart: this.state.chart }) : null,
+	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.CreateChartView, { chart: this.state.chart }) : null,
 	                this.state.chart != null && this.state.chart.type != null ? React.createElement(chartView_1.ChartView, { chart: this.state.chart, store: this.props.store }) : null)));
 	    };
 	    return MainView;
@@ -188,7 +183,9 @@
 	                    }
 	                } }),
 	            React.createElement("form", { className: "invisible", ref: "inputFileForm" },
-	                React.createElement("input", { ref: "inputFile", id: "loadFile", type: "file" }))));
+	                React.createElement("input", { ref: "inputFile", id: "loadFile", type: "file" })),
+	            React.createElement("span", { className: "pull-right" },
+	                React.createElement(controls_1.Button, { type: "text", text: "Help...", onClick: function () { return new Actions.StartIntroduction().dispatch(); } }))));
 	    };
 	    return NavigationView;
 	}(React.Component));
@@ -285,6 +282,22 @@
 	}());
 	exports.Action = Action;
 	;
+	var Reset = (function (_super) {
+	    __extends(Reset, _super);
+	    function Reset() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    return Reset;
+	}(Action));
+	exports.Reset = Reset;
+	var StartIntroduction = (function (_super) {
+	    __extends(StartIntroduction, _super);
+	    function StartIntroduction() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    return StartIntroduction;
+	}(Action));
+	exports.StartIntroduction = StartIntroduction;
 	var LoadData = (function (_super) {
 	    __extends(LoadData, _super);
 	    function LoadData(fileName, raw, fileType) {
@@ -986,7 +999,7 @@
 	        var _this = this;
 	        return (React.createElement("section", { className: "section-load-data" },
 	            React.createElement("h2", null, "Choose Data File (CSV)"),
-	            React.createElement("p", null,
+	            React.createElement("p", { "data-intro": "Open your CSV file or load one of our sample datasets." },
 	                React.createElement(controls_1.Button, { text: "Choose File", onClick: function () {
 	                        _this.refs.inputFileForm.reset();
 	                        _this.refs.inputFile.onchange = function () {
@@ -1054,7 +1067,6 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
-	var controls_1 = __webpack_require__(5);
 	var model_1 = __webpack_require__(16);
 	var RowWidget = (function (_super) {
 	    __extends(RowWidget, _super);
@@ -1114,12 +1126,12 @@
 	    };
 	    LabelWidget.prototype.startDropdown = function () {
 	        this.refs.dropdownContainer.style.display = "block";
-	        // d3.select(this.refs.dropdownButton).classed("active", true);
+	        d3.select(this.refs.dropdownButton).classed("active", true);
 	        window.addEventListener("mousedown", this.onMouseDown);
 	    };
 	    LabelWidget.prototype.completeDropdown = function () {
 	        this.refs.dropdownContainer.style.display = "none";
-	        // d3.select(this.refs.dropdownButton).classed("active", false);
+	        d3.select(this.refs.dropdownButton).classed("active", false);
 	        window.removeEventListener("mousedown", this.onMouseDown);
 	    };
 	    LabelWidget.prototype.renderWidget = function () {
@@ -1135,7 +1147,7 @@
 	                    }
 	                } }),
 	            React.createElement("span", { className: "controls" },
-	                React.createElement(controls_1.Button, { ref: "dropdownButton", type: "small", text: "...", onClick: function (e) { return _this.startDropdown(); } })),
+	                React.createElement("button", { ref: "dropdownButton", className: "button-small", onClick: function (e) { return _this.startDropdown(); } }, "...")),
 	            React.createElement("div", { className: "dropdown", ref: "dropdownContainer" },
 	                React.createElement("div", { className: "widget-row widget-row-p" },
 	                    React.createElement("div", { className: "col-12" },
@@ -1824,7 +1836,7 @@
 	            React.createElement("h2", null,
 	                "Review Data: ",
 	                this.props.dataset.fileName),
-	            React.createElement("div", { className: "table-container" },
+	            React.createElement("div", { className: "table-container", "data-intro": "You can review your dataset before creating a chart." },
 	                React.createElement("table", null,
 	                    React.createElement("thead", null,
 	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
@@ -1865,7 +1877,7 @@
 	            { type: "line-chart", "caption": "Line Chart", thumbnail: "assets/images/line-chart.png" },
 	            { type: "scatterplot", "caption": "Scatterplot", thumbnail: "assets/images/scatterplot.png" }
 	        ];
-	        return (React.createElement("p", null, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
+	        return (React.createElement("p", { "data-intro": "Choose a chart that best suits your dataset. Non-suitable chart types are disabled." }, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
 	                if (_this.props.onChange != null && _this.props.isEnabled(item.type)) {
 	                    _this.props.onChange(item.type);
 	                }
@@ -1934,7 +1946,7 @@
 	            React.createElement("h2", null, "Create Chart"),
 	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); }, isEnabled: function (type) { return model_1.Defaults.isChartValid(dataset, type); } }),
 	            chart.type != null ?
-	                React.createElement("div", { className: "chart-options" },
+	                React.createElement("div", { className: "chart-options", "data-intro": "Specify chart options such as X/Y axes, data series, chart title, and color scheme." },
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
 	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 5, text: "Title", title: "enter chart title", label: chart.title, onChange: function (newTitle) { return new Actions.UpdateChartTitle(chart, newTitle).dispatch(); } }),
 	                        React.createElement(InputWidgets.WidthHeightWidget, { columnCount: 3, text: "Title", title: "enter chart title", width: chart.width, height: chart.height, onChange: function (newWidth, newHeight) { return new Actions.UpdateChartWidthHeight(chart, newWidth, newHeight).dispatch(); } }),
@@ -2099,7 +2111,7 @@
 	        return (React.createElement("section", null,
 	            React.createElement(controls_1.HorizontalRule, null),
 	            React.createElement("h2", null, "Annotate"),
-	            React.createElement("div", { className: "chart-view" },
+	            React.createElement("div", { className: "chart-view", "data-intro": "Annotate your chart here. <a href='index.html#section-tutorial'>Click to see more details.</a>" },
 	                React.createElement("div", { ref: "panelContainer", className: "panel" }),
 	                React.createElement("div", { ref: "toolbarContainer", className: "toolbar" }),
 	                React.createElement("div", { className: "chart" },
@@ -2109,7 +2121,7 @@
 	                            React.createElement("img", { src: "assets/images/corner.svg" }))))),
 	            React.createElement(controls_1.HorizontalRule, null),
 	            React.createElement("h2", null, "Export"),
-	            React.createElement("p", null,
+	            React.createElement("p", { "data-intro": "Export the annotated chart to desired format." },
 	                React.createElement(controls_1.Button, { text: "PNG", icon: "export", onClick: function () { return _this.exportAs("png", function () { }); } }),
 	                " ",
 	                React.createElement(controls_1.Button, { text: "SVG", icon: "export", onClick: function () { return _this.exportAs("svg", function () { }); } }),
@@ -30982,6 +30994,7 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
+	var d3 = __webpack_require__(14);
 	var model_1 = __webpack_require__(16);
 	var Actions = __webpack_require__(8);
 	var samples_1 = __webpack_require__(38);
@@ -31036,6 +31049,7 @@
 	        this._chartAccent = value;
 	    };
 	    MainStore.prototype.handleAction = function (action) {
+	        var _this = this;
 	        if (action instanceof Actions.LoadData) {
 	            var dataset = utils_1.parseDataset(action.fileName, action.raw, action.fileType);
 	            this._dataset = dataset;
@@ -31076,6 +31090,33 @@
 	            this.emitChartChanged();
 	            this._chartAccent.loadAnnotations(action.state.annotations, true);
 	            this.logger.log("appstate/load", "");
+	        }
+	        if (action instanceof Actions.Reset) {
+	            this._dataset = null;
+	            this._chart = model_1.Defaults.chart(this._dataset);
+	            ;
+	            this._chartAccent = null;
+	            this.emitDatasetChanged();
+	            this.emitChartChanged();
+	            this.logger.log("appstate/reset", "");
+	        }
+	        if (action instanceof Actions.StartIntroduction) {
+	            var sample_1 = this.samples[4];
+	            d3.text(sample_1.csv, "text/plain", function (err, data) {
+	                if (!err) {
+	                    _this.handleAction(new Actions.LoadData(sample_1.csv, data, "csv"));
+	                    setTimeout(function () {
+	                        var intro = introJs();
+	                        intro.onexit(function () {
+	                            new Actions.Reset().dispatch();
+	                        });
+	                        intro.oncomplete(function () {
+	                            new Actions.Reset().dispatch();
+	                        });
+	                        intro.start();
+	                    }, 100);
+	                }
+	            });
 	        }
 	    };
 	    MainStore.prototype.handleUpdateChartAction = function (action) {
@@ -31723,6 +31764,7 @@
 	        this._sendActionsTimer = null;
 	    }
 	    ActionLogger.prototype.sendAction = function (action, label) {
+	        // Send action to logging service here.
 	    };
 	    ActionLogger.prototype.log = function (action, label) {
 	        if (this._lastAction == action && this._lastLabel == label) {
