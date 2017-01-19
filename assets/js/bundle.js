@@ -189,6 +189,7 @@
 	            React.createElement("form", { className: "invisible", ref: "inputFileForm" },
 	                React.createElement("input", { ref: "inputFile", id: "loadFile", type: "file" })),
 	            React.createElement("span", { className: "pull-right" },
+	                React.createElement(controls_1.Button, { type: "text", text: "Feedback...", onClick: function () { return window.open("https://docs.google.com/forms/d/e/1FAIpQLSf6K0k7frhtSerxEIs4NK2ELzgPoOXMNoRFfJJebeZxn__Zxg/viewform", "_blank"); } }),
 	                React.createElement(controls_1.Button, { type: "text", text: "Help...", onClick: function () { return new Actions.StartIntroduction().dispatch(); } }))));
 	    };
 	    return NavigationView;
