@@ -53,7 +53,11 @@
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// We can add some test code here
-	new Actions.StartIntroduction().dispatch();
+	// Show the introduction at first use.
+	if ("done" != localStorage.getItem("introduction")) {
+	    new Actions.StartIntroduction().dispatch();
+	    localStorage.setItem("introduction", "done");
+	}
 
 
 /***/ },
