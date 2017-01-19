@@ -206,6 +206,10 @@
 	exports.Button = button_1.Button;
 	var rule_1 = __webpack_require__(7);
 	exports.HorizontalRule = rule_1.HorizontalRule;
+	var widgets_1 = __webpack_require__(46);
+	exports.RowWidget = widgets_1.RowWidget;
+	exports.DropdownListWidget = widgets_1.DropdownListWidget;
+	exports.isTargetInElement = widgets_1.isTargetInElement;
 
 
 /***/ },
@@ -447,6 +451,28 @@
 	    return UpdateChartYLabel;
 	}(UpdateChart));
 	exports.UpdateChartYLabel = UpdateChartYLabel;
+	var UpdateChartXScale = (function (_super) {
+	    __extends(UpdateChartXScale, _super);
+	    function UpdateChartXScale(chart, newXScale) {
+	        var _this = _super.call(this, chart) || this;
+	        _this.chart = chart;
+	        _this.newXScale = newXScale;
+	        return _this;
+	    }
+	    return UpdateChartXScale;
+	}(UpdateChart));
+	exports.UpdateChartXScale = UpdateChartXScale;
+	var UpdateChartYScale = (function (_super) {
+	    __extends(UpdateChartYScale, _super);
+	    function UpdateChartYScale(chart, newYScale) {
+	        var _this = _super.call(this, chart) || this;
+	        _this.chart = chart;
+	        _this.newYScale = newYScale;
+	        return _this;
+	    }
+	    return UpdateChartYScale;
+	}(UpdateChart));
+	exports.UpdateChartYScale = UpdateChartYScale;
 	var UpdateChartColors = (function (_super) {
 	    __extends(UpdateChartColors, _super);
 	    function UpdateChartColors(chart, newColors) {
@@ -1072,40 +1098,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(14);
+	var controls_1 = __webpack_require__(5);
 	var model_1 = __webpack_require__(16);
-	var RowWidget = (function (_super) {
-	    __extends(RowWidget, _super);
-	    function RowWidget() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    RowWidget.prototype.renderWidget = function () {
-	        return null;
-	    };
-	    RowWidget.prototype.render = function () {
-	        if (this.props.contentOnly) {
-	            return this.renderWidget();
-	        }
-	        else {
-	            return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
-	                React.createElement("label", { title: this.props.title }, this.props.text),
-	                React.createElement("div", { className: "widget-content" }, this.renderWidget())));
-	        }
-	    };
-	    return RowWidget;
-	}(React.Component));
-	exports.RowWidget = RowWidget;
-	function isTargetInElement(target, element) {
-	    var result = false;
-	    var item = target;
-	    while (item && item != document.body && item != document) {
-	        if (item == element) {
-	            result = true;
-	            break;
-	        }
-	        item = item.parentNode;
-	    }
-	    return result;
-	}
 	var LabelWidget = (function (_super) {
 	    __extends(LabelWidget, _super);
 	    function LabelWidget(props) {
@@ -1125,7 +1119,7 @@
 	        this.props.onChange(this.state.currentLabel);
 	    };
 	    LabelWidget.prototype.onMouseDown = function (e) {
-	        if (!isTargetInElement(e.target, this.refs.dropdownContainer)) {
+	        if (!controls_1.isTargetInElement(e.target, this.refs.dropdownContainer)) {
 	            this.completeDropdown();
 	        }
 	    };
@@ -1183,7 +1177,7 @@
 	                                } })))))));
 	    };
 	    return LabelWidget;
-	}(RowWidget));
+	}(controls_1.RowWidget));
 	exports.LabelWidget = LabelWidget;
 	var WidthHeightWidget = (function (_super) {
 	    __extends(WidthHeightWidget, _super);
@@ -1246,45 +1240,73 @@
 	                            } }))))));
 	    };
 	    return WidthHeightWidget;
-	}(RowWidget));
+	}(controls_1.RowWidget));
 	exports.WidthHeightWidget = WidthHeightWidget;
-	var DropdownListWidget = (function (_super) {
-	    __extends(DropdownListWidget, _super);
-	    function DropdownListWidget(props) {
+	var ScaleWidget = (function (_super) {
+	    __extends(ScaleWidget, _super);
+	    function ScaleWidget(props) {
 	        var _this = _super.call(this, props) || this;
-	        _this.onMouseDown = _this.onMouseDown.bind(_this);
+	        _this.state = {
+	            min: props.scale.min != null ? props.scale.min.toString() : "",
+	            max: props.scale.max != null ? props.scale.max.toString() : "",
+	        };
 	        return _this;
 	    }
-	    DropdownListWidget.prototype.renderListItems = function () {
-	        return [];
+	    ScaleWidget.prototype.componentWillReceiveProps = function (nextProps) {
+	        this.setState({
+	            min: nextProps.scale.min != null ? nextProps.scale.min.toString() : "",
+	            max: nextProps.scale.max != null ? nextProps.scale.max.toString() : ""
+	        });
 	    };
-	    DropdownListWidget.prototype.renderButton = function () {
-	        return React.createElement("span", null, "button");
+	    ScaleWidget.prototype.parseValue = function (s) {
+	        var v = parseFloat(s);
+	        if (isNaN(v))
+	            return null;
+	        return v;
 	    };
-	    DropdownListWidget.prototype.renderWidget = function () {
+	    ScaleWidget.prototype.sendEvent = function () {
+	        this.props.onChange({
+	            min: this.parseValue(this.state.min),
+	            max: this.parseValue(this.state.max),
+	            type: this.props.scale.type
+	        });
+	    };
+	    ScaleWidget.prototype.render = function () {
 	        var _this = this;
-	        return (React.createElement("div", { className: "dropdown-widget" },
-	            React.createElement("button", { className: "button-dropdown", onClick: function () { return _this.startDropdown(); }, ref: "dropdownButton" }, this.renderButton()),
-	            React.createElement("div", { className: "dropdown-list", ref: "dropdownList" }, this.renderListItems())));
+	        return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
+	            React.createElement("div", { className: "widget-row" },
+	                React.createElement("div", { className: "col-6" },
+	                    React.createElement("label", { title: this.props.title },
+	                        this.props.text,
+	                        " Min"),
+	                    React.createElement("div", { className: "widget-content" },
+	                        React.createElement("input", { type: "text", ref: "inputMin", placeholder: "auto", value: this.state.min, onChange: function () {
+	                                _this.setState({ min: _this.refs.inputMin.value });
+	                            }, onBlur: function (e) {
+	                                _this.sendEvent();
+	                            }, onKeyDown: function (e) {
+	                                if (e.keyCode == 13) {
+	                                    _this.sendEvent();
+	                                }
+	                            } }))),
+	                React.createElement("div", { className: "col-6" },
+	                    React.createElement("label", { title: this.props.title },
+	                        this.props.text,
+	                        " Max"),
+	                    React.createElement("div", { className: "widget-content" },
+	                        React.createElement("input", { type: "text", ref: "inputMax", placeholder: "auto", value: this.state.max, onChange: function () {
+	                                _this.setState({ max: _this.refs.inputMax.value });
+	                            }, onBlur: function (e) {
+	                                _this.sendEvent();
+	                            }, onKeyDown: function (e) {
+	                                if (e.keyCode == 13) {
+	                                    _this.sendEvent();
+	                                }
+	                            } }))))));
 	    };
-	    DropdownListWidget.prototype.onMouseDown = function (e) {
-	        if (!isTargetInElement(e.target, this.refs.dropdownList)) {
-	            this.completeDropdown();
-	        }
-	    };
-	    DropdownListWidget.prototype.startDropdown = function () {
-	        this.refs.dropdownList.style.display = "block";
-	        d3.select(this.refs.dropdownButton).classed("active", true);
-	        window.addEventListener("mousedown", this.onMouseDown);
-	    };
-	    DropdownListWidget.prototype.completeDropdown = function () {
-	        this.refs.dropdownList.style.display = "none";
-	        d3.select(this.refs.dropdownButton).classed("active", false);
-	        window.removeEventListener("mousedown", this.onMouseDown);
-	    };
-	    return DropdownListWidget;
-	}(RowWidget));
-	exports.DropdownListWidget = DropdownListWidget;
+	    return ScaleWidget;
+	}(controls_1.RowWidget));
+	exports.ScaleWidget = ScaleWidget;
 	var ColumnWidget = (function (_super) {
 	    __extends(ColumnWidget, _super);
 	    function ColumnWidget() {
@@ -1311,7 +1333,7 @@
 	        }
 	    };
 	    return ColumnWidget;
-	}(DropdownListWidget));
+	}(controls_1.DropdownListWidget));
 	exports.ColumnWidget = ColumnWidget;
 	var ColumnsWidget = (function (_super) {
 	    __extends(ColumnsWidget, _super);
@@ -1343,7 +1365,7 @@
 	            } }, d)); }));
 	    };
 	    return ColumnsWidget;
-	}(DropdownListWidget));
+	}(controls_1.DropdownListWidget));
 	exports.ColumnsWidget = ColumnsWidget;
 	var ColorsWidget = (function (_super) {
 	    __extends(ColorsWidget, _super);
@@ -1386,7 +1408,7 @@
 	            d.name)); });
 	    };
 	    return ColorsWidget;
-	}(DropdownListWidget));
+	}(controls_1.DropdownListWidget));
 	exports.ColorsWidget = ColorsWidget;
 
 
@@ -1476,7 +1498,7 @@
 	            dataset: dataset,
 	            type: "bar-chart",
 	            title: Defaults.label(dataset.fileName, 20),
-	            width: 800,
+	            width: 700,
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumns: yColumns,
@@ -1500,7 +1522,7 @@
 	            dataset: dataset,
 	            type: "line-chart",
 	            title: Defaults.label(dataset.fileName, 20),
-	            width: 800,
+	            width: 700,
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumns: yColumns,
@@ -1538,7 +1560,7 @@
 	            dataset: dataset,
 	            type: "scatterplot",
 	            title: Defaults.label(dataset.fileName, 20),
-	            width: 800,
+	            width: 700,
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumn: yColumn,
@@ -1559,7 +1581,7 @@
 	            dataset: null,
 	            type: null,
 	            title: Defaults.label("", 20),
-	            width: 800,
+	            width: 700,
 	            height: 400,
 	            colors: this.defaultColors
 	        };
@@ -1923,8 +1945,10 @@
 	        return (React.createElement("div", null,
 	            React.createElement("div", { className: "widget-row widget-row-p" },
 	                React.createElement(InputWidgets.ColumnsWidget, { columnCount: 4, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "X Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 4, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))));
+	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 4, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } }),
+	                React.createElement(InputWidgets.LabelWidget, { columnCount: 4, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } })),
+	            React.createElement("div", { className: "widget-row widget-row-p" },
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "X Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }))));
 	    };
 	    CreateChartView.prototype.renderForScatterplot = function () {
 	        var chart = this.props.chart;
@@ -1941,7 +1965,10 @@
 	            React.createElement("div", { className: "widget-row widget-row-p" },
 	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "X Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } }),
 	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } }))));
+	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })),
+	            React.createElement("div", { className: "widget-row widget-row-p" },
+	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 3, text: "X", title: "x range", scale: chart.xScale, onChange: function (newScale) { return new Actions.UpdateChartXScale(chart, newScale).dispatch(); } }),
+	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 3, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } }))));
 	    };
 	    CreateChartView.prototype.render = function () {
 	        var chart = this.props.chart;
@@ -2216,13 +2243,15 @@
 	    };
 	    BarChartView.prototype.d3GetYAxis = function () {
 	        var chart = this.props.chart;
-	        var yScale = d3.scale.linear()
-	            .domain([
-	            d3.min(chart.yColumns, function (d) { return d3.min(chart.dataset.rows, function (r) { return +r[d]; }); }),
-	            d3.max(chart.yColumns, function (d) { return d3.max(chart.dataset.rows, function (r) { return +r[d]; }); })
-	        ])
-	            .range([chart.height - this._margin.bottom, this._margin.top])
-	            .nice();
+	        var yScale = d3.scale.linear();
+	        yScale.range([chart.height - this._margin.bottom, this._margin.top]);
+	        yScale.domain([
+	            chart.yScale.min != null ? chart.yScale.min : d3.min(chart.yColumns, function (d) { return d3.min(chart.dataset.rows, function (r) { return +r[d]; }); }),
+	            chart.yScale.max != null ? chart.yScale.max : d3.max(chart.yColumns, function (d) { return d3.max(chart.dataset.rows, function (r) { return +r[d]; }); })
+	        ]);
+	        if (chart.yScale.min == null && chart.yScale.max == null) {
+	            yScale.nice();
+	        }
 	        var yAxis = d3.svg.axis().scale(yScale).orient("left");
 	        return { yScale: yScale, yAxis: yAxis };
 	    };
@@ -2575,13 +2604,15 @@
 	    };
 	    LineChartView.prototype.d3GetYAxis = function () {
 	        var chart = this.props.chart;
-	        var yScale = d3.scale.linear()
-	            .domain([
-	            d3.min(chart.yColumns, function (d) { return d3.min(chart.dataset.rows, function (r) { return +r[d]; }); }),
-	            d3.max(chart.yColumns, function (d) { return d3.max(chart.dataset.rows, function (r) { return +r[d]; }); })
-	        ])
-	            .range([chart.height - this._margin.bottom, this._margin.top])
-	            .nice();
+	        var yScale = d3.scale.linear();
+	        yScale.range([chart.height - this._margin.bottom, this._margin.top]);
+	        yScale.domain([
+	            chart.yScale.min != null ? chart.yScale.min : d3.min(chart.yColumns, function (d) { return d3.min(chart.dataset.rows, function (r) { return +r[d]; }); }),
+	            chart.yScale.max != null ? chart.yScale.max : d3.max(chart.yColumns, function (d) { return d3.max(chart.dataset.rows, function (r) { return +r[d]; }); })
+	        ]);
+	        if (chart.yScale.min == null && chart.yScale.max == null) {
+	            yScale.nice();
+	        }
 	        var yAxis = d3.svg.axis().scale(yScale).orient("left");
 	        return { yScale: yScale, yAxis: yAxis };
 	    };
@@ -2747,24 +2778,27 @@
 	    };
 	    ScatterplotView.prototype.d3GetXAxis = function () {
 	        var chart = this.props.chart;
-	        var xScale = d3.scale.linear()
-	            .domain([
-	            d3.min(chart.dataset.rows, function (r) { return +r[chart.xColumn]; }),
-	            d3.max(chart.dataset.rows, function (r) { return +r[chart.xColumn]; })
-	        ])
-	            .range([this._margin.left, chart.width - this._margin.right]);
+	        var xScale = d3.scale.linear();
+	        xScale.range([this._margin.left, chart.width - this._margin.right]);
+	        xScale.domain([
+	            chart.xScale.min != null ? chart.xScale.min : d3.min(chart.dataset.rows, function (r) { return +r[chart.xColumn]; }),
+	            chart.xScale.max != null ? chart.xScale.max : d3.max(chart.dataset.rows, function (r) { return +r[chart.xColumn]; })
+	        ]);
+	        if (chart.xScale.min != null || chart.xScale.max != null)
+	            xScale.nice();
 	        var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 	        return { xScale: xScale, xAxis: xAxis };
 	    };
 	    ScatterplotView.prototype.d3GetYAxis = function () {
 	        var chart = this.props.chart;
-	        var yScale = d3.scale.linear()
-	            .domain([
-	            d3.min(chart.dataset.rows, function (r) { return +r[chart.yColumn]; }),
-	            d3.max(chart.dataset.rows, function (r) { return +r[chart.yColumn]; })
-	        ])
-	            .range([chart.height - this._margin.bottom, this._margin.top])
-	            .nice();
+	        var yScale = d3.scale.linear();
+	        yScale.range([chart.height - this._margin.bottom, this._margin.top]);
+	        yScale.domain([
+	            chart.yScale.min != null ? chart.yScale.min : d3.min(chart.dataset.rows, function (r) { return +r[chart.yColumn]; }),
+	            chart.yScale.max != null ? chart.yScale.max : d3.max(chart.dataset.rows, function (r) { return +r[chart.yColumn]; })
+	        ]);
+	        if (chart.yScale.min != null || chart.yScale.max != null)
+	            yScale.nice();
 	        var yAxis = d3.svg.axis().scale(yScale).orient("left");
 	        return { yScale: yScale, yAxis: yAxis };
 	    };
@@ -31106,22 +31140,28 @@
 	            this.logger.log("appstate/reset", "");
 	        }
 	        if (action instanceof Actions.StartIntroduction) {
-	            var sample_1 = this.samples[4];
-	            d3.text(sample_1.csv, "text/plain", function (err, data) {
-	                if (!err) {
-	                    _this.handleAction(new Actions.LoadData(sample_1.csv, data, "csv"));
-	                    setTimeout(function () {
-	                        var intro = introJs();
-	                        intro.onexit(function () {
-	                            new Actions.Reset().dispatch();
-	                        });
-	                        intro.oncomplete(function () {
-	                            new Actions.Reset().dispatch();
-	                        });
-	                        intro.start();
-	                    }, 100);
-	                }
-	            });
+	            if (this._dataset && this._chart && this._chart.type != null) {
+	                var intro = introJs();
+	                intro.start();
+	            }
+	            else {
+	                var sample_1 = this.samples[4];
+	                d3.text(sample_1.csv, "text/plain", function (err, data) {
+	                    if (!err) {
+	                        _this.handleAction(new Actions.LoadData(sample_1.csv, data, "csv"));
+	                        setTimeout(function () {
+	                            var intro = introJs();
+	                            intro.onexit(function () {
+	                                new Actions.Reset().dispatch();
+	                            });
+	                            intro.oncomplete(function () {
+	                                new Actions.Reset().dispatch();
+	                            });
+	                            intro.start();
+	                        }, 100);
+	                    }
+	                });
+	            }
 	        }
 	    };
 	    MainStore.prototype.handleUpdateChartAction = function (action) {
@@ -31179,6 +31219,16 @@
 	            this._chart.yLabel = model_1.Defaults.label(action.newYColumn);
 	            this.emitChartChanged();
 	            this.logger.log("chart/ycolumn", "");
+	        }
+	        if (action instanceof Actions.UpdateChartXScale) {
+	            this._chart.xScale = action.newXScale;
+	            this.emitChartChanged();
+	            this.logger.log("chart/xscale", "");
+	        }
+	        if (action instanceof Actions.UpdateChartYScale) {
+	            this._chart.yScale = action.newYScale;
+	            this.emitChartChanged();
+	            this.logger.log("chart/yscale", "");
 	        }
 	        if (action instanceof Actions.UpdateChartGroupColumn) {
 	            this._chart.groupColumn = action.newGroupColumn;
@@ -31786,6 +31836,91 @@
 	    return ActionLogger;
 	}());
 	exports.ActionLogger = ActionLogger;
+
+
+/***/ },
+/* 46 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var d3 = __webpack_require__(14);
+	function isTargetInElement(target, element) {
+	    var result = false;
+	    var item = target;
+	    while (item && item != document.body && item != document) {
+	        if (item == element) {
+	            result = true;
+	            break;
+	        }
+	        item = item.parentNode;
+	    }
+	    return result;
+	}
+	exports.isTargetInElement = isTargetInElement;
+	var RowWidget = (function (_super) {
+	    __extends(RowWidget, _super);
+	    function RowWidget() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    RowWidget.prototype.renderWidget = function () {
+	        return null;
+	    };
+	    RowWidget.prototype.render = function () {
+	        if (this.props.contentOnly) {
+	            return this.renderWidget();
+	        }
+	        else {
+	            return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
+	                React.createElement("label", { title: this.props.title }, this.props.text),
+	                React.createElement("div", { className: "widget-content" }, this.renderWidget())));
+	        }
+	    };
+	    return RowWidget;
+	}(React.Component));
+	exports.RowWidget = RowWidget;
+	var DropdownListWidget = (function (_super) {
+	    __extends(DropdownListWidget, _super);
+	    function DropdownListWidget(props) {
+	        var _this = _super.call(this, props) || this;
+	        _this.onMouseDown = _this.onMouseDown.bind(_this);
+	        return _this;
+	    }
+	    DropdownListWidget.prototype.renderListItems = function () {
+	        return [];
+	    };
+	    DropdownListWidget.prototype.renderButton = function () {
+	        return React.createElement("span", null, "button");
+	    };
+	    DropdownListWidget.prototype.renderWidget = function () {
+	        var _this = this;
+	        return (React.createElement("div", { className: "dropdown-widget" },
+	            React.createElement("button", { className: "button-dropdown", onClick: function () { return _this.startDropdown(); }, ref: "dropdownButton" }, this.renderButton()),
+	            React.createElement("div", { className: "dropdown-list", ref: "dropdownList" }, this.renderListItems())));
+	    };
+	    DropdownListWidget.prototype.onMouseDown = function (e) {
+	        if (!isTargetInElement(e.target, this.refs.dropdownList)) {
+	            this.completeDropdown();
+	        }
+	    };
+	    DropdownListWidget.prototype.startDropdown = function () {
+	        this.refs.dropdownList.style.display = "block";
+	        d3.select(this.refs.dropdownButton).classed("active", true);
+	        window.addEventListener("mousedown", this.onMouseDown);
+	    };
+	    DropdownListWidget.prototype.completeDropdown = function () {
+	        this.refs.dropdownList.style.display = "none";
+	        d3.select(this.refs.dropdownButton).classed("active", false);
+	        window.removeEventListener("mousedown", this.onMouseDown);
+	    };
+	    return DropdownListWidget;
+	}(RowWidget));
+	exports.DropdownListWidget = DropdownListWidget;
 
 
 /***/ }
