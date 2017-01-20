@@ -241,12 +241,12 @@
     <script type="text/javascript" src="scripts/jquery.min.js"></script>
     <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
-          // Auto resize sections.
-          d3.select(window).on("resize.mainframe", function() {
-            var win_height = window.innerHeight; // minus the navbar height.
-            d3.selectAll(".page-section").style("min-height", win_height + "px");
-          });
-          d3.select(window).on("resize.mainframe")();
+        //   // Auto resize sections.
+        //   d3.select(window).on("resize.mainframe", function() {
+        //     var win_height = window.innerHeight; // minus the navbar height.
+        //     d3.selectAll(".page-section").style("min-height", win_height + "px");
+        //   });
+        //   d3.select(window).on("resize.mainframe")();
           $('body').scrollspy({ target: ".navbar", offset: 50 });
           $(".navbar ul li a[href^='#']").on('click', function(e) {
             // prevent default anchor click behavior

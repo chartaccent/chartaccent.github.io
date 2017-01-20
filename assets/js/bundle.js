@@ -48,8 +48,8 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
-	var store_1 = __webpack_require__(37);
-	var Actions = __webpack_require__(8);
+	var store_1 = __webpack_require__(38);
+	var Actions = __webpack_require__(10);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
 	// We can add some test code here
@@ -84,10 +84,9 @@
 	};
 	var React = __webpack_require__(1);
 	var navigationView_1 = __webpack_require__(4);
-	var loadDataView_1 = __webpack_require__(13);
-	var reviewDataView_1 = __webpack_require__(20);
-	var createChartView_1 = __webpack_require__(21);
-	var chartView_1 = __webpack_require__(22);
+	var loadDataView_1 = __webpack_require__(15);
+	var createChartView_1 = __webpack_require__(22);
+	var controls_1 = __webpack_require__(5);
 	var MainView = (function (_super) {
 	    __extends(MainView, _super);
 	    function MainView(props) {
@@ -120,14 +119,22 @@
 	        });
 	    };
 	    MainView.prototype.render = function () {
+	        var _this = this;
 	        return (React.createElement("div", { className: "wrapper" },
 	            React.createElement("div", { className: "menu-wrapper" },
 	                React.createElement(navigationView_1.NavigationView, { store: this.props.store })),
 	            React.createElement("div", { className: "main-wrapper" },
-	                React.createElement(loadDataView_1.LoadDataView, { store: this.props.store }),
-	                this.state.dataset != null ? React.createElement(reviewDataView_1.ReviewDataView, { dataset: this.state.dataset }) : null,
-	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.CreateChartView, { chart: this.state.chart }) : null,
-	                this.state.chart != null && this.state.chart.type != null ? React.createElement(chartView_1.ChartView, { chart: this.state.chart, store: this.props.store }) : null)));
+	                React.createElement(loadDataView_1.LoadDataView, { store: this.props.store, dataset: this.state.dataset }),
+	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.ChartTypeView, { chart: this.state.chart }) : null,
+	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.CreateChartView, { chart: this.state.chart, store: this.props.store }) : null,
+	                this.state.dataset != null && this.state.chart != null && this.state.chart.type != null ? React.createElement("section", { className: "section-export" },
+	                    React.createElement("h2", null, "Export"),
+	                    React.createElement("p", { "data-intro": "Export the annotated chart to desired format." },
+	                        React.createElement(controls_1.Button, { text: "PNG", icon: "export", onClick: function () { return _this.props.store.exportAs("png", function () { }); } }),
+	                        " ",
+	                        React.createElement(controls_1.Button, { text: "SVG", icon: "export", onClick: function () { return _this.props.store.exportAs("svg", function () { }); } }),
+	                        " ",
+	                        React.createElement(controls_1.Button, { text: "Animated GIF", icon: "export", onClick: function () { return _this.props.store.exportAs("gif", function () { }); } }))) : null)));
 	    };
 	    return MainView;
 	}(React.Component));
@@ -146,7 +153,7 @@
 	};
 	var React = __webpack_require__(1);
 	var controls_1 = __webpack_require__(5);
-	var Actions = __webpack_require__(8);
+	var Actions = __webpack_require__(10);
 	var NavigationView = (function (_super) {
 	    __extends(NavigationView, _super);
 	    function NavigationView() {
@@ -206,7 +213,7 @@
 	exports.Button = button_1.Button;
 	var rule_1 = __webpack_require__(7);
 	exports.HorizontalRule = rule_1.HorizontalRule;
-	var widgets_1 = __webpack_require__(46);
+	var widgets_1 = __webpack_require__(8);
 	exports.RowWidget = widgets_1.RowWidget;
 	exports.DropdownListWidget = widgets_1.DropdownListWidget;
 	exports.isTargetInElement = widgets_1.isTargetInElement;
@@ -279,7 +286,98 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var flux_1 = __webpack_require__(9);
+	var React = __webpack_require__(1);
+	var d3 = __webpack_require__(9);
+	function isTargetInElement(target, element) {
+	    var result = false;
+	    var item = target;
+	    while (item && item != document.body && item != document) {
+	        if (item == element) {
+	            result = true;
+	            break;
+	        }
+	        item = item.parentNode;
+	    }
+	    return result;
+	}
+	exports.isTargetInElement = isTargetInElement;
+	var RowWidget = (function (_super) {
+	    __extends(RowWidget, _super);
+	    function RowWidget() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    RowWidget.prototype.renderWidget = function () {
+	        return null;
+	    };
+	    RowWidget.prototype.render = function () {
+	        if (this.props.contentOnly) {
+	            return this.renderWidget();
+	        }
+	        else {
+	            return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
+	                React.createElement("label", { title: this.props.title }, this.props.text),
+	                React.createElement("div", { className: "widget-content" }, this.renderWidget())));
+	        }
+	    };
+	    return RowWidget;
+	}(React.Component));
+	exports.RowWidget = RowWidget;
+	var DropdownListWidget = (function (_super) {
+	    __extends(DropdownListWidget, _super);
+	    function DropdownListWidget(props) {
+	        var _this = _super.call(this, props) || this;
+	        _this.onMouseDown = _this.onMouseDown.bind(_this);
+	        return _this;
+	    }
+	    DropdownListWidget.prototype.renderListItems = function () {
+	        return [];
+	    };
+	    DropdownListWidget.prototype.renderButton = function () {
+	        return React.createElement("span", null, "button");
+	    };
+	    DropdownListWidget.prototype.renderWidget = function () {
+	        var _this = this;
+	        return (React.createElement("div", { className: "dropdown-widget" },
+	            React.createElement("button", { className: "button-dropdown", onClick: function () { return _this.startDropdown(); }, ref: "dropdownButton" }, this.renderButton()),
+	            React.createElement("div", { className: "dropdown-list", ref: "dropdownList" }, this.renderListItems())));
+	    };
+	    DropdownListWidget.prototype.onMouseDown = function (e) {
+	        if (!isTargetInElement(e.target, this.refs.dropdownList)) {
+	            this.completeDropdown();
+	        }
+	    };
+	    DropdownListWidget.prototype.startDropdown = function () {
+	        this.refs.dropdownList.style.display = "block";
+	        d3.select(this.refs.dropdownButton).classed("active", true);
+	        window.addEventListener("mousedown", this.onMouseDown);
+	    };
+	    DropdownListWidget.prototype.completeDropdown = function () {
+	        this.refs.dropdownList.style.display = "none";
+	        d3.select(this.refs.dropdownButton).classed("active", false);
+	        window.removeEventListener("mousedown", this.onMouseDown);
+	    };
+	    return DropdownListWidget;
+	}(RowWidget));
+	exports.DropdownListWidget = DropdownListWidget;
+
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	module.exports = d3;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var flux_1 = __webpack_require__(11);
 	exports.globalDispatcher = new flux_1.Dispatcher();
 	var Action = (function () {
 	    function Action() {
@@ -507,7 +605,7 @@
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -519,11 +617,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(10);
+	module.exports.Dispatcher = __webpack_require__(12);
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -545,7 +643,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(12);
+	var invariant = __webpack_require__(14);
 	
 	var _prefix = 'ID_';
 	
@@ -757,10 +855,10 @@
 	})();
 	
 	module.exports = Dispatcher;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 11 */
+/* 13 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -946,7 +1044,7 @@
 
 
 /***/ },
-/* 12 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1004,10 +1102,10 @@
 	}
 	
 	module.exports = invariant;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1017,10 +1115,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
+	var d3 = __webpack_require__(9);
 	var controls_1 = __webpack_require__(5);
-	var inputWidgets_1 = __webpack_require__(15);
-	var Actions = __webpack_require__(8);
+	var inputWidgets_1 = __webpack_require__(16);
+	var Actions = __webpack_require__(10);
 	var LoadDataView = (function (_super) {
 	    __extends(LoadDataView, _super);
 	    function LoadDataView() {
@@ -1065,21 +1163,59 @@
 	                        }, text: "or" })),
 	                React.createElement("form", { ref: "inputFileForm" },
 	                    React.createElement("input", { ref: "inputFile", className: "invisible", type: "file", accept: ".csv" }))),
-	            React.createElement("p", { className: "note" }, "Your file will not be uploaded to our server.")));
+	            React.createElement("p", { className: "note" }, "Your file will not be uploaded to our server."),
+	            this.props.dataset != null ? React.createElement(ReviewDataView, { dataset: this.props.dataset }) : null));
 	    };
 	    return LoadDataView;
 	}(React.Component));
 	exports.LoadDataView = LoadDataView;
+	var ReviewDataView = (function (_super) {
+	    __extends(ReviewDataView, _super);
+	    function ReviewDataView() {
+	        return _super.apply(this, arguments) || this;
+	    }
+	    ReviewDataView.prototype.onDatasetChanged = function () {
+	        this.forceUpdate();
+	    };
+	    ReviewDataView.prototype.formatValue = function (type, format, value) {
+	        if (value == null)
+	            return "N/A";
+	        switch (type) {
+	            case "string": {
+	                return value.toString();
+	            }
+	            case "integer":
+	            case "number": {
+	                var fmt = d3.format(format);
+	                return fmt(value);
+	            }
+	            case "date": {
+	                var fmt = d3.time.format(format);
+	                return fmt(value);
+	            }
+	            default: {
+	                return value.toString();
+	            }
+	        }
+	    };
+	    ReviewDataView.prototype.render = function () {
+	        var _this = this;
+	        var dataset = this.props.dataset;
+	        return (React.createElement("div", { className: "table-container", "data-intro": "You can review your dataset before creating a chart." },
+	            React.createElement("table", null,
+	                React.createElement("thead", null,
+	                    React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
+	                React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
+	                    return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index, className: "rowtype-" + column.type }, _this.formatValue(column.type, column.format, row[column.name])); })));
+	                })))));
+	    };
+	    return ReviewDataView;
+	}(React.Component));
+	exports.ReviewDataView = ReviewDataView;
 
 
 /***/ },
-/* 14 */
-/***/ function(module, exports) {
-
-	module.exports = d3;
-
-/***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1097,9 +1233,9 @@
 	    return t;
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
+	var d3 = __webpack_require__(9);
 	var controls_1 = __webpack_require__(5);
-	var model_1 = __webpack_require__(16);
+	var model_1 = __webpack_require__(17);
 	var LabelWidget = (function (_super) {
 	    __extends(LabelWidget, _super);
 	    function LabelWidget(props) {
@@ -1276,9 +1412,7 @@
 	        return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
 	            React.createElement("div", { className: "widget-row" },
 	                React.createElement("div", { className: "col-6" },
-	                    React.createElement("label", { title: this.props.title },
-	                        this.props.text,
-	                        " Min"),
+	                    React.createElement("label", { title: this.props.title }, "Min"),
 	                    React.createElement("div", { className: "widget-content" },
 	                        React.createElement("input", { type: "text", ref: "inputMin", placeholder: "auto", value: this.state.min, onChange: function () {
 	                                _this.setState({ min: _this.refs.inputMin.value });
@@ -1290,9 +1424,7 @@
 	                                }
 	                            } }))),
 	                React.createElement("div", { className: "col-6" },
-	                    React.createElement("label", { title: this.props.title },
-	                        this.props.text,
-	                        " Max"),
+	                    React.createElement("label", { title: this.props.title }, "Max"),
 	                    React.createElement("div", { className: "widget-content" },
 	                        React.createElement("input", { type: "text", ref: "inputMax", placeholder: "auto", value: this.state.max, onChange: function () {
 	                                _this.setState({ max: _this.refs.inputMax.value });
@@ -1413,21 +1545,21 @@
 
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var defaults_1 = __webpack_require__(17);
-	exports.Defaults = defaults_1.Defaults;
-
-
-/***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var utils_1 = __webpack_require__(18);
-	var utils_2 = __webpack_require__(19);
+	var defaults_1 = __webpack_require__(18);
+	exports.Defaults = defaults_1.Defaults;
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var utils_1 = __webpack_require__(19);
+	var utils_2 = __webpack_require__(20);
 	var Defaults;
 	(function (Defaults) {
 	    Defaults.colors = [
@@ -1611,12 +1743,12 @@
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
-	var utils_1 = __webpack_require__(19);
-	var d3 = __webpack_require__(14);
+	var utils_1 = __webpack_require__(20);
+	var d3 = __webpack_require__(9);
 	// Infer column type.
 	// Adapted from datalib: https://github.com/vega/datalib/blob/master/src/import/type.js
 	var TESTS = {
@@ -1772,7 +1904,7 @@
 
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1814,7 +1946,8 @@
 
 
 /***/ },
-/* 20 */
+/* 21 */,
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1824,74 +1957,11 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var controls_1 = __webpack_require__(5);
-	var ReviewDataView = (function (_super) {
-	    __extends(ReviewDataView, _super);
-	    function ReviewDataView() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    ReviewDataView.prototype.onDatasetChanged = function () {
-	        this.forceUpdate();
-	    };
-	    ReviewDataView.prototype.formatValue = function (type, format, value) {
-	        if (value == null)
-	            return "N/A";
-	        switch (type) {
-	            case "string": {
-	                return value.toString();
-	            }
-	            case "integer":
-	            case "number": {
-	                var fmt = d3.format(format);
-	                return fmt(value);
-	            }
-	            case "date": {
-	                var fmt = d3.time.format(format);
-	                return fmt(value);
-	            }
-	            default: {
-	                return value.toString();
-	            }
-	        }
-	    };
-	    ReviewDataView.prototype.render = function () {
-	        var _this = this;
-	        var dataset = this.props.dataset;
-	        return (React.createElement("section", { className: "section-review-data" },
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null,
-	                "Review Data: ",
-	                this.props.dataset.fileName),
-	            React.createElement("div", { className: "table-container", "data-intro": "You can review your dataset before creating a chart." },
-	                React.createElement("table", null,
-	                    React.createElement("thead", null,
-	                        React.createElement("tr", { className: "column-name" }, dataset.columns.map(function (column, index) { return React.createElement("th", { key: "c" + index }, column.name); }))),
-	                    React.createElement("tbody", null, dataset.rows.map(function (row, rowIndex) {
-	                        return (React.createElement("tr", { key: "r" + rowIndex }, dataset.columns.map(function (column, index) { return React.createElement("td", { key: "c" + index, className: "rowtype-" + column.type }, _this.formatValue(column.type, column.format, row[column.name])); })));
-	                    }))))));
-	    };
-	    return ReviewDataView;
-	}(React.Component));
-	exports.ReviewDataView = ReviewDataView;
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var Actions = __webpack_require__(8);
-	var model_1 = __webpack_require__(16);
-	var utils_1 = __webpack_require__(18);
-	var InputWidgets = __webpack_require__(15);
-	var controls_1 = __webpack_require__(5);
+	var Actions = __webpack_require__(10);
+	var model_1 = __webpack_require__(17);
+	var utils_1 = __webpack_require__(19);
+	var InputWidgets = __webpack_require__(16);
+	var chartView_1 = __webpack_require__(23);
 	var ChartTypeView = (function (_super) {
 	    __extends(ChartTypeView, _super);
 	    function ChartTypeView() {
@@ -1904,13 +1974,15 @@
 	            { type: "line-chart", "caption": "Line Chart", thumbnail: "assets/images/line-chart.png" },
 	            { type: "scatterplot", "caption": "Scatterplot", thumbnail: "assets/images/scatterplot.png" }
 	        ];
-	        return (React.createElement("p", { "data-intro": "Choose a chart that best suits your dataset. Non-suitable chart types are disabled." }, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chartType ? "active" : "") + " " + (_this.props.isEnabled(item.type) ? "" : "disabled"), onClick: function () {
-	                if (_this.props.onChange != null && _this.props.isEnabled(item.type)) {
-	                    _this.props.onChange(item.type);
-	                }
-	            } },
-	            React.createElement("img", { src: item.thumbnail }),
-	            React.createElement("span", null, item.caption))); })));
+	        return (React.createElement("section", { className: "section-choose-chart" },
+	            React.createElement("h2", null, "Choose a Chart"),
+	            React.createElement("p", { "data-intro": "Choose a chart that best suits your dataset. Non-suitable chart types are disabled." }, chartTypes.map(function (item) { return (React.createElement("button", { className: "button-chart-type " + (item.type == _this.props.chart.type ? "active" : "") + " " + (model_1.Defaults.isChartValid(_this.props.chart.dataset, item.type) ? "" : "disabled"), onClick: function () {
+	                    if (model_1.Defaults.isChartValid(_this.props.chart.dataset, item.type)) {
+	                        new Actions.UpdateChartType(_this.props.chart, item.type).dispatch();
+	                    }
+	                } },
+	                React.createElement("img", { src: item.thumbnail }),
+	                React.createElement("span", null, item.caption))); }))));
 	    };
 	    return ChartTypeView;
 	}(React.Component));
@@ -1942,13 +2014,21 @@
 	        var chart = this.props.chart;
 	        var xColumnCandidates = utils_1.getColumnsForDistinctAxis(chart.dataset);
 	        var yColumnCandidates = utils_1.getColumnsForContinuousAxis(chart.dataset);
-	        return (React.createElement("div", null,
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ColumnsWidget, { columnCount: 4, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } }),
-	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 4, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 4, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } })),
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "X Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }))));
+	        return (React.createElement("div", { className: "widget-row" },
+	            React.createElement("div", { className: "col-6" },
+	                React.createElement("div", { className: "options-panel" },
+	                    React.createElement("h3", null, "X Axis"),
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Label", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })))),
+	            React.createElement("div", { className: "col-6" },
+	                React.createElement("div", { className: "options-panel" },
+	                    React.createElement("h3", null, "Y Axis"),
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.ColumnsWidget, { columnCount: 12, text: "Series", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } })),
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.ScaleWidget, { columnCount: 12, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } })),
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))))));
 	    };
 	    CreateChartView.prototype.renderForScatterplot = function () {
 	        var chart = this.props.chart;
@@ -1957,34 +2037,54 @@
 	            .filter(function (d) { return d.type == "string"; })
 	            .map(function (d) { return d.name; });
 	        return (React.createElement("div", null,
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Size", title: "choose a column for size", column: chart.sizeColumn, allowNull: true, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartSizeColumn(chart, newColumn).dispatch(); } })),
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "X Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } }),
-	                React.createElement(InputWidgets.LabelWidget, { columnCount: 3, text: "Y Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }),
-	                React.createElement(InputWidgets.ColumnWidget, { columnCount: 3, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })),
-	            React.createElement("div", { className: "widget-row widget-row-p" },
-	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 3, text: "X", title: "x range", scale: chart.xScale, onChange: function (newScale) { return new Actions.UpdateChartXScale(chart, newScale).dispatch(); } }),
-	                React.createElement(InputWidgets.ScaleWidget, { columnCount: 3, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } }))));
+	            React.createElement("div", { className: "widget-row" },
+	                React.createElement("div", { className: "col-6" },
+	                    React.createElement("div", { className: "options-panel" },
+	                        React.createElement("h3", null, "X Axis"),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } })),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.ScaleWidget, { columnCount: 12, text: "X", title: "x range", scale: chart.xScale, onChange: function (newScale) { return new Actions.UpdateChartXScale(chart, newScale).dispatch(); } })))),
+	                React.createElement("div", { className: "col-6" },
+	                    React.createElement("div", { className: "options-panel" },
+	                        React.createElement("h3", null, "Y Axis"),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } })),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } })),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.ScaleWidget, { columnCount: 12, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } }))))),
+	            React.createElement("div", { className: "widget-row" },
+	                React.createElement("div", { className: "col-12" },
+	                    React.createElement("div", { className: "options-panel" },
+	                        React.createElement("h3", null, "Points"),
+	                        React.createElement("div", { className: "widget-row widget-row-p" },
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Size", title: "choose a column for size", column: chart.sizeColumn, allowNull: true, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartSizeColumn(chart, newColumn).dispatch(); } }),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })))))));
 	    };
 	    CreateChartView.prototype.render = function () {
 	        var chart = this.props.chart;
 	        var dataset = chart.dataset;
 	        return (React.createElement("section", { className: "section-create-chart" },
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null, "Create Chart"),
-	            React.createElement(ChartTypeView, { chartType: chart.type, onChange: function (newType) { return new Actions.UpdateChartType(chart, newType).dispatch(); }, isEnabled: function (type) { return model_1.Defaults.isChartValid(dataset, type); } }),
-	            chart.type != null ?
-	                React.createElement("div", { className: "chart-options", "data-intro": "Specify chart options such as X/Y axes, data series, chart title, and color scheme." },
-	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 5, text: "Title", title: "enter chart title", label: chart.title, onChange: function (newTitle) { return new Actions.UpdateChartTitle(chart, newTitle).dispatch(); } }),
-	                        React.createElement(InputWidgets.WidthHeightWidget, { columnCount: 3, text: "Title", title: "enter chart title", width: chart.width, height: chart.height, onChange: function (newWidth, newHeight) { return new Actions.UpdateChartWidthHeight(chart, newWidth, newHeight).dispatch(); } }),
-	                        React.createElement(InputWidgets.ColorsWidget, { columnCount: 4, text: "Colors", title: "choose a color palette", colors: chart.colors || [], onChange: function (newColors) { return new Actions.UpdateChartColors(chart, newColors).dispatch(); } })),
-	                    this.renderFor(chart.type))
-	                : null));
+	            React.createElement("h2", null, "Configure and Annotate"),
+	            React.createElement("div", { className: "chart-options", "data-intro": "Specify chart options such as X/Y axes, data series, chart title, and color scheme." },
+	                React.createElement("div", { className: "widget-row" },
+	                    React.createElement("div", { className: "col-4" },
+	                        React.createElement("div", { className: "widget-row" },
+	                            React.createElement("div", { className: "col-12" },
+	                                React.createElement("div", { className: "options-panel" },
+	                                    React.createElement("h3", null, "General"),
+	                                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Title", title: "enter chart title", label: chart.title, onChange: function (newTitle) { return new Actions.UpdateChartTitle(chart, newTitle).dispatch(); } })),
+	                                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                                        React.createElement(InputWidgets.WidthHeightWidget, { columnCount: 12, text: "Title", title: "enter chart title", width: chart.width, height: chart.height, onChange: function (newWidth, newHeight) { return new Actions.UpdateChartWidthHeight(chart, newWidth, newHeight).dispatch(); } })),
+	                                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                                        React.createElement(InputWidgets.ColorsWidget, { columnCount: 12, text: "Colors", title: "choose a color palette", colors: chart.colors || [], onChange: function (newColors) { return new Actions.UpdateChartColors(chart, newColors).dispatch(); } })))))),
+	                    React.createElement("div", { className: "col-8" }, this.renderFor(chart.type)))),
+	            chart.type != null ? React.createElement(chartView_1.ChartView, { chart: chart, store: this.props.store }) : null));
 	    };
 	    return CreateChartView;
 	}(React.Component));
@@ -1992,7 +2092,7 @@
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2002,14 +2102,13 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var Actions = __webpack_require__(8);
-	var barChart_1 = __webpack_require__(23);
-	var lineChart_1 = __webpack_require__(26);
-	var scatterplot_1 = __webpack_require__(27);
-	var controls_1 = __webpack_require__(5);
-	var ChartAccent = __webpack_require__(28);
-	var utils_1 = __webpack_require__(19);
+	var d3 = __webpack_require__(9);
+	var Actions = __webpack_require__(10);
+	var barChart_1 = __webpack_require__(24);
+	var lineChart_1 = __webpack_require__(27);
+	var scatterplot_1 = __webpack_require__(28);
+	var ChartAccent = __webpack_require__(29);
+	var utils_1 = __webpack_require__(20);
 	var ChartView = (function (_super) {
 	    __extends(ChartView, _super);
 	    function ChartView(props) {
@@ -2100,6 +2199,7 @@
 	            }
 	        }
 	        this.props.store.setChartAccent(this.chartAccent);
+	        this.props.store.setExportAs(this.exportAs.bind(this));
 	    };
 	    ChartView.prototype.trackEvent = function (type, value) {
 	        this.props.store.logger.log(type, value);
@@ -2140,9 +2240,7 @@
 	    };
 	    ChartView.prototype.render = function () {
 	        var _this = this;
-	        return (React.createElement("section", null,
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null, "Annotate"),
+	        return (React.createElement("div", null,
 	            React.createElement("div", { className: "chart-view", "data-intro": "Annotate your chart here. <a href='index.html#section-tutorial'>Click to see more details.</a>" },
 	                React.createElement("div", { ref: "panelContainer", className: "panel" }),
 	                React.createElement("div", { ref: "toolbarContainer", className: "toolbar" }),
@@ -2150,15 +2248,7 @@
 	                    React.createElement("div", { className: "chart-container", style: { width: this.props.chart.width + "px", height: this.props.chart.height + "px" } },
 	                        this.renderChartView(),
 	                        React.createElement("div", { className: "corner-resize", onMouseDown: function (e) { return _this.onResizeStart(e); } },
-	                            React.createElement("img", { src: "assets/images/corner.svg" }))))),
-	            React.createElement(controls_1.HorizontalRule, null),
-	            React.createElement("h2", null, "Export"),
-	            React.createElement("p", { "data-intro": "Export the annotated chart to desired format." },
-	                React.createElement(controls_1.Button, { text: "PNG", icon: "export", onClick: function () { return _this.exportAs("png", function () { }); } }),
-	                " ",
-	                React.createElement(controls_1.Button, { text: "SVG", icon: "export", onClick: function () { return _this.exportAs("svg", function () { }); } }),
-	                " ",
-	                React.createElement(controls_1.Button, { text: "Animated GIF", icon: "export", onClick: function () { return _this.exportAs("gif", function () { }); } }))));
+	                            React.createElement("img", { src: "assets/images/corner.svg" })))))));
 	    };
 	    ChartView.prototype.onResizeStart = function (e0) {
 	        var _this = this;
@@ -2186,7 +2276,7 @@
 
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2196,9 +2286,9 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(24);
-	var elements_1 = __webpack_require__(25);
+	var d3 = __webpack_require__(9);
+	var baseChart_1 = __webpack_require__(25);
+	var elements_1 = __webpack_require__(26);
 	var BarChartView = (function (_super) {
 	    __extends(BarChartView, _super);
 	    function BarChartView() {
@@ -2352,7 +2442,7 @@
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2362,8 +2452,8 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var elements_1 = __webpack_require__(25);
+	var d3 = __webpack_require__(9);
+	var elements_1 = __webpack_require__(26);
 	var BaseChartView = (function (_super) {
 	    __extends(BaseChartView, _super);
 	    function BaseChartView(props) {
@@ -2475,7 +2565,7 @@
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2540,7 +2630,7 @@
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2550,9 +2640,9 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(24);
-	var elements_1 = __webpack_require__(25);
+	var d3 = __webpack_require__(9);
+	var baseChart_1 = __webpack_require__(25);
+	var elements_1 = __webpack_require__(26);
 	var LineChartView = (function (_super) {
 	    __extends(LineChartView, _super);
 	    function LineChartView() {
@@ -2714,7 +2804,7 @@
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2724,10 +2814,10 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	var baseChart_1 = __webpack_require__(24);
-	var elements_1 = __webpack_require__(25);
-	var utils_1 = __webpack_require__(19);
+	var d3 = __webpack_require__(9);
+	var baseChart_1 = __webpack_require__(25);
+	var elements_1 = __webpack_require__(26);
+	var utils_1 = __webpack_require__(20);
 	var ScatterplotView = (function (_super) {
 	    __extends(ScatterplotView, _super);
 	    function ScatterplotView() {
@@ -2896,10 +2986,10 @@
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(14), __webpack_require__(29), __webpack_require__(31), __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(9), __webpack_require__(30), __webpack_require__(32), __webpack_require__(33) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
 	    var jQuery = $;
 	    typeahead.loadjQueryPlugin();
 	    var Module = {};
@@ -14653,7 +14743,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {
@@ -17137,10 +17227,10 @@
 	
 	}).call(this);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)(module)))
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -17156,7 +17246,7 @@
 
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27382,17 +27472,17 @@
 
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    "Bloodhound": __webpack_require__(33),
-	    "loadjQueryPlugin": function() {__webpack_require__(34);}
+	    "Bloodhound": __webpack_require__(34),
+	    "loadjQueryPlugin": function() {__webpack_require__(35);}
 	};
 
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27403,7 +27493,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -28315,7 +28405,7 @@
 	});
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {/*!
@@ -28326,7 +28416,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -29239,7 +29329,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -30769,10 +30859,10 @@
 	        }
 	    })();
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36).setImmediate))
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
@@ -30825,13 +30915,13 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(36);
+	__webpack_require__(37);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -31021,10 +31111,10 @@
 	    attachTo.clearImmediate = clearImmediate;
 	}(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(13)))
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31033,13 +31123,13 @@
 	    function __() { this.constructor = d; }
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
-	var d3 = __webpack_require__(14);
-	var model_1 = __webpack_require__(16);
-	var Actions = __webpack_require__(8);
-	var samples_1 = __webpack_require__(38);
-	var utils_1 = __webpack_require__(18);
-	var fbemitter_1 = __webpack_require__(39);
-	var logger_1 = __webpack_require__(45);
+	var d3 = __webpack_require__(9);
+	var model_1 = __webpack_require__(17);
+	var Actions = __webpack_require__(10);
+	var samples_1 = __webpack_require__(39);
+	var utils_1 = __webpack_require__(19);
+	var fbemitter_1 = __webpack_require__(40);
+	var logger_1 = __webpack_require__(46);
 	var MainStore = (function (_super) {
 	    __extends(MainStore, _super);
 	    function MainStore() {
@@ -31086,6 +31176,14 @@
 	    });
 	    MainStore.prototype.setChartAccent = function (value) {
 	        this._chartAccent = value;
+	    };
+	    MainStore.prototype.setExportAs = function (func) {
+	        this._exportAs = func;
+	    };
+	    MainStore.prototype.exportAs = function (type, callback) {
+	        if (this._exportAs) {
+	            this._exportAs(type, callback);
+	        }
 	    };
 	    MainStore.prototype.handleAction = function (action) {
 	        var _this = this;
@@ -31284,7 +31382,7 @@
 
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports) {
 
 	// Declare sample datasets
@@ -31330,7 +31428,7 @@
 
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31343,15 +31441,15 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(40),
-	  EmitterSubscription : __webpack_require__(41)
+	  EventEmitter: __webpack_require__(41),
+	  EmitterSubscription : __webpack_require__(42)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31370,11 +31468,11 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(41);
-	var EventSubscriptionVendor = __webpack_require__(43);
+	var EmitterSubscription = __webpack_require__(42);
+	var EventSubscriptionVendor = __webpack_require__(44);
 	
-	var emptyFunction = __webpack_require__(44);
-	var invariant = __webpack_require__(12);
+	var emptyFunction = __webpack_require__(45);
+	var invariant = __webpack_require__(14);
 	
 	/**
 	 * @class BaseEventEmitter
@@ -31545,10 +31643,10 @@
 	})();
 	
 	module.exports = BaseEventEmitter;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31569,7 +31667,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(42);
+	var EventSubscription = __webpack_require__(43);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -31601,7 +31699,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	/**
@@ -31655,7 +31753,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31674,7 +31772,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var invariant = __webpack_require__(12);
+	var invariant = __webpack_require__(14);
 	
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -31761,10 +31859,10 @@
 	})();
 	
 	module.exports = EventSubscriptionVendor;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31807,7 +31905,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 45 */
+/* 46 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31836,91 +31934,6 @@
 	    return ActionLogger;
 	}());
 	exports.ActionLogger = ActionLogger;
-
-
-/***/ },
-/* 46 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	var __extends = (this && this.__extends) || function (d, b) {
-	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-	    function __() { this.constructor = d; }
-	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-	};
-	var React = __webpack_require__(1);
-	var d3 = __webpack_require__(14);
-	function isTargetInElement(target, element) {
-	    var result = false;
-	    var item = target;
-	    while (item && item != document.body && item != document) {
-	        if (item == element) {
-	            result = true;
-	            break;
-	        }
-	        item = item.parentNode;
-	    }
-	    return result;
-	}
-	exports.isTargetInElement = isTargetInElement;
-	var RowWidget = (function (_super) {
-	    __extends(RowWidget, _super);
-	    function RowWidget() {
-	        return _super.apply(this, arguments) || this;
-	    }
-	    RowWidget.prototype.renderWidget = function () {
-	        return null;
-	    };
-	    RowWidget.prototype.render = function () {
-	        if (this.props.contentOnly) {
-	            return this.renderWidget();
-	        }
-	        else {
-	            return (React.createElement("div", { className: "col-" + (this.props.columnCount || 12) },
-	                React.createElement("label", { title: this.props.title }, this.props.text),
-	                React.createElement("div", { className: "widget-content" }, this.renderWidget())));
-	        }
-	    };
-	    return RowWidget;
-	}(React.Component));
-	exports.RowWidget = RowWidget;
-	var DropdownListWidget = (function (_super) {
-	    __extends(DropdownListWidget, _super);
-	    function DropdownListWidget(props) {
-	        var _this = _super.call(this, props) || this;
-	        _this.onMouseDown = _this.onMouseDown.bind(_this);
-	        return _this;
-	    }
-	    DropdownListWidget.prototype.renderListItems = function () {
-	        return [];
-	    };
-	    DropdownListWidget.prototype.renderButton = function () {
-	        return React.createElement("span", null, "button");
-	    };
-	    DropdownListWidget.prototype.renderWidget = function () {
-	        var _this = this;
-	        return (React.createElement("div", { className: "dropdown-widget" },
-	            React.createElement("button", { className: "button-dropdown", onClick: function () { return _this.startDropdown(); }, ref: "dropdownButton" }, this.renderButton()),
-	            React.createElement("div", { className: "dropdown-list", ref: "dropdownList" }, this.renderListItems())));
-	    };
-	    DropdownListWidget.prototype.onMouseDown = function (e) {
-	        if (!isTargetInElement(e.target, this.refs.dropdownList)) {
-	            this.completeDropdown();
-	        }
-	    };
-	    DropdownListWidget.prototype.startDropdown = function () {
-	        this.refs.dropdownList.style.display = "block";
-	        d3.select(this.refs.dropdownButton).classed("active", true);
-	        window.addEventListener("mousedown", this.onMouseDown);
-	    };
-	    DropdownListWidget.prototype.completeDropdown = function () {
-	        this.refs.dropdownList.style.display = "none";
-	        d3.select(this.refs.dropdownButton).classed("active", false);
-	        window.removeEventListener("mousedown", this.onMouseDown);
-	    };
-	    return DropdownListWidget;
-	}(RowWidget));
-	exports.DropdownListWidget = DropdownListWidget;
 
 
 /***/ }
