@@ -986,10 +986,12 @@ chartaccent-toolbar label {
 }
 chartaccent-panel header,
 chartaccent-toolbar header {
-  font-size: 14px;
-  background: linear-gradient(#666, #555);
-  color: white;
+  font-size: 12px;
   padding: 5px 3px;
+  font-weight: bold;
+  color: #888;
+  margin-top: 10px;
+  background: #F8F8F8;
 }
 chartaccent-panel p,
 chartaccent-toolbar p,
@@ -1167,6 +1169,8 @@ chartaccent-toolbar .input-fontsize .btn {
 chartaccent-panel section.annotations,
 chartaccent-toolbar section.annotations {
   position: relative;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background: white;
 }
 chartaccent-panel section.annotations .position-separator,
 chartaccent-toolbar section.annotations .position-separator {
@@ -1252,9 +1256,19 @@ chartaccent-panel section.annotations > div > div.annotation:hover.active,
 chartaccent-toolbar section.annotations > div > div.annotation:hover.active {
   background-color: #D8D8D8;
 }
+chartaccent-panel .target-section,
+chartaccent-toolbar .target-section {
+  overflow: hidden;
+  margin-bottom: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 chartaccent-panel .arrayeditor-container,
 chartaccent-toolbar .arrayeditor-container {
   overflow: hidden;
+  margin-bottom: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 chartaccent-panel .arrayeditor-container:after,
 chartaccent-toolbar .arrayeditor-container:after {
@@ -1269,8 +1283,8 @@ chartaccent-panel .arrayeditor-none,
 chartaccent-toolbar .arrayeditor-none,
 chartaccent-panel p.nothing,
 chartaccent-toolbar p.nothing {
-  margin: 4px 0;
-  padding: 0 3px;
+  margin: 5px 0;
+  padding: 5px 3px;
   font-size: 12px;
   color: gray;
 }
@@ -1573,10 +1587,12 @@ chartaccent-popout label {
   line-height: 1em;
 }
 chartaccent-popout header {
-  font-size: 14px;
-  background: linear-gradient(#666, #555);
-  color: white;
+  font-size: 12px;
   padding: 5px 3px;
+  font-weight: bold;
+  color: #888;
+  margin-top: 10px;
+  background: #F8F8F8;
 }
 chartaccent-popout p,
 chartaccent-popout ul,
@@ -1718,6 +1734,8 @@ chartaccent-popout .input-fontsize .btn {
 }
 chartaccent-popout section.annotations {
   position: relative;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  background: white;
 }
 chartaccent-popout section.annotations .position-separator {
   position: absolute;
@@ -1790,8 +1808,17 @@ chartaccent-popout section.annotations > div > div.annotation:hover {
 chartaccent-popout section.annotations > div > div.annotation:hover.active {
   background-color: #D8D8D8;
 }
+chartaccent-popout .target-section {
+  overflow: hidden;
+  margin-bottom: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 chartaccent-popout .arrayeditor-container {
   overflow: hidden;
+  margin-bottom: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 chartaccent-popout .arrayeditor-container:after {
   content: " ";
@@ -1803,8 +1830,8 @@ chartaccent-popout .arrayeditor-container:after {
 }
 chartaccent-popout .arrayeditor-none,
 chartaccent-popout p.nothing {
-  margin: 4px 0;
-  padding: 0 3px;
+  margin: 5px 0;
+  padding: 5px 3px;
   font-size: 12px;
   color: gray;
 }
@@ -1940,7 +1967,7 @@ chartaccent-popout h2 {
   font-weight: normal;
   font-style: normal;
   cursor: default;
-  background: linear-gradient(#DDD, #CCC);
+  background: #F8F8F8;
   height: 24px;
   line-height: 24px;
 }

@@ -48,7 +48,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 	var mainView_1 = __webpack_require__(3);
-	var store_1 = __webpack_require__(38);
+	var store_1 = __webpack_require__(37);
 	var Actions = __webpack_require__(10);
 	exports.globalStore = new store_1.MainStore();
 	ReactDOM.render(React.createElement(mainView_1.MainView, { store: exports.globalStore }), document.getElementById("main-view-container"));
@@ -85,7 +85,7 @@
 	var React = __webpack_require__(1);
 	var navigationView_1 = __webpack_require__(4);
 	var loadDataView_1 = __webpack_require__(15);
-	var createChartView_1 = __webpack_require__(22);
+	var createChartView_1 = __webpack_require__(21);
 	var controls_1 = __webpack_require__(5);
 	var MainView = (function (_super) {
 	    __extends(MainView, _super);
@@ -1946,8 +1946,7 @@
 
 
 /***/ },
-/* 21 */,
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1961,7 +1960,7 @@
 	var model_1 = __webpack_require__(17);
 	var utils_1 = __webpack_require__(19);
 	var InputWidgets = __webpack_require__(16);
-	var chartView_1 = __webpack_require__(23);
+	var chartView_1 = __webpack_require__(22);
 	var ChartTypeView = (function (_super) {
 	    __extends(ChartTypeView, _super);
 	    function ChartTypeView() {
@@ -2092,7 +2091,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2104,10 +2103,10 @@
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
 	var Actions = __webpack_require__(10);
-	var barChart_1 = __webpack_require__(24);
-	var lineChart_1 = __webpack_require__(27);
-	var scatterplot_1 = __webpack_require__(28);
-	var ChartAccent = __webpack_require__(29);
+	var barChart_1 = __webpack_require__(23);
+	var lineChart_1 = __webpack_require__(26);
+	var scatterplot_1 = __webpack_require__(27);
+	var ChartAccent = __webpack_require__(28);
 	var utils_1 = __webpack_require__(20);
 	var ChartView = (function (_super) {
 	    __extends(ChartView, _super);
@@ -2242,7 +2241,8 @@
 	        var _this = this;
 	        return (React.createElement("div", null,
 	            React.createElement("div", { className: "chart-view", "data-intro": "Annotate your chart here. <a href='index.html#section-tutorial'>Click to see more details.</a>" },
-	                React.createElement("div", { ref: "panelContainer", className: "panel" }),
+	                React.createElement("div", { className: "panel-container" },
+	                    React.createElement("div", { ref: "panelContainer", className: "panel" })),
 	                React.createElement("div", { ref: "toolbarContainer", className: "toolbar" }),
 	                React.createElement("div", { className: "chart" },
 	                    React.createElement("div", { className: "chart-container", style: { width: this.props.chart.width + "px", height: this.props.chart.height + "px" } },
@@ -2276,7 +2276,7 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2287,8 +2287,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
-	var baseChart_1 = __webpack_require__(25);
-	var elements_1 = __webpack_require__(26);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var BarChartView = (function (_super) {
 	    __extends(BarChartView, _super);
 	    function BarChartView() {
@@ -2442,7 +2442,7 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2453,7 +2453,7 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
-	var elements_1 = __webpack_require__(26);
+	var elements_1 = __webpack_require__(25);
 	var BaseChartView = (function (_super) {
 	    __extends(BaseChartView, _super);
 	    function BaseChartView(props) {
@@ -2565,7 +2565,7 @@
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2630,7 +2630,7 @@
 
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2641,8 +2641,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
-	var baseChart_1 = __webpack_require__(25);
-	var elements_1 = __webpack_require__(26);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var LineChartView = (function (_super) {
 	    __extends(LineChartView, _super);
 	    function LineChartView() {
@@ -2804,7 +2804,7 @@
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -2815,8 +2815,8 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
-	var baseChart_1 = __webpack_require__(25);
-	var elements_1 = __webpack_require__(26);
+	var baseChart_1 = __webpack_require__(24);
+	var elements_1 = __webpack_require__(25);
 	var utils_1 = __webpack_require__(20);
 	var ScatterplotView = (function (_super) {
 	    __extends(ScatterplotView, _super);
@@ -2986,10 +2986,10 @@
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(9), __webpack_require__(30), __webpack_require__(32), __webpack_require__(33) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(9), __webpack_require__(29), __webpack_require__(31), __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(d3, chroma, $, typeahead) {
 	    var jQuery = $;
 	    typeahead.loadjQueryPlugin();
 	    var Module = {};
@@ -11046,9 +11046,11 @@
 	    var clickout_handlers = null;
 	
 	    var tree_wrapper = appendTreeOnce(wrapper, [
-	        [ "h2", { $: "target_text", text: "Target" } ],
-	        [ "div.section", { $: "target_section" } ],
-	        [ "div", { $: "select_items" } ],
+	        [ "div.target-section", [
+	            [ "h2", { $: "target_text", text: "Target" } ],
+	            [ "div.section", { $: "target_section" } ],
+	            [ "div", { $: "select_items" } ]
+	        ] ],
 	        [ "div", { $: "components" } ]
 	    ]);
 	
@@ -14743,7 +14745,7 @@
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {
@@ -17227,10 +17229,10 @@
 	
 	}).call(this);
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(30)(module)))
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -17246,7 +17248,7 @@
 
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27472,17 +27474,17 @@
 
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    "Bloodhound": __webpack_require__(34),
-	    "loadjQueryPlugin": function() {__webpack_require__(35);}
+	    "Bloodhound": __webpack_require__(33),
+	    "loadjQueryPlugin": function() {__webpack_require__(34);}
 	};
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27493,7 +27495,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -28405,7 +28407,7 @@
 	});
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(setImmediate) {/*!
@@ -28416,7 +28418,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return root["Bloodhound"] = factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -29329,7 +29331,7 @@
 	
 	(function(root, factory) {
 	    if (true) {
-	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(32) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
+	        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(31) ], __WEBPACK_AMD_DEFINE_RESULT__ = function(a0) {
 	            return factory(a0);
 	        }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	    } else if (typeof exports === "object") {
@@ -30859,10 +30861,10 @@
 	        }
 	    })();
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35).setImmediate))
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var apply = Function.prototype.apply;
@@ -30915,13 +30917,13 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(37);
+	__webpack_require__(36);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -31114,7 +31116,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(13)))
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -31126,10 +31128,10 @@
 	var d3 = __webpack_require__(9);
 	var model_1 = __webpack_require__(17);
 	var Actions = __webpack_require__(10);
-	var samples_1 = __webpack_require__(39);
+	var samples_1 = __webpack_require__(38);
 	var utils_1 = __webpack_require__(19);
-	var fbemitter_1 = __webpack_require__(40);
-	var logger_1 = __webpack_require__(46);
+	var fbemitter_1 = __webpack_require__(39);
+	var logger_1 = __webpack_require__(45);
 	var MainStore = (function (_super) {
 	    __extends(MainStore, _super);
 	    function MainStore() {
@@ -31382,7 +31384,7 @@
 
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports) {
 
 	// Declare sample datasets
@@ -31428,7 +31430,7 @@
 
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31441,15 +31443,15 @@
 	 */
 	
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(41),
-	  EmitterSubscription : __webpack_require__(42)
+	  EventEmitter: __webpack_require__(40),
+	  EmitterSubscription : __webpack_require__(41)
 	};
 	
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31468,10 +31470,10 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var EmitterSubscription = __webpack_require__(42);
-	var EventSubscriptionVendor = __webpack_require__(44);
+	var EmitterSubscription = __webpack_require__(41);
+	var EventSubscriptionVendor = __webpack_require__(43);
 	
-	var emptyFunction = __webpack_require__(45);
+	var emptyFunction = __webpack_require__(44);
 	var invariant = __webpack_require__(14);
 	
 	/**
@@ -31646,7 +31648,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31667,7 +31669,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var EventSubscription = __webpack_require__(43);
+	var EventSubscription = __webpack_require__(42);
 	
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -31699,7 +31701,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports) {
 
 	/**
@@ -31753,7 +31755,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31862,7 +31864,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(13)))
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31905,7 +31907,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";

@@ -259,35 +259,41 @@ input[type="text"], input[type="number"] {
   position: relative;
   overflow-x: auto;
   white-space: nowrap;
-  margin: 10px 0; }
+  margin: 10px 0;
+  margin-top: 20px;
+  border-radius: 2px; }
   .chart-view > .toolbar {
-    border: 1px solid #F0F0F0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     background-color: #F8F8F8;
     overflow: hidden;
     border-radius: 2px 2px 0 0;
-    margin-right: 362px;
     padding: 4px; }
-  .chart-view > .panel {
+  .chart-view > .panel-container {
+    margin-top: 32px;
     float: right;
-    box-shadow: 0 0 2px #444;
-    border: 1px solid #444;
-    border-radius: 2px;
-    overflow: hidden; }
+    overflow: hidden;
+    padding: 0 5px;
+    margin-bottom: 10px;
+    background: #F8F8F8; }
   .chart-view > .chart {
-    margin-right: 362px;
-    border: 1px solid #F0F0F0;
+    margin-top: 32px;
+    margin-right: 370px;
     border-top: none;
     overflow: hidden;
-    overflow-x: scroll;
-    border-radius: 0 0 2px 2px;
-    background: #F8F8F8; }
+    overflow-x: scroll; }
     .chart-view > .chart > .chart-container {
       position: relative;
       box-sizing: content-box;
-      border: 1px solid #888;
-      margin: 5px;
-      background: #FFF;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.4); }
+      border: 1px solid #CCC;
+      margin-left: 0;
+      margin-top: 10px;
+      margin-right: 30px;
+      margin-bottom: 30px;
+      background: #FFF; }
       .chart-view > .chart > .chart-container > .corner-resize {
         position: absolute;
         right: 0;
@@ -356,12 +362,12 @@ input[type="color"] {
     background: #FFFFFF; }
 
 h2 {
-  color: #353535;
+  color: #696969;
   height: 32px;
   line-height: 32px;
   font-size: 20px;
   padding: 0 0;
-  margin: 10px 0;
+  margin: 20px 0;
   font-weight: lighter; }
 
 a {
@@ -479,7 +485,8 @@ ul li {
   box-sizing: border-box;
   border-radius: 2px;
   border: 1px solid #F0F0F0;
-  background: #F8F8F8; }
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 
 .chart-options {
   margin: -5px;
@@ -524,22 +531,23 @@ body {
     line-height: 40px; }
 
 section {
-  padding: 50px 24px; }
-  section.section-load-data, section.section-export {
+  padding: 50px 24px;
+  padding-bottom: 80px; }
+  section.section-load-data {
     background: #F8F8F8; }
-  section.section-choose-chart {
+  section.section-choose-chart, section.section-export {
     background: #F0F0F0; }
   section.section-create-chart {
-    background: #FCFCFC; }
+    background: #F8F8F8; }
 
-footer {
+body > footer {
   padding: 50px 24px;
   min-height: 200px;
   color: #CCC;
   font-size: 12px; }
-  footer a {
+  body > footer a {
     color: #EEE; }
-    footer a:hover {
+    body > footer a:hover {
       color: #FFF;
       text-decoration: underline; }
 
@@ -549,7 +557,9 @@ footer {
   margin: 10px 0;
   width: 100%;
   max-height: 200px;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  background: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
 
 table {
   word-break: keep-all;
