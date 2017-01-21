@@ -70,7 +70,7 @@ select {
 
 button {
   font-size: 14px;
-  font-family: "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
+  font-family: "Roboto", "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
   border: none;
   outline: none;
   margin: 0;
@@ -105,7 +105,7 @@ button.button-chart-type {
   display: inline-block;
   border-radius: 2px;
   width: 30%;
-  max-width: 150px;
+  max-width: 200px;
   background-color: #F8F8F8;
   margin-right: 10px;
   padding: 5px;
@@ -122,6 +122,8 @@ button.button-chart-type {
     background-color: #fa8119; }
     button.button-chart-type.active span {
       color: white; }
+    button.button-chart-type.active img {
+      opacity: 0.6; }
   button.button-chart-type:focus {
     box-shadow: 0 0 5px #ff9f3b; }
   button.button-chart-type.disabled {
@@ -371,7 +373,7 @@ h2 {
   font-size: 20px;
   padding: 0 0;
   margin: 20px 0;
-  font-weight: lighter; }
+  font-weight: 300; }
 
 a {
   text-decoration: none;
@@ -386,7 +388,7 @@ h3 {
   line-height: 20px;
   color: #444;
   margin: 10px 0;
-  font-weight: lighter; }
+  font-weight: 300; }
 
 p {
   margin: 10px 0; }
@@ -497,7 +499,7 @@ ul li {
 
 body {
   font-size: 14px;
-  font-family: "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
+  font-family: "Roboto", "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
   cursor: default;
   user-select: none;
   -moz-user-select: none;
@@ -586,7 +588,7 @@ table {
     padding: 4px 8px; }
     table td.rowtype-number, table td.rowtype-integer {
       text-align: right;
-      font-family: "Menlo", "Monaco", "monospace";
+      font-family: "Roboto Mono", "Monaco", "monospace";
       font-size: 13px; }
     table td.rowtype-string {
       text-align: left; }

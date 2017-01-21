@@ -1587,6 +1587,7 @@
 	    ];
 	    Defaults.defaultColors = ["#1b9e77", "#d95f02", "#7570b3", "#e7298a", "#66a61e", "#e6ab02"];
 	    Defaults.fonts = [
+	        "Roboto",
 	        "Helvetica",
 	        "Arial",
 	        "Lucida Grande",
@@ -1601,12 +1602,13 @@
 	        "Consolas",
 	        "Lucida Console"
 	    ];
+	    Defaults.defaultFont = "Roboto";
 	    function label(text, fontSize) {
 	        if (text === void 0) { text = ""; }
 	        if (fontSize === void 0) { fontSize = 14; }
 	        return {
 	            text: text,
-	            fontFamily: "Arial",
+	            fontFamily: Defaults.defaultFont,
 	            fontSize: fontSize,
 	            fontStyle: "regular",
 	            color: "#000000"
@@ -2453,6 +2455,7 @@
 	};
 	var React = __webpack_require__(1);
 	var d3 = __webpack_require__(9);
+	var model_1 = __webpack_require__(17);
 	var elements_1 = __webpack_require__(25);
 	var BaseChartView = (function (_super) {
 	    __extends(BaseChartView, _super);
@@ -2541,7 +2544,7 @@
 	        var _this = this;
 	        var chart = this.props.chart;
 	        return (React.createElement("svg", { className: "chart-view-svg", ref: function (svg) { return _this._svg = svg; }, width: chart.width, height: chart.height, style: {
-	                fontFamily: "Helvetica",
+	                fontFamily: model_1.Defaults.defaultFont,
 	                fontSize: 14
 	            } },
 	            React.createElement("g", { ref: function (g) { return _this._annotationBackgroundLayer = g; } }),
@@ -3681,6 +3684,7 @@
 	})();
 	
 	var Styles = {
+	    fontFamily: "Roboto",
 	    serializeColorInfo: function(color) {
 	        if(color == null) return null;
 	        if(color instanceof RGBColor) {
@@ -3729,7 +3733,7 @@
 	        // if(obj.fill_opacity === undefined) obj.fill_opacity = 1;
 	        // if(obj.paint_order === undefined) obj.paint_order = "fill";
 	        // if(obj.blending_mode === undefined) obj.blending_mode = "normal";
-	        if(obj.font_family === undefined) obj.font_family = "Helvetica";
+	        if(obj.font_family === undefined) obj.font_family = Styles.fontFamily;
 	        if(obj.font_size === undefined) obj.font_size = 14;
 	        return obj;
 	    },
@@ -3779,7 +3783,7 @@
 	                fill: new RGBColor("#000"),
 	                stroke: null,
 	                stroke_width: 2,
-	                font_family: "Helvetica",
+	                font_family: Styles.fontFamily,
 	                font_size: 14
 	            };
 	        }
@@ -3789,7 +3793,7 @@
 	                stroke: new RGBColor("#FFF"),
 	                stroke_width: 2,
 	                paint_order: "stroke",
-	                font_family: "Helvetica",
+	                font_family: Styles.fontFamily,
 	                font_size: 14
 	            };
 	        }
@@ -5262,6 +5266,8 @@
 	
 	var MakeFontSelectButton = function(sel, value, onchange, clickout_handlers) {
 	    var fonts = [
+	        { name: "Roboto", value: "Roboto", font: "Roboto" },
+	        { name: "Roboto Mono", value: "Roboto Mono", font: "Roboto Mono" },
 	        { name: "Helvetica", value: "Helvetica", font: "Helvetica" },
 	        { name: "Arial", value: "Arial", font: "Arial" },
 	        { name: "Lucida Grande", value: "Lucida Grande", font: "Lucida Grande" },
@@ -8562,7 +8568,7 @@
 	
 	var InputWidget = function(container) {
 	    this.style = {
-	        font_family: "Helvetica, Arial, sans-serif",
+	        font_family: Styles.fontFamily,
 	        font_size: 16,
 	        line_height: 20,
 	        height: 20,

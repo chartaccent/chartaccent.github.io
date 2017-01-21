@@ -988,8 +988,7 @@ chartaccent-panel header,
 chartaccent-toolbar header {
   font-size: 12px;
   padding: 5px 3px;
-  font-weight: bold;
-  color: #888;
+  font-weight: lighter;
   margin-top: 10px;
   background: #F8F8F8;
 }
@@ -1054,7 +1053,7 @@ chartaccent-toolbar input {
   background: white;
   box-sizing: border-box;
   width: 100%;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Roboto, sans-serif;
   border-radius: 2px;
 }
 chartaccent-panel input:focus,
@@ -1592,8 +1591,7 @@ chartaccent-popout label {
 chartaccent-popout header {
   font-size: 12px;
   padding: 5px 3px;
-  font-weight: bold;
-  color: #888;
+  font-weight: lighter;
   margin-top: 10px;
   background: #F8F8F8;
 }
@@ -1646,7 +1644,7 @@ chartaccent-popout input {
   background: white;
   box-sizing: border-box;
   width: 100%;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: Roboto, sans-serif;
   border-radius: 2px;
 }
 chartaccent-popout input:focus,
