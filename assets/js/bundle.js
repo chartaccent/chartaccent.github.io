@@ -2267,10 +2267,10 @@
 	        };
 	        var onMouseUp = function () {
 	            window.removeEventListener("mousemove", onMouseMove);
-	            window.removeEventListener("mouseup", onMouseUp);
+	            window.removeEventListener("mouseup", onMouseUp, true);
 	        };
 	        window.addEventListener("mousemove", onMouseMove);
-	        window.addEventListener("mouseup", onMouseUp);
+	        window.addEventListener("mouseup", onMouseUp, true);
 	    };
 	    return ChartView;
 	}(React.Component));
@@ -31425,12 +31425,6 @@
 	        hint: "try Scatterplot",
 	        csv: "assets/datasets/gapminder.csv",
 	        example: "assets/datasets/gapminder.png"
-	    },
-	    {
-	        name: "Orange Sales",
-	        hint: "try BarChart/LineChart with error bars",
-	        csv: "assets/datasets/oranges.csv",
-	        example: "assets/datasets/oranges.png"
 	    }
 	];
 

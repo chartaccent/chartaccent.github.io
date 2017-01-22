@@ -276,7 +276,7 @@ input[type="text"], input[type="number"] {
     background-color: #F8F8F8;
     overflow: hidden;
     border-radius: 2px 2px 0 0;
-    padding: 4px; }
+    padding: 4px 0; }
   .chart-view > .panel-container {
     margin-top: 32px;
     float: right;
@@ -486,12 +486,7 @@ ul li {
 
 .options-panel {
   margin: 5px;
-  padding: 0 10px;
-  box-sizing: border-box;
-  border-radius: 2px;
-  border: 1px solid #F0F0F0;
-  background: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+  box-sizing: border-box; }
 
 .chart-options {
   margin: -5px;
@@ -576,7 +571,6 @@ table {
     background: rgba(0, 0, 0, 0.1);
     border: 1px solid white;
     padding: 4px 8px;
-    min-width: 100px;
     text-align: left; }
     table th.type_number {
       text-align: right; }
@@ -592,5 +586,7 @@ table {
       font-size: 13px; }
     table td.rowtype-string {
       text-align: left; }
+  table tr:nth-child(even) td {
+    background: rgba(0, 0, 0, 0.04); }
 
 /*# sourceMappingURL=bundle.css.map */

@@ -988,7 +988,7 @@ chartaccent-panel header,
 chartaccent-toolbar header {
   font-size: 12px;
   padding: 5px 3px;
-  font-weight: lighter;
+  font-weight: 300;
   margin-top: 10px;
   background: #F8F8F8;
 }
@@ -1259,7 +1259,6 @@ chartaccent-toolbar section.annotations > div > div.annotation:hover.active {
 }
 chartaccent-panel .target-section,
 chartaccent-toolbar .target-section {
-  overflow: hidden;
   margin-bottom: 5px;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
@@ -1591,7 +1590,7 @@ chartaccent-popout label {
 chartaccent-popout header {
   font-size: 12px;
   padding: 5px 3px;
-  font-weight: lighter;
+  font-weight: 300;
   margin-top: 10px;
   background: #F8F8F8;
 }
@@ -1812,7 +1811,6 @@ chartaccent-popout section.annotations > div > div.annotation:hover.active {
   background-color: #D8D8D8;
 }
 chartaccent-popout .target-section {
-  overflow: hidden;
   margin-bottom: 5px;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
