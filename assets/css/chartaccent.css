@@ -1214,6 +1214,8 @@ chartaccent-toolbar section.annotations {
   border-radius: 2px;
   overflow: hidden;
   background: white;
+  max-height: 110px;
+  overflow-y: scroll;
 }
 chartaccent-panel section.annotations .position-separator,
 chartaccent-toolbar section.annotations .position-separator {
@@ -1780,6 +1782,8 @@ chartaccent-popout section.annotations {
   border-radius: 2px;
   overflow: hidden;
   background: white;
+  max-height: 110px;
+  overflow-y: scroll;
 }
 chartaccent-popout section.annotations .position-separator {
   position: absolute;
