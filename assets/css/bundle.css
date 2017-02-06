@@ -100,6 +100,19 @@ button.button-normal {
   button.button-normal:focus {
     box-shadow: 0 0 10px fade(#fa8119, 30%);
     border: 1px solid #b44800; }
+  button.button-normal.disabled {
+    cursor: default;
+    background-color: #a2a2a2;
+    border: 1px solid #a2a2a2; }
+    button.button-normal.disabled:hover {
+      background-color: #a2a2a2;
+      border: 1px solid #a2a2a2; }
+    button.button-normal.disabled:active {
+      background-color: #a2a2a2;
+      border: 1px solid #a2a2a2; }
+    button.button-normal.disabled:focus {
+      box-shadow: none;
+      border: 1px solid #a2a2a2; }
 
 button.button-chart-type {
   display: inline-block;
@@ -395,6 +408,9 @@ p {
   margin: 10px 0; }
   p.note {
     color: #858585; }
+
+strong {
+  font-weight: 500; }
 
 ul li {
   margin: 5px 0; }
