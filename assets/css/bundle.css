@@ -101,7 +101,7 @@ button.button-normal {
     box-shadow: 0 0 10px fade(#fa8119, 30%);
     border: 1px solid #b44800; }
   button.button-normal.disabled {
-    cursor: default;
+    cursor: not-allowed;
     background-color: #a2a2a2;
     border: 1px solid #a2a2a2; }
     button.button-normal.disabled:hover {
@@ -140,18 +140,17 @@ button.button-chart-type {
   button.button-chart-type:focus {
     box-shadow: 0 0 5px #ff9f3b; }
   button.button-chart-type.disabled {
+    cursor: not-allowed;
     color: #c0c0c0; }
     button.button-chart-type.disabled img {
       filter: grayscale(1);
       opacity: 0.7; }
     button.button-chart-type.disabled:hover {
-      background-color: #dfdfdf; }
+      background-color: #F8F8F8; }
     button.button-chart-type.disabled.active {
-      background-color: #dfdfdf; }
-      button.button-chart-type.disabled.active span {
-        color: white; }
+      background-color: #F8F8F8; }
     button.button-chart-type.disabled:focus {
-      box-shadow: 0 0 5px #dfdfdf; }
+      box-shadow: none; }
 
 button.button-dropdown {
   display: block;
