@@ -31314,7 +31314,8 @@
 	                    reader_1.onload = function (e) {
 	                        var imageDataURL = reader_1.result;
 	                        var exportData = {
-	                            timestamp: new Date().getTime(),
+	                            clientID: _this.logger.getClientID(),
+	                            timeCreated: new Date().getTime(),
 	                            sessionID: _this.logger.getSessionID(),
 	                            state: state_1,
 	                            imageType: type,
@@ -32065,6 +32066,9 @@
 	    function AppLogger() {
 	        this._privateActions = [];
 	    }
+	    AppLogger.prototype.getClientID = function () {
+	        return service.clientID;
+	    };
 	    AppLogger.prototype.getSessionID = function () {
 	        return service.sessionID;
 	    };
@@ -32124,6 +32128,13 @@
 	    function NullLoggingService() {
 	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
+	    Object.defineProperty(NullLoggingService.prototype, "clientID", {
+	        get: function () {
+	            return this._clientID;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    Object.defineProperty(NullLoggingService.prototype, "sessionID", {
 	        get: function () {
 	            return this._sessionID;
@@ -32133,6 +32144,7 @@
 	    });
 	    NullLoggingService.prototype.startSession = function () {
 	        this._sessionID = generateSessionID();
+	        this._clientID = getClientID();
 	        console.log("NL.StartSession", this.sessionID);
 	    };
 	    NullLoggingService.prototype.logAction = function (timestamp, type, code) {
@@ -32160,6 +32172,13 @@
 	        });
 	        return _this;
 	    }
+	    Object.defineProperty(AzureStorageLoggingService.prototype, "clientID", {
+	        get: function () {
+	            return this._clientID;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    Object.defineProperty(AzureStorageLoggingService.prototype, "sessionID", {
 	        get: function () {
 	            return this._sessionID;
