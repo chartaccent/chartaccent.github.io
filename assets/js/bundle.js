@@ -32218,7 +32218,7 @@
 	                    _this.scheduleSendSession();
 	                }
 	            });
-	        }, 5000);
+	        }, 1000);
 	    };
 	    AzureStorageLoggingService.prototype.doSendSession = function () {
 	        azureBlobStorage_1.putSession(this.sessionID, JSON.stringify(this._sessionData), function (err) { });
@@ -32235,7 +32235,7 @@
 	                // Try again in 5 seconds
 	                setTimeout(function () {
 	                    _this.logExport(data);
-	                }, 5000);
+	                }, 1000);
 	            }
 	        });
 	    };
@@ -32258,11 +32258,13 @@
 
 	"use strict";
 	var sha1 = __webpack_require__(51);
-	var sasURLParameters = "sv=2015-12-11&ss=b&srt=o&sp=wc&se=2021-02-06T06:36:05Z&st=2017-02-05T22:36:05Z&spr=https,http&sig=jk%2FWF4kTSXDtHUCYo12t8JYfOY3zsnXks%2BxOUIUArGc%3D";
 	var isDevelopmentMode = true;
 	if (document.location.hostname == "localhost") {
 	    isDevelopmentMode = true;
 	}
+	// Determine the SAS url parameters.
+	var blobStorageURL = "chartaccentdev.blob.core.windows.net";
+	var sasURLParameters = "sv=2015-12-11&ss=b&srt=o&sp=wc&se=2021-02-06T06:36:05Z&st=2017-02-05T22:36:05Z&spr=https,http&sig=jk%2FWF4kTSXDtHUCYo12t8JYfOY3zsnXks%2BxOUIUArGc%3D";
 	function encodeJSON(obj) {
 	    return JSON.stringify(obj);
 	}
@@ -32272,7 +32274,7 @@
 	function getBlobURL(container, blobName) {
 	    if (isDevelopmentMode)
 	        container = "dev-" + container;
-	    return "https://chartaccentdev.blob.core.windows.net/" + container + "/" + blobName + "?" + sasURLParameters;
+	    return "https://" + blobStorageURL + "/" + container + "/" + blobName + "?" + sasURLParameters;
 	}
 	function getSessionBlobURL(sessionID) {
 	    return getBlobURL("sessions", sessionID + ".json");
@@ -32306,6 +32308,7 @@
 	    ajaxRequest.setRequestHeader('x-ms-blob-content-type', 'text/plain; charset=utf-8');
 	    ajaxRequest.setRequestHeader('content-type', "text/plain; charset=utf-8");
 	    ajaxRequest.send(data);
+	    console.log("Put Blob", blobURL, JSON.parse(data));
 	}
 	function putSession(sessionID, data, callback) {
 	    putBlob(getSessionBlobURL(sessionID), data, callback);
