@@ -32201,6 +32201,8 @@
 	            actions: []
 	        };
 	        this.doSendSession();
+	        ga("send", "event", "session", "clientID", this._clientID);
+	        ga("send", "event", "session", "startSession", this._sessionID);
 	    };
 	    AzureStorageLoggingService.prototype.scheduleSendSession = function () {
 	        var _this = this;
@@ -32226,6 +32228,10 @@
 	    AzureStorageLoggingService.prototype.logAction = function (timestamp, type, code) {
 	        this._sessionData.actions.push([timestamp, type, code]);
 	        this.scheduleSendSession();
+	        var category = type.split("/")[0];
+	        var action = type.split("/")[1] || "default";
+	        ga("send", "event", category, action, code);
+	        console.log("GoogleAnalytics", category, action, code);
 	    };
 	    AzureStorageLoggingService.prototype.logExport = function (data) {
 	        var _this = this;
