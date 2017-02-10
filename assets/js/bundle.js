@@ -1130,10 +1130,15 @@
 	var controls_1 = __webpack_require__(5);
 	var inputWidgets_1 = __webpack_require__(16);
 	var Actions = __webpack_require__(10);
+	;
 	var LoadDataView = (function (_super) {
 	    __extends(LoadDataView, _super);
-	    function LoadDataView() {
-	        return _super !== null && _super.apply(this, arguments) || this;
+	    function LoadDataView(props) {
+	        var _this = _super.call(this, props) || this;
+	        _this.state = {
+	            showDetailedPrivacyNotes: false
+	        };
+	        return _this;
 	    }
 	    LoadDataView.prototype.render = function () {
 	        var _this = this;
@@ -1174,9 +1179,12 @@
 	                        }, text: "or" })),
 	                React.createElement("form", { ref: "inputFileForm" },
 	                    React.createElement("input", { ref: "inputFile", className: "invisible", type: "file", accept: ".csv" }))),
-	            React.createElement("p", { className: "note" },
-	                React.createElement("strong", null, "Privacy Notes")),
-	            React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using the tool, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the content you create and share it with us." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."),
+	            this.state.showDetailedPrivacyNotes ? (React.createElement("div", null,
+	                React.createElement("h3", { className: "note" }, "Privacy Notes"),
+	                React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using the tool, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the content you create and share it with us." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."))) : (React.createElement("p", { className: "note" },
+	                "While you are using the tool, we log anonymous interaction information to help us improve your experience. ",
+	                React.createElement("a", { href: "#", onClick: function () { return _this.setState({ showDetailedPrivacyNotes: true }); } }, "Click for more details"),
+	                ".")),
 	            this.props.dataset != null ? React.createElement(ReviewDataView, { dataset: this.props.dataset }) : null));
 	    };
 	    return LoadDataView;
@@ -31207,8 +31215,7 @@
 	        var _this = this;
 	        return (React.createElement("section", { className: "section-export" },
 	            React.createElement("h2", null, "Export"),
-	            React.createElement("p", { className: "note" },
-	                React.createElement("strong", null, "Email Address")),
+	            React.createElement("h3", { className: "note" }, "Email Address"),
 	            React.createElement("p", null,
 	                React.createElement("input", { ref: "inputEmailAddress", style: { maxWidth: "400px" }, type: "text", value: this.state.emailAddress, placeholder: "yourname@example.com", onChange: function (e) {
 	                        _this.setState({
@@ -31230,7 +31237,15 @@
 	                                shareData: !_this.refs.checkboxShareData.checked
 	                            });
 	                        } }),
-	                    " Don't share data with the authors"))));
+	                    " Don't share data with the authors")),
+	            React.createElement("h3", { className: "note" }, "Publication"),
+	            React.createElement("div", { className: "bibitem note" },
+	                React.createElement("div", { className: "bibitem-title" },
+	                    React.createElement("strong", null, "ChartAccent: Annotation for Data-Driven Storytelling")),
+	                React.createElement("div", { className: "bibitem-authors" }, "Donghao Ren, Matthew Brehmer, Bongshin Lee, Tobias H\u00F6llerer, and Eun Kyoung Choe"),
+	                React.createElement("div", { className: "bibitem-place" }, "(Accepted) Proceedings of IEEE Pacific Visualization (PacificVis 2017), 2017"),
+	                React.createElement("div", { className: "bibitem-links" },
+	                    React.createElement("a", { href: "publications/chartaccent-pacificvis2017.pdf" }, "Download PDF")))));
 	    };
 	    return ExportView;
 	}(React.Component));

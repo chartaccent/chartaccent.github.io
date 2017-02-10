@@ -403,10 +403,21 @@ h3 {
   margin: 10px 0;
   font-weight: 300; }
 
+h3.note {
+  font-weight: 400;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #858585; }
+
 p {
   margin: 10px 0; }
   p.note {
     color: #858585; }
+
+.bibitem.note {
+  color: #858585; }
+.bibitem > div {
+  line-height: 1.3em; }
 
 strong {
   font-weight: 500; }
