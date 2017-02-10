@@ -31314,7 +31314,8 @@
 	                    reader_1.onload = function (e) {
 	                        var imageDataURL = reader_1.result;
 	                        var exportData = {
-	                            timestamp: new Date().getTime(),
+	                            clientID: _this.logger.getClientID(),
+	                            timeCreated: new Date().getTime(),
 	                            sessionID: _this.logger.getSessionID(),
 	                            state: state_1,
 	                            imageType: type,
@@ -32065,6 +32066,9 @@
 	    function AppLogger() {
 	        this._privateActions = [];
 	    }
+	    AppLogger.prototype.getClientID = function () {
+	        return service.clientID;
+	    };
 	    AppLogger.prototype.getSessionID = function () {
 	        return service.sessionID;
 	    };
@@ -32124,6 +32128,13 @@
 	    function NullLoggingService() {
 	        return _super !== null && _super.apply(this, arguments) || this;
 	    }
+	    Object.defineProperty(NullLoggingService.prototype, "clientID", {
+	        get: function () {
+	            return this._clientID;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    Object.defineProperty(NullLoggingService.prototype, "sessionID", {
 	        get: function () {
 	            return this._sessionID;
@@ -32133,6 +32144,7 @@
 	    });
 	    NullLoggingService.prototype.startSession = function () {
 	        this._sessionID = generateSessionID();
+	        this._clientID = getClientID();
 	        console.log("NL.StartSession", this.sessionID);
 	    };
 	    NullLoggingService.prototype.logAction = function (timestamp, type, code) {
@@ -32160,6 +32172,13 @@
 	        });
 	        return _this;
 	    }
+	    Object.defineProperty(AzureStorageLoggingService.prototype, "clientID", {
+	        get: function () {
+	            return this._clientID;
+	        },
+	        enumerable: true,
+	        configurable: true
+	    });
 	    Object.defineProperty(AzureStorageLoggingService.prototype, "sessionID", {
 	        get: function () {
 	            return this._sessionID;
@@ -32182,6 +32201,8 @@
 	            actions: []
 	        };
 	        this.doSendSession();
+	        ga("send", "event", "session", "clientID", this._clientID);
+	        ga("send", "event", "session", "startSession", this._sessionID);
 	    };
 	    AzureStorageLoggingService.prototype.scheduleSendSession = function () {
 	        var _this = this;
@@ -32199,7 +32220,7 @@
 	                    _this.scheduleSendSession();
 	                }
 	            });
-	        }, 5000);
+	        }, 1000);
 	    };
 	    AzureStorageLoggingService.prototype.doSendSession = function () {
 	        azureBlobStorage_1.putSession(this.sessionID, JSON.stringify(this._sessionData), function (err) { });
@@ -32207,6 +32228,10 @@
 	    AzureStorageLoggingService.prototype.logAction = function (timestamp, type, code) {
 	        this._sessionData.actions.push([timestamp, type, code]);
 	        this.scheduleSendSession();
+	        var category = type.split("/")[0];
+	        var action = type.split("/")[1] || "default";
+	        ga("send", "event", category, action, code);
+	        console.log("GoogleAnalytics", category, action, code);
 	    };
 	    AzureStorageLoggingService.prototype.logExport = function (data) {
 	        var _this = this;
@@ -32216,7 +32241,7 @@
 	                // Try again in 5 seconds
 	                setTimeout(function () {
 	                    _this.logExport(data);
-	                }, 5000);
+	                }, 1000);
 	            }
 	        });
 	    };
@@ -32239,11 +32264,13 @@
 
 	"use strict";
 	var sha1 = __webpack_require__(51);
-	var sasURLParameters = "sv=2015-12-11&ss=b&srt=o&sp=wc&se=2021-02-06T06:36:05Z&st=2017-02-05T22:36:05Z&spr=https,http&sig=jk%2FWF4kTSXDtHUCYo12t8JYfOY3zsnXks%2BxOUIUArGc%3D";
 	var isDevelopmentMode = true;
 	if (document.location.hostname == "localhost") {
 	    isDevelopmentMode = true;
 	}
+	// Determine the SAS url parameters.
+	var blobStorageURL = "chartaccentdev.blob.core.windows.net";
+	var sasURLParameters = "sv=2015-12-11&ss=b&srt=o&sp=wc&se=2021-02-06T06:36:05Z&st=2017-02-05T22:36:05Z&spr=https,http&sig=jk%2FWF4kTSXDtHUCYo12t8JYfOY3zsnXks%2BxOUIUArGc%3D";
 	function encodeJSON(obj) {
 	    return JSON.stringify(obj);
 	}
@@ -32253,7 +32280,7 @@
 	function getBlobURL(container, blobName) {
 	    if (isDevelopmentMode)
 	        container = "dev-" + container;
-	    return "https://chartaccentdev.blob.core.windows.net/" + container + "/" + blobName + "?" + sasURLParameters;
+	    return "https://" + blobStorageURL + "/" + container + "/" + blobName + "?" + sasURLParameters;
 	}
 	function getSessionBlobURL(sessionID) {
 	    return getBlobURL("sessions", sessionID + ".json");
@@ -32287,6 +32314,7 @@
 	    ajaxRequest.setRequestHeader('x-ms-blob-content-type', 'text/plain; charset=utf-8');
 	    ajaxRequest.setRequestHeader('content-type', "text/plain; charset=utf-8");
 	    ajaxRequest.send(data);
+	    console.log("Put Blob", blobURL, JSON.parse(data));
 	}
 	function putSession(sessionID, data, callback) {
 	    putBlob(getSessionBlobURL(sessionID), data, callback);
