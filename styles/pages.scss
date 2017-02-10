@@ -54,17 +54,17 @@ p {
     padding-bottom: 100px;
 }
 
-.page-section-title {
+.page-section-title, .page-section-tutorial {
     background-color: #FFF; // don't change, video has white background.
 }
 
-.page-section-examples, .page-section-team {
+.page-section-examples, .page-section-publication {
     background-color: #F8F8F8;
 }
 
-.page-section-tutorial {
-    background-color: #F4F4F4;
-}
+// .page-section-tutorial {
+//     background-color: #F4F4F4;
+// }
 
 .page-section-examples, .page-section-tutorial {
     img, video {
@@ -133,5 +133,23 @@ p {
         font-size: 1.2em;
         margin-top: 5px;
         display: block;
+    }
+}
+
+.bibitem {
+    display: inline-block;
+    width: 600px;
+    text-align: left;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 4px;
+    padding: 10px 20px;
+    p {
+        margin: 3px 0;
+    }
+    .bibitem-title {
+        font-weight: 700;
+    }
+    .bibitem-place {
+        font-style: italic;
     }
 }
