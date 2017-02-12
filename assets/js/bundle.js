@@ -1179,12 +1179,13 @@
 	                        }, text: "or" })),
 	                React.createElement("form", { ref: "inputFileForm" },
 	                    React.createElement("input", { ref: "inputFile", className: "invisible", type: "file", accept: ".csv" }))),
+	            React.createElement("p", { className: "note" },
+	                "By using ChartAccent, you agree with our ",
+	                React.createElement("a", { href: "#", onClick: function () { return _this.setState({ showDetailedPrivacyNotes: true }); } }, "privacy agreement"),
+	                "."),
 	            this.state.showDetailedPrivacyNotes ? (React.createElement("div", null,
-	                React.createElement("h3", { className: "note" }, "Privacy Notes"),
-	                React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using the tool, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the content you create and share it with us." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."))) : (React.createElement("p", { className: "note" },
-	                "While you are using the tool, we log anonymous interaction information to help us improve your experience. ",
-	                React.createElement("a", { href: "#", onClick: function () { return _this.setState({ showDetailedPrivacyNotes: true }); } }, "Click for more details"),
-	                ".")),
+	                React.createElement("h3", { className: "note" }, "Privacy Agreement"),
+	                React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using ChartAccent, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the chart you create." + " " + "When you export, if you do not wish to share the chart and dataset, you may uncheck the \u201Cshare my chart with the authors\u201D checkbox." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."))) : null,
 	            this.props.dataset != null ? React.createElement(ReviewDataView, { dataset: this.props.dataset }) : null));
 	    };
 	    return LoadDataView;
@@ -31194,17 +31195,16 @@
 	    function ExportView(props) {
 	        var _this = _super.call(this, props) || this;
 	        _this.state = {
-	            emailAddress: window.localStorage.getItem("chartaccent-emailaddress") || "",
+	            emailAddress: null,
 	            shareData: true
 	        };
 	        return _this;
 	    }
 	    ExportView.prototype.shouldDisableButtons = function () {
-	        if (this.state.shareData == false)
-	            return false;
-	        if (validateEmail(this.state.emailAddress))
-	            return false;
-	        return true;
+	        return false;
+	        // if(this.state.shareData == false) return false;
+	        // if(validateEmail(this.state.emailAddress)) return false;
+	        // return true;
 	    };
 	    ExportView.prototype.doExportAs = function (type) {
 	        var emailAddress = this.state.emailAddress;
@@ -31215,29 +31215,29 @@
 	        var _this = this;
 	        return (React.createElement("section", { className: "section-export" },
 	            React.createElement("h2", null, "Export"),
-	            React.createElement("h3", { className: "note" }, "Email Address"),
+	            React.createElement("h3", { className: "note" }, "Are you willing to share your chart with us?"),
 	            React.createElement("p", null,
-	                React.createElement("input", { ref: "inputEmailAddress", style: { maxWidth: "400px" }, type: "text", value: this.state.emailAddress, placeholder: "yourname@example.com", onChange: function (e) {
-	                        _this.setState({
-	                            emailAddress: _this.refs.inputEmailAddress.value
-	                        });
-	                        window.localStorage.setItem("chartaccent-emailaddress", _this.refs.inputEmailAddress.value);
-	                    } })),
-	            React.createElement("p", { className: "note" }, "By providing an email address you agree that the authors may contact you to request feedback and for user research. You may withdraw this consent at any time."),
+	                React.createElement("label", { style: { cursor: "pointer" } },
+	                    React.createElement("input", { ref: "checkboxShareDataYes", type: "radio", checked: this.state.shareData, onChange: function (e) {
+	                            _this.setState({
+	                                shareData: _this.refs.checkboxShareDataYes.checked
+	                            });
+	                        } }),
+	                    " Yes, share my chart with the authors. I consent that the authors may use my chart and the associated data for research and future publications.")),
+	            React.createElement("p", null,
+	                React.createElement("label", { style: { cursor: "pointer" } },
+	                    React.createElement("input", { ref: "checkboxShareDataNo", type: "radio", checked: !this.state.shareData, onChange: function (e) {
+	                            _this.setState({
+	                                shareData: !_this.refs.checkboxShareDataNo.checked
+	                            });
+	                        } }),
+	                    " No, please keep my chart and data private.")),
 	            React.createElement("p", { "data-intro": "Export the annotated chart to desired format." },
 	                React.createElement(controls_1.Button, { text: "PNG", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("png"); } }),
 	                " ",
 	                React.createElement(controls_1.Button, { text: "SVG", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("svg"); } }),
 	                " ",
 	                React.createElement(controls_1.Button, { text: "Animated GIF", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("gif"); } })),
-	            React.createElement("p", null,
-	                React.createElement("label", { style: { cursor: "pointer" } },
-	                    React.createElement("input", { ref: "checkboxShareData", type: "checkbox", checked: !this.state.shareData, onChange: function (e) {
-	                            _this.setState({
-	                                shareData: !_this.refs.checkboxShareData.checked
-	                            });
-	                        } }),
-	                    " Don't share data with the authors")),
 	            React.createElement("h3", { className: "note" }, "Publication"),
 	            React.createElement("div", { className: "bibitem note" },
 	                React.createElement("div", { className: "bibitem-title" },
@@ -31250,6 +31250,21 @@
 	    return ExportView;
 	}(React.Component));
 	exports.ExportView = ExportView;
+	/*
+	Code to record email address:
+	<h3 className="note">Email Address</h3>
+	<p>
+	    <input ref="inputEmailAddress" style={{ maxWidth: "400px" }} type="text" value={this.state.emailAddress} placeholder="yourname@example.com" onChange={(e) => {
+	        this.setState({
+	            emailAddress: this.refs.inputEmailAddress.value
+	        });
+	        window.localStorage.setItem("chartaccent-emailaddress", this.refs.inputEmailAddress.value);
+	    }} />
+	</p>
+	<p className="note">
+	    By providing an email address you agree that the authors may contact you to request feedback and for user research. You may withdraw this consent at any time.
+	</p>
+	*/ 
 
 
 /***/ },
