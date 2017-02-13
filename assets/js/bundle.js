@@ -32344,7 +32344,7 @@
 
 	"use strict";
 	var sha1 = __webpack_require__(51);
-	var isDevelopmentMode = true;
+	var isDevelopmentMode = false;
 	if (document.location.hostname == "localhost") {
 	    isDevelopmentMode = true;
 	}
