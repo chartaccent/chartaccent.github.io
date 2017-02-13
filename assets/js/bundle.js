@@ -126,7 +126,7 @@
 	                React.createElement(loadDataView_1.LoadDataView, { store: this.props.store, dataset: this.state.dataset }),
 	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.ChartTypeView, { chart: this.state.chart }) : null,
 	                this.state.dataset != null && this.state.chart != null ? React.createElement(createChartView_1.CreateChartView, { chart: this.state.chart, store: this.props.store }) : null,
-	                this.state.dataset != null && this.state.chart != null && this.state.chart.type != null ? React.createElement(exportView_1.ExportView, null) : null)));
+	                this.state.dataset != null && this.state.chart != null && this.state.chart.type != null ? React.createElement(exportView_1.ExportView, { store: this.props.store }) : null)));
 	    };
 	    return MainView;
 	}(React.Component));
@@ -599,20 +599,6 @@
 	}(Action));
 	exports.LoadState = LoadState;
 	;
-	var ExportAs = (function (_super) {
-	    __extends(ExportAs, _super);
-	    function ExportAs(type, emailAddress, shareData) {
-	        if (emailAddress === void 0) { emailAddress = ""; }
-	        if (shareData === void 0) { shareData = true; }
-	        var _this = _super.call(this) || this;
-	        _this.type = type;
-	        _this.emailAddress = emailAddress;
-	        _this.shareData = shareData;
-	        return _this;
-	    }
-	    return ExportAs;
-	}(Action));
-	exports.ExportAs = ExportAs;
 
 
 /***/ },
@@ -1185,7 +1171,7 @@
 	                "."),
 	            this.state.showDetailedPrivacyNotes ? (React.createElement("div", null,
 	                React.createElement("h3", { className: "note" }, "Privacy Agreement"),
-	                React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using ChartAccent, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the chart you create." + " " + "When you export, if you do not wish to share the chart and dataset, you may uncheck the \u201Cshare my chart with the authors\u201D checkbox." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."))) : null,
+	                React.createElement("p", { className: "note", style: { maxWidth: "600px", textAlign: "justify" } }, "While you are using ChartAccent, we log anonymous interaction information to help us improve your experience." + " " + "Your data remains on your machine and is not sent to us unless you export the chart you create." + " " + "When you export, if you do not wish to share your chart and data, you may choose the option \u201Cno, please keep my chart and data private\u201D." + " " + "We will use the anonymous information and the data you share with us for research and may include them in future publications."))) : null,
 	            this.props.dataset != null ? React.createElement(ReviewDataView, { dataset: this.props.dataset }) : null));
 	    };
 	    return LoadDataView;
@@ -2247,8 +2233,9 @@
 	    };
 	    ChartView.prototype.exportAs = function (type, callback) {
 	        var do_download = function (url) {
-	            saveAs(url, "chartaccent." + type);
-	            callback(url);
+	            callback(url, function () {
+	                saveAs(url, "chartaccent." + type);
+	            });
 	        };
 	        if (type == "svg") {
 	            var blob = this.chartAccent.getSVGDataBlob();
@@ -14674,7 +14661,6 @@
 	        quality: 10
 	    });
 	    gif.on('finished', function(blob) {
-	        console.log(blob);
 	        callback(blob);
 	    });
 	    function convertCanvasIndex(i) {
@@ -31185,7 +31171,6 @@
 	};
 	var React = __webpack_require__(1);
 	var controls_1 = __webpack_require__(5);
-	var Actions = __webpack_require__(10);
 	function validateEmail(email) {
 	    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	    return re.test(email);
@@ -31196,48 +31181,70 @@
 	        var _this = _super.call(this, props) || this;
 	        _this.state = {
 	            emailAddress: null,
-	            shareData: true
+	            shareData: true,
+	            exportError: null,
+	            exportSuccess: false,
+	            isExporting: false
 	        };
 	        return _this;
 	    }
 	    ExportView.prototype.shouldDisableButtons = function () {
+	        if (this.state.isExporting)
+	            return true;
 	        return false;
 	        // if(this.state.shareData == false) return false;
 	        // if(validateEmail(this.state.emailAddress)) return false;
 	        // return true;
 	    };
 	    ExportView.prototype.doExportAs = function (type) {
+	        var _this = this;
 	        var emailAddress = this.state.emailAddress;
 	        var shareData = this.state.shareData;
-	        new Actions.ExportAs(type, emailAddress, shareData).dispatch();
+	        this.setState({
+	            exportError: null,
+	            exportSuccess: false,
+	            isExporting: true
+	        });
+	        this.props.store.exportAs(type, emailAddress, shareData, function (error) {
+	            _this.setState({
+	                exportError: error,
+	                exportSuccess: error == null,
+	                isExporting: false
+	            });
+	        });
 	    };
 	    ExportView.prototype.render = function () {
 	        var _this = this;
 	        return (React.createElement("section", { className: "section-export" },
 	            React.createElement("h2", null, "Export"),
 	            React.createElement("h3", { className: "note" }, "Are you willing to share your chart with us?"),
-	            React.createElement("p", null,
-	                React.createElement("label", { style: { cursor: "pointer" } },
-	                    React.createElement("input", { ref: "checkboxShareDataYes", type: "radio", checked: this.state.shareData, onChange: function (e) {
-	                            _this.setState({
-	                                shareData: _this.refs.checkboxShareDataYes.checked
-	                            });
-	                        } }),
-	                    " Yes, share my chart with the authors. I consent that the authors may use my chart and the associated data for research and future publications.")),
-	            React.createElement("p", null,
-	                React.createElement("label", { style: { cursor: "pointer" } },
-	                    React.createElement("input", { ref: "checkboxShareDataNo", type: "radio", checked: !this.state.shareData, onChange: function (e) {
-	                            _this.setState({
-	                                shareData: !_this.refs.checkboxShareDataNo.checked
-	                            });
-	                        } }),
-	                    " No, please keep my chart and data private.")),
-	            React.createElement("p", { "data-intro": "Export the annotated chart to desired format." },
+	            React.createElement("form", null,
+	                React.createElement("p", null,
+	                    React.createElement("label", { style: { cursor: "pointer" } },
+	                        React.createElement("input", { ref: "checkboxShareDataYes", type: "radio", checked: this.state.shareData, onChange: function (e) {
+	                                _this.setState({
+	                                    shareData: _this.refs.checkboxShareDataYes.checked
+	                                });
+	                            } }),
+	                        " Yes, share my chart with the authors. I consent that the authors may use my chart and the associated data for research and future publications.")),
+	                React.createElement("p", null,
+	                    React.createElement("label", { style: { cursor: "pointer" } },
+	                        React.createElement("input", { ref: "checkboxShareDataNo", type: "radio", checked: !this.state.shareData, onChange: function (e) {
+	                                _this.setState({
+	                                    shareData: !_this.refs.checkboxShareDataNo.checked
+	                                });
+	                            } }),
+	                        " No, please keep my chart and data private."))),
+	            React.createElement("p", { "data-intro": "Export the annotated chart to desired format.", className: "export-buttons" },
 	                React.createElement(controls_1.Button, { text: "PNG", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("png"); } }),
 	                " ",
 	                React.createElement(controls_1.Button, { text: "SVG", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("svg"); } }),
 	                " ",
-	                React.createElement(controls_1.Button, { text: "Animated GIF", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("gif"); } })),
+	                React.createElement(controls_1.Button, { text: "Animated GIF", icon: "export", disabled: this.shouldDisableButtons(), onClick: function () { return _this.doExportAs("gif"); } }),
+	                " ",
+	                this.state.isExporting ? React.createElement("span", null, "Exporting...") : (this.state.exportSuccess ? React.createElement("span", null, "Export success") : (this.state.exportError != null ? React.createElement("span", null,
+	                    "Export error: ",
+	                    this.state.exportError) : null))),
 	            React.createElement("h3", { className: "note" }, "Publication"),
 	            React.createElement("div", { className: "bibitem note" },
 	                React.createElement("div", { className: "bibitem-title" },
@@ -31271,7 +31278,7 @@
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(setImmediate) {"use strict";
+	"use strict";
 	var __extends = (this && this.__extends) || function (d, b) {
 	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
 	    function __() { this.constructor = d; }
@@ -31334,11 +31341,11 @@
 	    MainStore.prototype.setExportAs = function (func) {
 	        this._exportAs = func;
 	    };
-	    MainStore.prototype.exportAs = function (type, emailAddress, shareData) {
+	    MainStore.prototype.exportAs = function (type, emailAddress, shareData, callback) {
 	        var _this = this;
 	        if (this._exportAs) {
 	            var state_1 = this.getState();
-	            this._exportAs(type, function (blob) {
+	            this._exportAs(type, function (blob, doDownload) {
 	                if (shareData) {
 	                    var reader_1 = new FileReader();
 	                    reader_1.onload = function (e) {
@@ -31352,9 +31359,23 @@
 	                            imageDataURL: imageDataURL,
 	                            emailAddress: emailAddress
 	                        };
-	                        _this.logger.logExport(exportData);
+	                        _this.logger.logExport(exportData, function (error) {
+	                            if (error != null) {
+	                                callback(error);
+	                            }
+	                            else {
+	                                doDownload();
+	                                callback(null);
+	                            }
+	                        });
 	                    };
 	                    reader_1.readAsDataURL(blob);
+	                }
+	                else {
+	                    setTimeout(function () {
+	                        doDownload();
+	                        callback(null);
+	                    }, 1000);
 	                }
 	            });
 	        }
@@ -31440,11 +31461,6 @@
 	                    }
 	                });
 	            }
-	        }
-	        if (action instanceof Actions.ExportAs) {
-	            setImmediate(function () {
-	                _this.exportAs(action.type, action.emailAddress, action.shareData);
-	            });
 	        }
 	    };
 	    MainStore.prototype.handleUpdateChartAction = function (action) {
@@ -31564,8 +31580,7 @@
 	    return MainStore;
 	}(fbemitter_1.EventEmitter));
 	exports.MainStore = MainStore;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(36).setImmediate))
+
 
 /***/ },
 /* 40 */
@@ -32109,9 +32124,9 @@
 	        console.log("Action", action, label);
 	        this._privateActions.push([timestamp, action, label, privateData]);
 	    };
-	    AppLogger.prototype.logExport = function (data) {
+	    AppLogger.prototype.logExport = function (data, callback) {
 	        data.history = this._privateActions;
-	        service.logExport(JSON.stringify(data));
+	        service.logExport(JSON.stringify(data), callback);
 	    };
 	    return AppLogger;
 	}());
@@ -32180,8 +32195,9 @@
 	    NullLoggingService.prototype.logAction = function (timestamp, type, code) {
 	        console.log("NL.Action", type, code);
 	    };
-	    NullLoggingService.prototype.logExport = function (data) {
+	    NullLoggingService.prototype.logExport = function (data, callback) {
 	        console.log("NL.Export", data);
+	        callback(null);
 	    };
 	    return NullLoggingService;
 	}(LoggingService));
@@ -32244,7 +32260,7 @@
 	        this._sendSessionTimer = setTimeout(function () {
 	            _this._sendSessionTimer = null;
 	            azureBlobStorage_1.putSession(_this.sessionID, _this._sessionDataToSend, function (err) {
-	                if (err) {
+	                if (err != null) {
 	                    console.log("Error in putSession: " + err);
 	                    // Reschedule logging
 	                    _this.scheduleSendSession();
@@ -32253,7 +32269,14 @@
 	        }, 1000);
 	    };
 	    AzureStorageLoggingService.prototype.doSendSession = function () {
-	        azureBlobStorage_1.putSession(this.sessionID, JSON.stringify(this._sessionData), function (err) { });
+	        var _this = this;
+	        azureBlobStorage_1.putSession(this.sessionID, JSON.stringify(this._sessionData), function (err) {
+	            if (err != null) {
+	                console.log("Error in putSession: " + err);
+	                // Reschedule logging
+	                _this.scheduleSendSession();
+	            }
+	        });
 	    };
 	    AzureStorageLoggingService.prototype.logAction = function (timestamp, type, code) {
 	        this._sessionData.actions.push([timestamp, type, code]);
@@ -32263,15 +32286,14 @@
 	        ga("send", "event", category, action, code);
 	        console.log("GoogleAnalytics", category, action, code);
 	    };
-	    AzureStorageLoggingService.prototype.logExport = function (data) {
-	        var _this = this;
+	    AzureStorageLoggingService.prototype.logExport = function (data, callback) {
 	        azureBlobStorage_1.putExport(this.sessionID, data, function (err) {
 	            if (err) {
 	                console.log("Error in putExport: " + err);
-	                // Try again in 5 seconds
-	                setTimeout(function () {
-	                    _this.logExport(data);
-	                }, 1000);
+	                callback(err);
+	            }
+	            else {
+	                callback(null);
 	            }
 	        });
 	    };
@@ -32320,23 +32342,31 @@
 	}
 	function putBlob(blobURL, data, callback) {
 	    var ajaxRequest = new XMLHttpRequest();
+	    var didCallback = false;
 	    ajaxRequest.onreadystatechange = function () {
 	        if (ajaxRequest.readyState == XMLHttpRequest.DONE) {
 	            if (ajaxRequest.status == 200 || ajaxRequest.status == 201) {
-	                callback(null);
+	                if (!didCallback) {
+	                    didCallback = true;
+	                    if (callback)
+	                        callback(null);
+	                }
 	            }
 	            else {
-	                callback(ajaxRequest.status + " " + ajaxRequest.statusText);
+	                if (!didCallback) {
+	                    didCallback = true;
+	                    if (callback)
+	                        callback("could not put blob: " + ajaxRequest.status + " " + ajaxRequest.statusText);
+	                }
 	            }
 	        }
 	    };
-	    ajaxRequest.onload = function () {
-	        if (callback)
-	            callback(null);
-	    };
 	    ajaxRequest.onerror = function () {
-	        if (callback)
-	            callback(ajaxRequest.statusText);
+	        if (!didCallback) {
+	            didCallback = true;
+	            if (callback)
+	                callback("could not put blob: " + ajaxRequest.statusText);
+	        }
 	    };
 	    ajaxRequest.timeout = 20 * 1000;
 	    ajaxRequest.open('PUT', blobURL, true);

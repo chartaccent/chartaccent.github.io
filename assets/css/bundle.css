@@ -519,6 +519,9 @@ ul li {
   margin: -5px;
   margin-bottom: 0; }
 
+.export-buttons > span {
+  margin-left: 0.5em; }
+
 body {
   font-size: 14px;
   font-family: "Roboto", "Helvetica", "Helvetica Neue", "Arial", "sans-serif";
