@@ -1659,7 +1659,7 @@
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumns: yColumns,
-	            xLabel: Defaults.label(xColumn),
+	            xLabel: Defaults.label(""),
 	            yLabel: Defaults.label("Value"),
 	            xScale: Defaults.scale("categorical"),
 	            yScale: Defaults.scale("linear"),
@@ -1683,7 +1683,7 @@
 	            height: 400,
 	            xColumn: xColumn,
 	            yColumns: yColumns,
-	            xLabel: Defaults.label(xColumn),
+	            xLabel: Defaults.label(""),
 	            yLabel: Defaults.label("Value"),
 	            xScale: Defaults.scale("categorical"),
 	            yScale: Defaults.scale("linear"),
@@ -2043,7 +2043,9 @@
 	                React.createElement("div", { className: "options-panel" },
 	                    React.createElement("h3", null, "X Axis"),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })))),
+	                        React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
+	                    React.createElement("div", { className: "widget-row widget-row-p" },
+	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for x axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } })))),
 	            React.createElement("div", { className: "col-6" },
 	                React.createElement("div", { className: "options-panel" },
 	                    React.createElement("h3", null, "Y Axis"),
@@ -2052,7 +2054,7 @@
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
 	                        React.createElement(InputWidgets.ScaleWidget, { columnCount: 12, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } })),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))))));
+	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } }))))));
 	    };
 	    CreateChartView.prototype.renderForScatterplot = function () {
 	        var chart = this.props.chart;
@@ -2075,7 +2077,7 @@
 	                    React.createElement("div", { className: "options-panel" },
 	                        React.createElement("h3", null, "Y Axis"),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Y", title: "choose a column for x axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } })),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Y", title: "choose a column for y axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
 	                            React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
@@ -2377,6 +2379,15 @@
 	        var tickStrings = tickValues.map(yScale.tickFormat());
 	        return d3.max(tickStrings, function (d) { return elements_1.measureTextWidth(d, "Arial", 14); }) + 30;
 	    };
+	    BarChartView.prototype.d3GetXAxisHeight = function () {
+	        var chart = this.props.chart;
+	        if (chart.xLabel && chart.xLabel.text != "") {
+	            return 40;
+	        }
+	        else {
+	            return _super.prototype.d3GetXAxisHeight.call(this);
+	        }
+	    };
 	    BarChartView.prototype.configureChartAccent = function (chartaccent) {
 	        var _this = this;
 	        var chart = this.props.chart;
@@ -2460,7 +2471,8 @@
 	            React.createElement("g", { ref: function (g) { return _this._barChartContent = g; } }),
 	            React.createElement("g", { ref: function (g) { return _this._barChartXAxis = g; }, transform: "translate(0, " + (chart.height - this._margin.bottom) + ")" }),
 	            React.createElement("g", { ref: function (g) { return _this._barChartYAxis = g; }, transform: "translate(" + this._margin.left + ", 0)" }),
-	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left - this.d3GetYAxisWidth() + 10) + ", " + (this._margin.top + chart.height - this._margin.bottom) / 2 + ") rotate(-90)", label: chart.yLabel, anchor: "middle" })));
+	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left - this.d3GetYAxisWidth() + 10) + ", " + (this._margin.top + chart.height - this._margin.bottom) / 2 + ") rotate(-90)", label: chart.yLabel, anchor: "middle" }),
+	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left + chart.width - this._margin.right) / 2 + ", " + (chart.height - this._margin.bottom + 40) + ")", label: chart.xLabel, anchor: "middle" })));
 	    };
 	    return BarChartView;
 	}(baseChart_1.BaseChartView));
@@ -2747,6 +2759,15 @@
 	        var tickStrings = tickValues.map(yScale.tickFormat());
 	        return d3.max(tickStrings, function (d) { return elements_1.measureTextWidth(d, "Arial", 14); }) + 30;
 	    };
+	    LineChartView.prototype.d3GetXAxisHeight = function () {
+	        var chart = this.props.chart;
+	        if (chart.xLabel && chart.xLabel.text != "") {
+	            return 40;
+	        }
+	        else {
+	            return _super.prototype.d3GetXAxisHeight.call(this);
+	        }
+	    };
 	    LineChartView.prototype.configureChartAccent = function (chartaccent) {
 	        var _this = this;
 	        var chart = this.props.chart;
@@ -2831,7 +2852,8 @@
 	            React.createElement("g", { ref: function (g) { return _this._lineChartContent = g; } }),
 	            React.createElement("g", { ref: function (g) { return _this._lineChartXAxis = g; }, transform: "translate(0, " + (chart.height - this._margin.bottom) + ")" }),
 	            React.createElement("g", { ref: function (g) { return _this._lineChartYAxis = g; }, transform: "translate(" + this._margin.left + ", 0)" }),
-	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left - this.d3GetYAxisWidth() + 10) + ", " + (this._margin.top + chart.height - this._margin.bottom) / 2 + ") rotate(-90)", label: chart.yLabel, anchor: "middle" })));
+	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left - this.d3GetYAxisWidth() + 10) + ", " + (this._margin.top + chart.height - this._margin.bottom) / 2 + ") rotate(-90)", label: chart.yLabel, anchor: "middle" }),
+	            React.createElement(elements_1.ChartLabel, { transform: "translate(" + (this._margin.left + chart.width - this._margin.right) / 2 + ", " + (chart.height - this._margin.bottom + 40) + ")", label: chart.xLabel, anchor: "middle" })));
 	    };
 	    return LineChartView;
 	}(baseChart_1.BaseChartView));
@@ -2934,7 +2956,13 @@
 	        return d3.max(tickStrings, function (d) { return elements_1.measureTextWidth(d, "Arial", 14); }) + 30;
 	    };
 	    ScatterplotView.prototype.d3GetXAxisHeight = function () {
-	        return 40;
+	        var chart = this.props.chart;
+	        if (chart.xLabel && chart.xLabel.text != "") {
+	            return 40;
+	        }
+	        else {
+	            return _super.prototype.d3GetXAxisHeight.call(this);
+	        }
 	    };
 	    ScatterplotView.prototype.configureChartAccent = function (chartaccent) {
 	        var _this = this;
