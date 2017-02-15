@@ -1650,7 +1650,7 @@
 	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
 	            return null;
 	        var xColumn = xColumnCandidates[0];
-	        // yColumnCandidates.sort((a, b) => a < b ? -1 : 1);
+	        yColumnCandidates.sort(function (a, b) { return a < b ? -1 : 1; });
 	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
@@ -1675,7 +1675,7 @@
 	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
 	            return null;
 	        var xColumn = xColumnCandidates[0];
-	        // yColumnCandidates.sort((a, b) => a < b ? -1 : 1);
+	        yColumnCandidates.sort(function (a, b) { return a < b ? -1 : 1; });
 	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
@@ -1698,6 +1698,7 @@
 	        var xyColumnCandidates = utils_1.getColumnsForContinuousAxis(dataset);
 	        if (xyColumnCandidates.length < 2)
 	            return null;
+	        xyColumnCandidates.sort(function (a, b) { return a < b ? -1 : 1; });
 	        var xColumn = xyColumnCandidates[0];
 	        var yColumn = xyColumnCandidates[1];
 	        var sizeColumn = null; // xyColumnCandidates[2] || null;
@@ -1991,6 +1992,9 @@
 	function sortColumnNames(names) {
 	    return names.slice().sort(function (a, b) { return a < b ? -1 : 1; });
 	}
+	function prepareColumnNames(names) {
+	    return sortColumnNames(names);
+	}
 	var ChartTypeView = (function (_super) {
 	    __extends(ChartTypeView, _super);
 	    function ChartTypeView() {
@@ -2048,14 +2052,14 @@
 	                React.createElement("div", { className: "options-panel" },
 	                    React.createElement("h3", null, "X Axis"),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
+	                        React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: prepareColumnNames(xColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
 	                        React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for x axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } })))),
 	            React.createElement("div", { className: "col-6" },
 	                React.createElement("div", { className: "options-panel" },
 	                    React.createElement("h3", null, "Y Axis"),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
-	                        React.createElement(InputWidgets.ColumnsWidget, { columnCount: 12, text: "Y", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: yColumnCandidates, onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } })),
+	                        React.createElement(InputWidgets.ColumnsWidget, { columnCount: 12, text: "Y", title: "choose a column for x axis", columns: chart.yColumns || [], candidates: prepareColumnNames(yColumnCandidates), onChange: function (newColumns) { return new Actions.UpdateChartYColumns(chart, newColumns).dispatch(); } })),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
 	                        React.createElement(InputWidgets.ScaleWidget, { columnCount: 12, text: "Y", title: "y range", scale: chart.yScale, onChange: function (newScale) { return new Actions.UpdateChartYScale(chart, newScale).dispatch(); } })),
 	                    React.createElement("div", { className: "widget-row widget-row-p" },
@@ -2073,7 +2077,7 @@
 	                    React.createElement("div", { className: "options-panel" },
 	                        React.createElement("h3", null, "X Axis"),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "X", title: "choose a column for x axis", column: chart.xColumn, candidates: prepareColumnNames(xyColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartXColumn(chart, newColumn).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
 	                            React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for X axis", label: chart.xLabel, onChange: function (newTitle) { return new Actions.UpdateChartXLabel(chart, newTitle).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
@@ -2082,7 +2086,7 @@
 	                    React.createElement("div", { className: "options-panel" },
 	                        React.createElement("h3", null, "Y Axis"),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Y", title: "choose a column for y axis", column: chart.yColumn, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } })),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 12, text: "Y", title: "choose a column for y axis", column: chart.yColumn, candidates: prepareColumnNames(xyColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartYColumn(chart, newColumn).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
 	                            React.createElement(InputWidgets.LabelWidget, { columnCount: 12, text: "Label", title: "enter the label for Y axis", label: chart.yLabel, onChange: function (newTitle) { return new Actions.UpdateChartYLabel(chart, newTitle).dispatch(); } })),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
@@ -2092,9 +2096,9 @@
 	                    React.createElement("div", { className: "options-panel" },
 	                        React.createElement("h3", null, "Points"),
 	                        React.createElement("div", { className: "widget-row widget-row-p" },
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Size", title: "choose a column for size", column: chart.sizeColumn, allowNull: true, candidates: xyColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartSizeColumn(chart, newColumn).dispatch(); } }),
-	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: groupColumnCandidates, onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })))))));
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Color", title: "choose a column for color", column: chart.groupColumn, allowNull: true, candidates: prepareColumnNames(groupColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartGroupColumn(chart, newColumn).dispatch(); } }),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Size", title: "choose a column for size", column: chart.sizeColumn, allowNull: true, candidates: prepareColumnNames(xyColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartSizeColumn(chart, newColumn).dispatch(); } }),
+	                            React.createElement(InputWidgets.ColumnWidget, { columnCount: 4, text: "Label", title: "choose a column for name", allowNull: true, column: chart.nameColumn, candidates: prepareColumnNames(groupColumnCandidates), onChange: function (newColumn) { return new Actions.UpdateChartNameColumn(chart, newColumn).dispatch(); } })))))));
 	    };
 	    CreateChartView.prototype.render = function () {
 	        var chart = this.props.chart;
