@@ -1650,6 +1650,7 @@
 	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
 	            return null;
 	        var xColumn = xColumnCandidates[0];
+	        // yColumnCandidates.sort((a, b) => a < b ? -1 : 1);
 	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
@@ -1674,6 +1675,7 @@
 	        if (xColumnCandidates.length == 0 || yColumnCandidates.length == 0)
 	            return null;
 	        var xColumn = xColumnCandidates[0];
+	        // yColumnCandidates.sort((a, b) => a < b ? -1 : 1);
 	        var yColumns = yColumnCandidates.slice(0, 2);
 	        return {
 	            dataset: dataset,
@@ -1986,6 +1988,9 @@
 	var utils_1 = __webpack_require__(19);
 	var InputWidgets = __webpack_require__(16);
 	var chartView_1 = __webpack_require__(22);
+	function sortColumnNames(names) {
+	    return names.slice().sort(function (a, b) { return a < b ? -1 : 1; });
+	}
 	var ChartTypeView = (function (_super) {
 	    __extends(ChartTypeView, _super);
 	    function ChartTypeView() {
@@ -11660,6 +11665,7 @@
 	    };
 	    if(component.type == "label" || component.type == "item-label") {
 	        r.text = Expression.toStringExpression(component.text);
+	        r.line = component.line;
 	        r.anchor = deepClone(component.anchor);
 	        r.anchor_offset = deepClone(component.anchor_offset);
 	    }
@@ -11693,6 +11699,7 @@
 	    };
 	    if(serialized.type == "label" || serialized.type == "item-label") {
 	        r.text = Expression.parseStringExpression(serialized.text);
+	        r.line = serialized.line;
 	        r.anchor = deepClone(serialized.anchor);
 	        r.anchor_offset = deepClone(serialized.anchor_offset);
 	    }
