@@ -1,767 +1,657 @@
-
-    @font-face {
-      font-family: 'chartaccent_icons';
-      src: url('data:application/octet-stream;base64,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Rm9yZ2UgMi4wIDogY2hhcnRhY2NlbnRfaWNvbnMgOiAxMi0yLTIwMTcAAGMAaABhAHIAdABhAGMAYwBlAG4AdABfAGkAYwBvAG4AcwAAY2hhcnRhY2NlbnRfaWNvbnMAAFYAZQByAHMAaQBvAG4AIAAwADAAMQAuADAAMAAwACAAAFZlcnNpb24gMDAxLjAwMCAAAGMAaABhAHIAdABhAGMAYwBlAG4AdABfAGkAYwBvAG4AcwAAY2hhcnRhY2NlbnRfaWNvbnMAAAAAAAIAAAAAAAD/gwAyAAAAAAAAAAAAAAAAAAAAAAAAAAAANwAAAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETARQBFQEWARcBGAEZARoBGwEcAR0BHgEfASABIQEiASMBJAElASYBJwEoASkBKgErASwBLQEuAS8BMAExATIBMwE0ATUBNgE3BmdseXBoMQZnbHlwaDIGZ2x5cGgwBmdseXBoMwZnbHlwaDQGZ2x5cGg1BmdseXBoNgZnbHlwaDcGZ2x5cGg4BmdseXBoOQdnbHlwaDEwB2dseXBoMTEHZ2x5cGgxMgdnbHlwaDEzB2dseXBoMTQHZ2x5cGgxNQdnbHlwaDE2B2dseXBoMTcHZ2x5cGgxOAdnbHlwaDE5B2dseXBoMjAHZ2x5cGgyMQdnbHlwaDIyB2dseXBoMjMHZ2x5cGgyNAdnbHlwaDI1B2dseXBoMjYHZ2x5cGgyNwdnbHlwaDI4B2dseXBoMjkHZ2x5cGgzMAdnbHlwaDMxB2dseXBoMzIHZ2x5cGgzMwdnbHlwaDM0B2dseXBoMzUHZ2x5cGgzNgdnbHlwaDM3B2dseXBoMzgHZ2x5cGgzOQdnbHlwaDQwB2dseXBoNDEHZ2x5cGg0MgdnbHlwaDQzB2dseXBoNDQHZ2x5cGg0NQdnbHlwaDQ2B2dseXBoNDcHZ2x5cGg0OAdnbHlwaDQ5B2dseXBoNTAHZ2x5cGg1MQdnbHlwaDUyB2dseXBoNTMAAAAAAAH//wACAAAAAQAAAADT/kVlAAAAANTG5A8AAAAA1MbkDw==') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-    }
-    
-     .chartaccent-icons-font-smaller:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e016";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-annotation:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e000";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-checkbox-checked:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e007";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-start:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01d";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-minus:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e020";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-undo:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e035";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-circles:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00b";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-label:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02d";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-range:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e027";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-none:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01b";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-range-without:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e026";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-plus:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e022";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-item-label:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e017";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-checkbox-correct-empty:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e009";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-range-within:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e025";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-above:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e018";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-arrow-right:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e003";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-start-end:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01c";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-region:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e029";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-edit:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e011";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-line:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02e";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-lines:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01e";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-font-larger:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e015";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-tour:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e032";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-arrow-left:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e002";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-blank:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e006";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-arrow:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02b";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-export:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e013";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-tutorial:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e034";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-redo:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e028";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-preset:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e023";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-bars:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e005";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-arrow-up:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e004";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-load:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01f";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-arrow-down:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e001";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-digits-more:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e010";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-checkbox-empty:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00a";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-oval:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02f";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-trendline:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e033";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-digits-less:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00f";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-rect:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e030";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-below:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e019";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-correct:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00c";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-slash:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e031";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-save:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02a";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-range-line:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e024";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-more:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e021";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-email:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e012";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-checkbox-correct-checked:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e008";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-eye:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e014";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-line-end:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e01a";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-cross-small:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00d";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-shape-image:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e02c";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
-     .chartaccent-icons-cross:before {
-        font-family: "chartaccent_icons" !important;
-        content: "\e00e";
-        speak: none;
-        font-style: normal;
-        font-weight: normal;
-        font-variant: normal;
-        text-transform: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-     }
-     
-
+@font-face {
+  font-family: 'chartaccent_icons';
+  src: url('data:application/octet-stream;base64,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ADIAMAAxADcAAEZvbnRGb3JnZSAyLjAgOiBjaGFydGFjY2VudF9pY29ucyA6IDgtNC0yMDE3AABjAGgAYQByAHQAYQBjAGMAZQBuAHQAXwBpAGMAbwBuAHMAAGNoYXJ0YWNjZW50X2ljb25zAABWAGUAcgBzAGkAbwBuACAAMAAwADEALgAwADAAMAAgAABWZXJzaW9uIDAwMS4wMDAgAABjAGgAYQByAHQAYQBjAGMAZQBuAHQAXwBpAGMAbwBuAHMAAGNoYXJ0YWNjZW50X2ljb25zAAAAAAIAAAAAAAD/gwAyAAAAAAAAAAAAAAAAAAAAAAAAAAAANwAAAQIBAwEEAQUBBgEHAQgBCQEKAQsBDAENAQ4BDwEQAREBEgETARQBFQEWARcBGAEZARoBGwEcAR0BHgEfASABIQEiASMBJAElASYBJwEoASkBKgErASwBLQEuAS8BMAExATIBMwE0ATUBNgE3BmdseXBoMQZnbHlwaDIGZ2x5cGgwBmdseXBoMwZnbHlwaDQGZ2x5cGg1BmdseXBoNgZnbHlwaDcGZ2x5cGg4BmdseXBoOQdnbHlwaDEwB2dseXBoMTEHZ2x5cGgxMgdnbHlwaDEzB2dseXBoMTQHZ2x5cGgxNQdnbHlwaDE2B2dseXBoMTcHZ2x5cGgxOAdnbHlwaDE5B2dseXBoMjAHZ2x5cGgyMQdnbHlwaDIyB2dseXBoMjMHZ2x5cGgyNAdnbHlwaDI1B2dseXBoMjYHZ2x5cGgyNwdnbHlwaDI4B2dseXBoMjkHZ2x5cGgzMAdnbHlwaDMxB2dseXBoMzIHZ2x5cGgzMwdnbHlwaDM0B2dseXBoMzUHZ2x5cGgzNgdnbHlwaDM3B2dseXBoMzgHZ2x5cGgzOQdnbHlwaDQwB2dseXBoNDEHZ2x5cGg0MgdnbHlwaDQzB2dseXBoNDQHZ2x5cGg0NQdnbHlwaDQ2B2dseXBoNDcHZ2x5cGg0OAdnbHlwaDQ5B2dseXBoNTAHZ2x5cGg1MQdnbHlwaDUyB2dseXBoNTMAAAAAAAH//wACAAAAAQAAAADUkiGvAAAAANUPFG0AAAAA1Q8UbQ==') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.chartaccent-icons-font-smaller:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e016";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-annotation:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e000";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-checkbox-checked:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e007";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-start:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01d";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-minus:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e020";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-undo:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e035";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-circles:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00b";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-label:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02d";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-range:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e027";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-none:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01b";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-range-without:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e026";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-plus:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e022";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-item-label:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e017";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-checkbox-correct-empty:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e009";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-range-within:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e025";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-above:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e018";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-arrow-right:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e003";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-start-end:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01c";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-region:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e029";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-edit:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e011";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-line:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02e";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-lines:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01e";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-font-larger:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e015";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-tour:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e032";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-arrow-left:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e002";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-blank:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e006";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-arrow:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02b";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-export:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e013";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-tutorial:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e034";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-redo:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e028";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-preset:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e023";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-bars:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e005";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-arrow-up:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e004";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-load:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01f";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-arrow-down:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e001";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-digits-more:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e010";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-checkbox-empty:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00a";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-oval:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02f";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-trendline:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e033";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-digits-less:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00f";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-rect:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e030";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-below:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e019";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-correct:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00c";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-slash:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e031";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-save:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02a";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-range-line:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e024";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-more:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e021";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-email:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e012";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-checkbox-correct-checked:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e008";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-eye:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e014";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-line-end:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e01a";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-cross-small:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00d";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-shape-image:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e02c";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.chartaccent-icons-cross:before {
+  font-family: "chartaccent_icons" !important;
+  content: "\e00e";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 chartaccent-panel,
 chartaccent-toolbar {
   /* HTML5 display-role reset for older browsers */
@@ -1040,8 +930,7 @@ chartaccent-panel ul,
 chartaccent-toolbar ul,
 chartaccent-panel ol,
 chartaccent-toolbar ol {
-  margin: 4px 0;
-  padding: 0 3px;
+  padding: 4px 3px;
 }
 chartaccent-panel dl,
 chartaccent-toolbar dl {
@@ -1241,6 +1130,7 @@ chartaccent-toolbar section.annotations > div > div.annotation .btn {
   font-size: 10px;
   line-height: 12px;
   font-size: 12px;
+  height: 12px;
   margin: 4px 0;
   vertical-align: top;
   border: none;
@@ -1261,6 +1151,7 @@ chartaccent-toolbar section.annotations > div > div.annotation .icon {
   padding: 2px 2px;
   font-size: 10px;
   line-height: 12px;
+  height: 12px;
   font-size: 12px;
   margin: 4px 0;
   vertical-align: top;
@@ -1482,7 +1373,8 @@ chartaccent-toolbar .sep {
   padding-left: 8px;
   margin-right: 8px;
 }
-chartaccent-popout {
+chartaccent-popout,
+div.chartaccent-popout {
   /* HTML5 display-role reset for older browsers */
   font-size: 14px;
   line-height: 14px;
@@ -1490,84 +1382,163 @@ chartaccent-popout {
   -webkit-user-select: none;
 }
 chartaccent-popout div,
+div.chartaccent-popout div,
 chartaccent-popout span,
+div.chartaccent-popout span,
 chartaccent-popout applet,
+div.chartaccent-popout applet,
 chartaccent-popout object,
+div.chartaccent-popout object,
 chartaccent-popout iframe,
+div.chartaccent-popout iframe,
 chartaccent-popout h1,
+div.chartaccent-popout h1,
 chartaccent-popout h2,
+div.chartaccent-popout h2,
 chartaccent-popout h3,
+div.chartaccent-popout h3,
 chartaccent-popout h4,
+div.chartaccent-popout h4,
 chartaccent-popout h5,
+div.chartaccent-popout h5,
 chartaccent-popout h6,
+div.chartaccent-popout h6,
 chartaccent-popout p,
+div.chartaccent-popout p,
 chartaccent-popout blockquote,
+div.chartaccent-popout blockquote,
 chartaccent-popout pre,
+div.chartaccent-popout pre,
 chartaccent-popout a,
+div.chartaccent-popout a,
 chartaccent-popout abbr,
+div.chartaccent-popout abbr,
 chartaccent-popout acronym,
+div.chartaccent-popout acronym,
 chartaccent-popout address,
+div.chartaccent-popout address,
 chartaccent-popout big,
+div.chartaccent-popout big,
 chartaccent-popout cite,
+div.chartaccent-popout cite,
 chartaccent-popout code,
+div.chartaccent-popout code,
 chartaccent-popout del,
+div.chartaccent-popout del,
 chartaccent-popout dfn,
+div.chartaccent-popout dfn,
 chartaccent-popout em,
+div.chartaccent-popout em,
 chartaccent-popout img,
+div.chartaccent-popout img,
 chartaccent-popout ins,
+div.chartaccent-popout ins,
 chartaccent-popout kbd,
+div.chartaccent-popout kbd,
 chartaccent-popout q,
+div.chartaccent-popout q,
 chartaccent-popout s,
+div.chartaccent-popout s,
 chartaccent-popout samp,
+div.chartaccent-popout samp,
 chartaccent-popout small,
+div.chartaccent-popout small,
 chartaccent-popout strike,
+div.chartaccent-popout strike,
 chartaccent-popout strong,
+div.chartaccent-popout strong,
 chartaccent-popout sub,
+div.chartaccent-popout sub,
 chartaccent-popout sup,
+div.chartaccent-popout sup,
 chartaccent-popout tt,
+div.chartaccent-popout tt,
 chartaccent-popout var,
+div.chartaccent-popout var,
 chartaccent-popout b,
+div.chartaccent-popout b,
 chartaccent-popout u,
+div.chartaccent-popout u,
 chartaccent-popout i,
+div.chartaccent-popout i,
 chartaccent-popout center,
+div.chartaccent-popout center,
 chartaccent-popout dl,
+div.chartaccent-popout dl,
 chartaccent-popout dt,
+div.chartaccent-popout dt,
 chartaccent-popout dd,
+div.chartaccent-popout dd,
 chartaccent-popout ol,
+div.chartaccent-popout ol,
 chartaccent-popout ul,
+div.chartaccent-popout ul,
 chartaccent-popout li,
+div.chartaccent-popout li,
 chartaccent-popout fieldset,
+div.chartaccent-popout fieldset,
 chartaccent-popout form,
+div.chartaccent-popout form,
 chartaccent-popout label,
+div.chartaccent-popout label,
 chartaccent-popout legend,
+div.chartaccent-popout legend,
 chartaccent-popout table,
+div.chartaccent-popout table,
 chartaccent-popout caption,
+div.chartaccent-popout caption,
 chartaccent-popout tbody,
+div.chartaccent-popout tbody,
 chartaccent-popout tfoot,
+div.chartaccent-popout tfoot,
 chartaccent-popout thead,
+div.chartaccent-popout thead,
 chartaccent-popout tr,
+div.chartaccent-popout tr,
 chartaccent-popout th,
+div.chartaccent-popout th,
 chartaccent-popout td,
+div.chartaccent-popout td,
 chartaccent-popout article,
+div.chartaccent-popout article,
 chartaccent-popout aside,
+div.chartaccent-popout aside,
 chartaccent-popout canvas,
+div.chartaccent-popout canvas,
 chartaccent-popout details,
+div.chartaccent-popout details,
 chartaccent-popout embed,
+div.chartaccent-popout embed,
 chartaccent-popout figure,
+div.chartaccent-popout figure,
 chartaccent-popout figcaption,
+div.chartaccent-popout figcaption,
 chartaccent-popout footer,
+div.chartaccent-popout footer,
 chartaccent-popout header,
+div.chartaccent-popout header,
 chartaccent-popout hgroup,
+div.chartaccent-popout hgroup,
 chartaccent-popout menu,
+div.chartaccent-popout menu,
 chartaccent-popout nav,
+div.chartaccent-popout nav,
 chartaccent-popout output,
+div.chartaccent-popout output,
 chartaccent-popout ruby,
+div.chartaccent-popout ruby,
 chartaccent-popout section,
+div.chartaccent-popout section,
 chartaccent-popout summary,
+div.chartaccent-popout summary,
 chartaccent-popout time,
+div.chartaccent-popout time,
 chartaccent-popout mark,
+div.chartaccent-popout mark,
 chartaccent-popout audio,
-chartaccent-popout video {
+div.chartaccent-popout audio,
+chartaccent-popout video,
+div.chartaccent-popout video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -1576,54 +1547,87 @@ chartaccent-popout video {
   vertical-align: baseline;
 }
 chartaccent-popout article,
+div.chartaccent-popout article,
 chartaccent-popout aside,
+div.chartaccent-popout aside,
 chartaccent-popout details,
+div.chartaccent-popout details,
 chartaccent-popout figcaption,
+div.chartaccent-popout figcaption,
 chartaccent-popout figure,
+div.chartaccent-popout figure,
 chartaccent-popout footer,
+div.chartaccent-popout footer,
 chartaccent-popout header,
+div.chartaccent-popout header,
 chartaccent-popout hgroup,
+div.chartaccent-popout hgroup,
 chartaccent-popout menu,
+div.chartaccent-popout menu,
 chartaccent-popout nav,
-chartaccent-popout section {
+div.chartaccent-popout nav,
+chartaccent-popout section,
+div.chartaccent-popout section {
   display: block;
 }
-chartaccent-popout body {
+chartaccent-popout body,
+div.chartaccent-popout body {
   line-height: 1;
 }
 chartaccent-popout ol,
-chartaccent-popout ul {
+div.chartaccent-popout ol,
+chartaccent-popout ul,
+div.chartaccent-popout ul {
   list-style: none;
 }
 chartaccent-popout blockquote,
-chartaccent-popout q {
+div.chartaccent-popout blockquote,
+chartaccent-popout q,
+div.chartaccent-popout q {
   quotes: none;
 }
 chartaccent-popout blockquote:before,
+div.chartaccent-popout blockquote:before,
 chartaccent-popout blockquote:after,
+div.chartaccent-popout blockquote:after,
 chartaccent-popout q:before,
-chartaccent-popout q:after {
+div.chartaccent-popout q:before,
+chartaccent-popout q:after,
+div.chartaccent-popout q:after {
   content: '';
   content: none;
 }
-chartaccent-popout table {
+chartaccent-popout table,
+div.chartaccent-popout table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-chartaccent-popout .float-right {
+chartaccent-popout .float-right,
+div.chartaccent-popout .float-right {
   float: right;
 }
 chartaccent-popout header,
+div.chartaccent-popout header,
 chartaccent-popout footer,
+div.chartaccent-popout footer,
 chartaccent-popout section,
+div.chartaccent-popout section,
 chartaccent-popout h1,
+div.chartaccent-popout h1,
 chartaccent-popout h2,
+div.chartaccent-popout h2,
 chartaccent-popout h3,
+div.chartaccent-popout h3,
 chartaccent-popout h4,
+div.chartaccent-popout h4,
 chartaccent-popout p,
+div.chartaccent-popout p,
 chartaccent-popout div,
+div.chartaccent-popout div,
 chartaccent-popout span,
-chartaccent-popout label {
+div.chartaccent-popout span,
+chartaccent-popout label,
+div.chartaccent-popout label {
   margin: 0;
   padding: 0;
   border: none;
@@ -1631,7 +1635,8 @@ chartaccent-popout label {
   font-size: 1em;
   line-height: 1em;
 }
-chartaccent-popout header {
+chartaccent-popout header,
+div.chartaccent-popout header {
   font-size: 12px;
   padding: 5px 3px;
   font-weight: 300;
@@ -1639,28 +1644,37 @@ chartaccent-popout header {
   background: #F8F8F8;
 }
 chartaccent-popout p,
+div.chartaccent-popout p,
 chartaccent-popout ul,
-chartaccent-popout ol {
-  margin: 4px 0;
-  padding: 0 3px;
+div.chartaccent-popout ul,
+chartaccent-popout ol,
+div.chartaccent-popout ol {
+  padding: 4px 3px;
 }
-chartaccent-popout dl {
+chartaccent-popout dl,
+div.chartaccent-popout dl {
   margin: 2px 0;
   padding: 0 3px;
 }
 chartaccent-popout ul,
-chartaccent-popout ol {
+div.chartaccent-popout ul,
+chartaccent-popout ol,
+div.chartaccent-popout ol {
   list-style-type: none;
 }
-chartaccent-popout .inline-widgets {
+chartaccent-popout .inline-widgets,
+div.chartaccent-popout .inline-widgets {
   line-height: 28px;
 }
 chartaccent-popout dl dd,
-chartaccent-popout dl dt {
+div.chartaccent-popout dl dd,
+chartaccent-popout dl dt,
+div.chartaccent-popout dl dt {
   margin: 0;
   padding: 0;
 }
-chartaccent-popout dl dt {
+chartaccent-popout dl dt,
+div.chartaccent-popout dl dt {
   display: block;
   float: left;
   font-size: 12px;
@@ -1670,12 +1684,14 @@ chartaccent-popout dl dt {
   line-height: 28px;
   text-align: right;
 }
-chartaccent-popout dl dd {
+chartaccent-popout dl dd,
+div.chartaccent-popout dl dd {
   display: block;
   margin-left: 47px;
   line-height: 28px;
 }
-chartaccent-popout input {
+chartaccent-popout input,
+div.chartaccent-popout input {
   margin: 0;
   padding: 0;
   outline: 0;
@@ -1691,20 +1707,25 @@ chartaccent-popout input {
   border-radius: 2px;
 }
 chartaccent-popout input:focus,
-chartaccent-popout input:hover {
+div.chartaccent-popout input:focus,
+chartaccent-popout input:hover,
+div.chartaccent-popout input:hover {
   border: 1px solid #AAA;
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2) inset;
 }
-chartaccent-popout .input-updown {
+chartaccent-popout .input-updown,
+div.chartaccent-popout .input-updown {
   display: inline-block;
   height: 24px;
 }
-chartaccent-popout .input-updown input {
+chartaccent-popout .input-updown input,
+div.chartaccent-popout .input-updown input {
   border: 1px solid #CCC;
   border-radius: 2px 0 0 2px;
   border-right: none;
 }
-chartaccent-popout .input-updown > span {
+chartaccent-popout .input-updown > span,
+div.chartaccent-popout .input-updown > span {
   display: inline-block;
   height: 24px;
   width: 12px;
@@ -1713,7 +1734,9 @@ chartaccent-popout .input-updown > span {
   overflow: hidden;
 }
 chartaccent-popout .input-updown > span .btn-up,
-chartaccent-popout .input-updown > span .btn-down {
+div.chartaccent-popout .input-updown > span .btn-up,
+chartaccent-popout .input-updown > span .btn-down,
+div.chartaccent-popout .input-updown > span .btn-down {
   display: block;
   top: 0;
   left: 0;
@@ -1726,31 +1749,42 @@ chartaccent-popout .input-updown > span .btn-down {
   background: #CCC;
 }
 chartaccent-popout .input-updown > span .btn-up:hover,
+div.chartaccent-popout .input-updown > span .btn-up:hover,
 chartaccent-popout .input-updown > span .btn-down:hover,
+div.chartaccent-popout .input-updown > span .btn-down:hover,
 chartaccent-popout .input-updown > span .btn-up.active,
-chartaccent-popout .input-updown > span .btn-down.active {
+div.chartaccent-popout .input-updown > span .btn-up.active,
+chartaccent-popout .input-updown > span .btn-down.active,
+div.chartaccent-popout .input-updown > span .btn-down.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
 chartaccent-popout .input-updown > span .btn-up:active,
-chartaccent-popout .input-updown > span .btn-down:active {
+div.chartaccent-popout .input-updown > span .btn-up:active,
+chartaccent-popout .input-updown > span .btn-down:active,
+div.chartaccent-popout .input-updown > span .btn-down:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
 chartaccent-popout .input-updown > span .btn-up:hover.active,
-chartaccent-popout .input-updown > span .btn-down:hover.active {
+div.chartaccent-popout .input-updown > span .btn-up:hover.active,
+chartaccent-popout .input-updown > span .btn-down:hover.active,
+div.chartaccent-popout .input-updown > span .btn-down:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-popout .input-fontsize {
+chartaccent-popout .input-fontsize,
+div.chartaccent-popout .input-fontsize {
   display: inline-block;
   height: 24px;
 }
-chartaccent-popout .input-fontsize input {
+chartaccent-popout .input-fontsize input,
+div.chartaccent-popout .input-fontsize input {
   border: 1px solid #CCC;
   border-radius: 2px 0 0 2px;
   border-right: none;
 }
-chartaccent-popout .input-fontsize .dropdown {
+chartaccent-popout .input-fontsize .dropdown,
+div.chartaccent-popout .input-fontsize .dropdown {
   display: inline-block;
   height: 24px;
   width: 14px;
@@ -1762,21 +1796,27 @@ chartaccent-popout .input-fontsize .dropdown {
   border-radius: 0 2px 2px 0;
 }
 chartaccent-popout .input-fontsize .dropdown:hover,
-chartaccent-popout .input-fontsize .dropdown.active {
+div.chartaccent-popout .input-fontsize .dropdown:hover,
+chartaccent-popout .input-fontsize .dropdown.active,
+div.chartaccent-popout .input-fontsize .dropdown.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-popout .input-fontsize .dropdown:active {
+chartaccent-popout .input-fontsize .dropdown:active,
+div.chartaccent-popout .input-fontsize .dropdown:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-popout .input-fontsize .dropdown:hover.active {
+chartaccent-popout .input-fontsize .dropdown:hover.active,
+div.chartaccent-popout .input-fontsize .dropdown:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-popout .input-fontsize .btn {
+chartaccent-popout .input-fontsize .btn,
+div.chartaccent-popout .input-fontsize .btn {
   margin-left: 1px;
 }
-chartaccent-popout section.annotations {
+chartaccent-popout section.annotations,
+div.chartaccent-popout section.annotations {
   position: relative;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
@@ -1785,14 +1825,16 @@ chartaccent-popout section.annotations {
   max-height: 110px;
   overflow-y: scroll;
 }
-chartaccent-popout section.annotations .position-separator {
+chartaccent-popout section.annotations .position-separator,
+div.chartaccent-popout section.annotations .position-separator {
   position: absolute;
   left: 0;
   right: 0;
   height: 2px;
   background-color: rgba(0, 0, 0, 0.6);
 }
-chartaccent-popout section.annotations > div > div.annotation {
+chartaccent-popout section.annotations > div > div.annotation,
+div.chartaccent-popout section.annotations > div > div.annotation {
   margin: 0;
   padding: 0 3px;
   font-size: 14px;
@@ -1801,37 +1843,45 @@ chartaccent-popout section.annotations > div > div.annotation {
   cursor: pointer;
   background-color: #FFFFFF;
 }
-chartaccent-popout section.annotations > div > div.annotation .btn {
+chartaccent-popout section.annotations > div > div.annotation .btn,
+div.chartaccent-popout section.annotations > div > div.annotation .btn {
   padding: 2px 2px;
   font-size: 10px;
   line-height: 12px;
   font-size: 12px;
+  height: 12px;
   margin: 4px 0;
   vertical-align: top;
   border: none;
 }
-chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger {
+chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger,
+div.chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger {
   background: #efa7a7;
   color: #550f10;
 }
-chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger:hover {
+chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger:hover,
+div.chartaccent-popout section.annotations > div > div.annotation .btn.btn-danger:hover {
   background: #d62728;
   color: white;
 }
-chartaccent-popout section.annotations > div > div.annotation .icon {
+chartaccent-popout section.annotations > div > div.annotation .icon,
+div.chartaccent-popout section.annotations > div > div.annotation .icon {
   display: inline-block;
   padding: 2px 2px;
   font-size: 10px;
   line-height: 12px;
+  height: 12px;
   font-size: 12px;
   margin: 4px 0;
   vertical-align: top;
   border: none;
 }
-chartaccent-popout section.annotations > div > div.annotation .left {
+chartaccent-popout section.annotations > div > div.annotation .left,
+div.chartaccent-popout section.annotations > div > div.annotation .left {
   float: left;
 }
-chartaccent-popout section.annotations > div > div.annotation label {
+chartaccent-popout section.annotations > div > div.annotation label,
+div.chartaccent-popout section.annotations > div > div.annotation label {
   display: block;
   margin-left: 32px;
   margin-right: 24px;
@@ -1841,35 +1891,43 @@ chartaccent-popout section.annotations > div > div.annotation label {
   white-space: nowrap;
   cursor: pointer;
 }
-chartaccent-popout section.annotations > div > div.annotation .right {
+chartaccent-popout section.annotations > div > div.annotation .right,
+div.chartaccent-popout section.annotations > div > div.annotation .right {
   float: right;
 }
-chartaccent-popout section.annotations > div > div.annotation:not(:last-child) {
+chartaccent-popout section.annotations > div > div.annotation:not(:last-child),
+div.chartaccent-popout section.annotations > div > div.annotation:not(:last-child) {
   border-bottom: 1px solid #F0F0F0;
 }
-chartaccent-popout section.annotations > div > div.annotation.active {
+chartaccent-popout section.annotations > div > div.annotation.active,
+div.chartaccent-popout section.annotations > div > div.annotation.active {
   background-color: #E0E0E0;
 }
-chartaccent-popout section.annotations > div > div.annotation:hover {
+chartaccent-popout section.annotations > div > div.annotation:hover,
+div.chartaccent-popout section.annotations > div > div.annotation:hover {
   background-color: #F0F0F0;
 }
-chartaccent-popout section.annotations > div > div.annotation:hover.active {
+chartaccent-popout section.annotations > div > div.annotation:hover.active,
+div.chartaccent-popout section.annotations > div > div.annotation:hover.active {
   background-color: #D8D8D8;
 }
-chartaccent-popout .target-section {
+chartaccent-popout .target-section,
+div.chartaccent-popout .target-section {
   margin-bottom: 5px;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
-chartaccent-popout .arrayeditor-container {
+chartaccent-popout .arrayeditor-container,
+div.chartaccent-popout .arrayeditor-container {
   overflow: hidden;
   margin-bottom: 5px;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   border-radius: 2px;
 }
-chartaccent-popout .arrayeditor-container:after {
+chartaccent-popout .arrayeditor-container:after,
+div.chartaccent-popout .arrayeditor-container:after {
   content: " ";
   /* Older browser do not support empty content */
   visibility: hidden;
@@ -1878,12 +1936,15 @@ chartaccent-popout .arrayeditor-container:after {
   clear: both;
 }
 chartaccent-popout .arrayeditor-none,
-chartaccent-popout p.nothing {
+div.chartaccent-popout .arrayeditor-none,
+chartaccent-popout p.nothing,
+div.chartaccent-popout p.nothing {
   margin: 5px 0;
   font-size: 12px;
   color: gray;
 }
-chartaccent-popout .btn {
+chartaccent-popout .btn,
+div.chartaccent-popout .btn {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
@@ -1894,42 +1955,53 @@ chartaccent-popout .btn {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 chartaccent-popout .btn:hover,
-chartaccent-popout .btn.active {
+div.chartaccent-popout .btn:hover,
+chartaccent-popout .btn.active,
+div.chartaccent-popout .btn.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-popout .btn:active {
+chartaccent-popout .btn:active,
+div.chartaccent-popout .btn:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-popout .btn:hover.active {
+chartaccent-popout .btn:hover.active,
+div.chartaccent-popout .btn:hover.active {
   background-color: rgba(0, 0, 0, 0.9);
 }
-chartaccent-popout .btn.btn-toggle {
+chartaccent-popout .btn.btn-toggle,
+div.chartaccent-popout .btn.btn-toggle {
   background-color: #F0F0F0;
   color: black;
 }
-chartaccent-popout .btn.btn-toggle.active {
+chartaccent-popout .btn.btn-toggle.active,
+div.chartaccent-popout .btn.btn-toggle.active {
   background-color: #606060;
   color: white;
 }
-chartaccent-popout .btn.btn-toggle:hover {
+chartaccent-popout .btn.btn-toggle:hover,
+div.chartaccent-popout .btn.btn-toggle:hover {
   background-color: #d7d7d7;
   color: black;
 }
-chartaccent-popout .btn.btn-toggle:hover.active {
+chartaccent-popout .btn.btn-toggle:hover.active,
+div.chartaccent-popout .btn.btn-toggle:hover.active {
   background-color: #474747;
   color: white;
 }
-chartaccent-popout .btn.btn-toggle:active {
+chartaccent-popout .btn.btn-toggle:active,
+div.chartaccent-popout .btn.btn-toggle:active {
   background-color: #bdbdbd;
   color: black;
 }
-chartaccent-popout .btn.btn-toggle:active.active {
+chartaccent-popout .btn.btn-toggle:active.active,
+div.chartaccent-popout .btn.btn-toggle:active.active {
   background-color: #7a7a7a;
   color: white;
 }
-chartaccent-popout .btn-group-switch {
+chartaccent-popout .btn-group-switch,
+div.chartaccent-popout .btn-group-switch {
   display: inline-block;
   vertical-align: baseline;
   background-color: rgba(0, 0, 0, 0.05);
@@ -1939,33 +2011,41 @@ chartaccent-popout .btn-group-switch {
   padding-bottom: 1px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5) inset;
 }
-chartaccent-popout .btn-group-switch > span {
+chartaccent-popout .btn-group-switch > span,
+div.chartaccent-popout .btn-group-switch > span {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
   border-radius: 2px;
 }
-chartaccent-popout .btn-group-switch > span:hover {
+chartaccent-popout .btn-group-switch > span:hover,
+div.chartaccent-popout .btn-group-switch > span:hover {
   background-color: rgba(0, 0, 0, 0.2);
 }
-chartaccent-popout .btn-group-switch > span.active {
+chartaccent-popout .btn-group-switch > span.active,
+div.chartaccent-popout .btn-group-switch > span.active {
   background-color: rgba(0, 0, 0, 0.6);
   color: white;
 }
-chartaccent-popout .btn-group-switch > span:active {
+chartaccent-popout .btn-group-switch > span:active,
+div.chartaccent-popout .btn-group-switch > span:active {
   background-color: rgba(0, 0, 0, 0.9);
   color: white;
 }
-chartaccent-popout .btn-group-switch > span:not(:last-child) {
+chartaccent-popout .btn-group-switch > span:not(:last-child),
+div.chartaccent-popout .btn-group-switch > span:not(:last-child) {
   margin-right: 1px;
 }
-chartaccent-popout .btn-group-switch > span:first-child {
+chartaccent-popout .btn-group-switch > span:first-child,
+div.chartaccent-popout .btn-group-switch > span:first-child {
   margin-left: 1px;
 }
-chartaccent-popout .btn-group-switch > span:last-child {
+chartaccent-popout .btn-group-switch > span:last-child,
+div.chartaccent-popout .btn-group-switch > span:last-child {
   margin-right: 1px;
 }
-chartaccent-popout .toggle-btn {
+chartaccent-popout .toggle-btn,
+div.chartaccent-popout .toggle-btn {
   display: inline-block;
   vertical-align: baseline;
   padding: 4px 6px;
@@ -1974,27 +2054,33 @@ chartaccent-popout .toggle-btn {
   border-radius: 2px;
   color: black;
 }
-chartaccent-popout .toggle-btn.active {
+chartaccent-popout .toggle-btn.active,
+div.chartaccent-popout .toggle-btn.active {
   background-color: #606060;
   color: white;
 }
-chartaccent-popout .toggle-btn:hover {
+chartaccent-popout .toggle-btn:hover,
+div.chartaccent-popout .toggle-btn:hover {
   background-color: #d7d7d7;
   color: black;
 }
-chartaccent-popout .toggle-btn:hover.active {
+chartaccent-popout .toggle-btn:hover.active,
+div.chartaccent-popout .toggle-btn:hover.active {
   background-color: #474747;
   color: white;
 }
-chartaccent-popout .toggle-btn:active {
+chartaccent-popout .toggle-btn:active,
+div.chartaccent-popout .toggle-btn:active {
   background-color: #bdbdbd;
   color: black;
 }
-chartaccent-popout .toggle-btn:active.active {
+chartaccent-popout .toggle-btn:active.active,
+div.chartaccent-popout .toggle-btn:active.active {
   background-color: #7a7a7a;
   color: white;
 }
-chartaccent-popout .border-triangle {
+chartaccent-popout .border-triangle,
+div.chartaccent-popout .border-triangle {
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
@@ -2004,11 +2090,13 @@ chartaccent-popout .border-triangle {
   left: 3px;
   top: -6px;
 }
-chartaccent-popout .border-triangle.align-right {
+chartaccent-popout .border-triangle.align-right,
+div.chartaccent-popout .border-triangle.align-right {
   left: initial;
   right: 2px;
 }
-chartaccent-popout h2 {
+chartaccent-popout h2,
+div.chartaccent-popout h2 {
   margin: 0;
   padding: 0 3px;
   font-size: 14px;
@@ -2019,7 +2107,8 @@ chartaccent-popout h2 {
   height: 24px;
   line-height: 24px;
 }
-chartaccent-popout h2 .btn {
+chartaccent-popout h2 .btn,
+div.chartaccent-popout h2 .btn {
   padding: 2px 2px;
   font-size: 10px;
   line-height: 14px;
@@ -2028,39 +2117,48 @@ chartaccent-popout h2 .btn {
   vertical-align: top;
   border: none;
 }
-chartaccent-popout h2 .btn.btn-danger {
+chartaccent-popout h2 .btn.btn-danger,
+div.chartaccent-popout h2 .btn.btn-danger {
   background: #efa7a7;
   color: #550f10;
 }
-chartaccent-popout h2 .btn.btn-danger:hover {
+chartaccent-popout h2 .btn.btn-danger:hover,
+div.chartaccent-popout h2 .btn.btn-danger:hover {
   background: #d62728;
   color: white;
 }
-chartaccent-popout h2 .btn.btn-toggle {
+chartaccent-popout h2 .btn.btn-toggle,
+div.chartaccent-popout h2 .btn.btn-toggle {
   background-color: #AAA;
   color: #777;
 }
-chartaccent-popout h2 .btn.btn-toggle.active {
+chartaccent-popout h2 .btn.btn-toggle.active,
+div.chartaccent-popout h2 .btn.btn-toggle.active {
   background-color: #606060;
   color: white;
 }
-chartaccent-popout h2 .btn.btn-toggle:hover {
+chartaccent-popout h2 .btn.btn-toggle:hover,
+div.chartaccent-popout h2 .btn.btn-toggle:hover {
   background-color: #919191;
   color: #777;
 }
-chartaccent-popout h2 .btn.btn-toggle:hover.active {
+chartaccent-popout h2 .btn.btn-toggle:hover.active,
+div.chartaccent-popout h2 .btn.btn-toggle:hover.active {
   background-color: #474747;
   color: white;
 }
-chartaccent-popout h2 .btn.btn-toggle:active {
+chartaccent-popout h2 .btn.btn-toggle:active,
+div.chartaccent-popout h2 .btn.btn-toggle:active {
   background-color: #777777;
   color: #777;
 }
-chartaccent-popout h2 .btn.btn-toggle:active.active {
+chartaccent-popout h2 .btn.btn-toggle:active.active,
+div.chartaccent-popout h2 .btn.btn-toggle:active.active {
   background-color: #7a7a7a;
   color: white;
 }
-chartaccent-popout h2:after {
+chartaccent-popout h2:after,
+div.chartaccent-popout h2:after {
   content: " ";
   /* Older browser do not support empty content */
   visibility: hidden;
@@ -2068,7 +2166,8 @@ chartaccent-popout h2:after {
   height: 0;
   clear: both;
 }
-chartaccent-popout h3 {
+chartaccent-popout h3,
+div.chartaccent-popout h3 {
   margin: 0;
   padding: 0 3px;
   font-size: 12px;
@@ -2079,7 +2178,8 @@ chartaccent-popout h3 {
   line-height: 24px;
   background: #F0F0F0;
 }
-chartaccent-popout span.color {
+chartaccent-popout span.color,
+div.chartaccent-popout span.color {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -2094,22 +2194,27 @@ chartaccent-popout span.color {
   background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pgo8IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEtIiBzdHlsZT0iZmlsbDogI0ZGRkZGRjsgc3Ryb2tlOiBub25lIiAvPgogICAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjUiIGhlaWdodD0iNSIgc3R5bGU9ImZpbGw6ICNGMEYwRjA7IHN0cm9rZTogbm9uZSIgLz4KICAgIDxyZWN0IHg9IjUiIHk9IjUiIHdpZHRoPSI1IiBoZWlnaHQ9IjUiIHN0eWxlPSJmaWxsOiAjRjBGMEYwOyBzdHJva2U6IG5vbmUiIC8+Cjwvc3ZnPgo=");
 }
 chartaccent-popout span.color:hover,
-chartaccent-popout span.color:active {
+div.chartaccent-popout span.color:hover,
+chartaccent-popout span.color:active,
+div.chartaccent-popout span.color:active {
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
 }
-chartaccent-popout span.color span.content {
+chartaccent-popout span.color span.content,
+div.chartaccent-popout span.color span.content {
   display: inline-block;
   width: 20px;
   height: 20px;
 }
-chartaccent-popout span.color svg.cross-small {
+chartaccent-popout span.color svg.cross-small,
+div.chartaccent-popout span.color svg.cross-small {
   position: absolute;
   left: 0px;
   top: 0px;
   width: 20px;
   height: 20px;
 }
-chartaccent-popout span.color span.occluder {
+chartaccent-popout span.color span.occluder,
+div.chartaccent-popout span.color span.occluder {
   display: inline-block;
   background: white;
   width: 12px;
@@ -2119,29 +2224,35 @@ chartaccent-popout span.color span.occluder {
   top: 4px;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.4) inset;
 }
-chartaccent-popout ul.checkboxes li {
+chartaccent-popout ul.checkboxes li,
+div.chartaccent-popout ul.checkboxes li {
   cursor: pointer;
   padding: 5px 4px;
   border-radius: 2px;
 }
-chartaccent-popout ul.checkboxes li:hover {
+chartaccent-popout ul.checkboxes li:hover,
+div.chartaccent-popout ul.checkboxes li:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-chartaccent-popout .btn-checkbox {
+chartaccent-popout .btn-checkbox,
+div.chartaccent-popout .btn-checkbox {
   cursor: pointer;
   display: inline-block;
   vertical-align: baseline;
   padding: 5px 6px;
   border-radius: 2px;
 }
-chartaccent-popout .btn-checkbox:hover {
+chartaccent-popout .btn-checkbox:hover,
+div.chartaccent-popout .btn-checkbox:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-chartaccent-popout footer {
+chartaccent-popout footer,
+div.chartaccent-popout footer {
   padding: 4px;
   background: #F0F0F0;
 }
-chartaccent-popout footer:after {
+chartaccent-popout footer:after,
+div.chartaccent-popout footer:after {
   content: " ";
   /* Older browser do not support empty content */
   visibility: hidden;
@@ -2149,60 +2260,75 @@ chartaccent-popout footer:after {
   height: 0;
   clear: both;
 }
-chartaccent-popout.select ul {
+chartaccent-popout.select ul,
+div.chartaccent-popout.select ul {
   margin: 0;
   padding: 0;
 }
-chartaccent-popout.select ul li {
+chartaccent-popout.select ul li,
+div.chartaccent-popout.select ul li {
   padding: 4px 8px;
   padding-right: 40px;
   cursor: pointer;
 }
-chartaccent-popout.select ul li:hover {
+chartaccent-popout.select ul li:hover,
+div.chartaccent-popout.select ul li:hover {
   background: #666;
   color: white;
 }
-chartaccent-popout.select ul li .mark {
+chartaccent-popout.select ul li .mark,
+div.chartaccent-popout.select ul li .mark {
   display: none;
   float: left;
 }
-chartaccent-popout.select ul li label {
+chartaccent-popout.select ul li label,
+div.chartaccent-popout.select ul li label {
   display: block;
   margin-left: 18px;
   cursor: pointer;
 }
-chartaccent-popout.select ul li.active .mark {
+chartaccent-popout.select ul li.active .mark,
+div.chartaccent-popout.select ul li.active .mark {
   display: inline;
 }
-chartaccent-popout.select ul li:not(:last-child) {
+chartaccent-popout.select ul li:not(:last-child),
+div.chartaccent-popout.select ul li:not(:last-child) {
   margin-bottom: 1px;
 }
-chartaccent-popout.anchor-select svg rect.anchor {
+chartaccent-popout.anchor-select svg rect.anchor,
+div.chartaccent-popout.anchor-select svg rect.anchor {
   fill: #F0F0F0;
 }
-chartaccent-popout.anchor-select svg rect.anchor:hover {
+chartaccent-popout.anchor-select svg rect.anchor:hover,
+div.chartaccent-popout.anchor-select svg rect.anchor:hover {
   fill: #AAA;
 }
-chartaccent-popout.anchor-select svg rect.anchor.active {
+chartaccent-popout.anchor-select svg rect.anchor.active,
+div.chartaccent-popout.anchor-select svg rect.anchor.active {
   fill: #AAA;
 }
-chartaccent-popout.color-picker {
+chartaccent-popout.color-picker,
+div.chartaccent-popout.color-picker {
   white-space: nowrap;
 }
-chartaccent-popout.color-picker .btn-none {
+chartaccent-popout.color-picker .btn-none,
+div.chartaccent-popout.color-picker .btn-none {
   padding: 4px;
   margin: 3px 5px;
   cursor: pointer;
 }
-chartaccent-popout.color-picker .btn-none:hover {
+chartaccent-popout.color-picker .btn-none:hover,
+div.chartaccent-popout.color-picker .btn-none:hover {
   background: rgba(0, 0, 0, 0.1);
 }
-chartaccent-popout.color-picker .column {
+chartaccent-popout.color-picker .column,
+div.chartaccent-popout.color-picker .column {
   display: inline-block;
   width: 28px;
   white-space: normal;
 }
-chartaccent-popout.color-picker .column:not(:last-child) {
+chartaccent-popout.color-picker .column:not(:last-child),
+div.chartaccent-popout.color-picker .column:not(:last-child) {
   margin-right: 3px;
 }
 .chartaccent-draghandle-line:hover {
