@@ -33805,28 +33805,28 @@
 	"use strict";
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var logging_1 = __webpack_require__(201);
-	var service = new logging_1.AzureStorageLoggingService();
-	service.startSession();
 	var AppLogger = /** @class */ (function () {
 	    function AppLogger() {
+	        this.service = new logging_1.AzureStorageLoggingService();
+	        this.service.startSession();
 	        this._privateActions = [];
 	    }
 	    AppLogger.prototype.getClientID = function () {
-	        return service.clientID;
+	        return this.service.clientID;
 	    };
 	    AppLogger.prototype.getSessionID = function () {
-	        return service.sessionID;
+	        return this.service.sessionID;
 	    };
 	    AppLogger.prototype.logAction = function (action, label, privateData) {
 	        if (privateData === void 0) { privateData = null; }
 	        var timestamp = new Date().getTime();
-	        service.logAction(timestamp, action, label);
+	        this.service.logAction(timestamp, action, label);
 	        console.log("Action", action, label);
 	        this._privateActions.push([timestamp, action, label, privateData]);
 	    };
 	    AppLogger.prototype.logExport = function (data, callback) {
 	        data.history = this._privateActions;
-	        service.logExport(JSON.stringify(data), callback);
+	        this.service.logExport(JSON.stringify(data), callback);
 	    };
 	    return AppLogger;
 	}());
@@ -33860,12 +33860,17 @@
 	}
 	exports.generateSessionID = generateSessionID;
 	function getClientID() {
-	    var id = window.localStorage.getItem("chartaccnet-clientid");
-	    if (id == null) {
-	        id = guid();
-	        window.localStorage.setItem("chartaccnet-clientid", id);
+	    try {
+	        var id = window.localStorage.getItem("chartaccnet-clientid");
+	        if (id == null) {
+	            id = guid();
+	            window.localStorage.setItem("chartaccnet-clientid", id);
+	        }
+	        return id;
 	    }
-	    return id;
+	    catch (e) {
+	        return "sandboxed";
+	    }
 	}
 	exports.getClientID = getClientID;
 	var LoggingService = /** @class */ (function () {
