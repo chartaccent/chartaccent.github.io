@@ -117,16 +117,15 @@
 	        }
 	    };
 	    ChartAccentComponentView.prototype.componentDidUpdate = function () {
-	        if (this.state.mode == "viewing") {
-	            console.log("Viewing mode!");
-	            if (this.chartView) {
-	                var blob = this.chartView.getSVGDataBlob();
-	                console.log("exported!");
-	                if (this.overlay) {
-	                    this.overlay.setState({ url: window.URL.createObjectURL(blob) });
+	        var _this = this;
+	        requestAnimationFrame(function () {
+	            if (_this.state.mode == "viewing") {
+	                if (_this.chartView && _this.overlay) {
+	                    var blob = _this.chartView.getSVGDataBlob();
+	                    _this.overlay.setState({ url: window.URL.createObjectURL(blob) });
 	                }
 	            }
-	        }
+	        });
 	    };
 	    return ChartAccentComponentView;
 	}(React.Component));
@@ -143,6 +142,7 @@
 	                    _this.chartAccent = chartaccent;
 	                    if (_this.nextLoadAnnotations) {
 	                        _this.chartAccent.loadAnnotations(_this.nextLoadAnnotations);
+	                        _this.chartView.componentDidUpdate();
 	                        _this.nextLoadAnnotations = null;
 	                    }
 	                },
@@ -162,6 +162,7 @@
 	    ChartAccentComponent.prototype.loadAnnotations = function (data) {
 	        if (this.chartAccent) {
 	            this.chartAccent.loadAnnotations(data);
+	            this.chartView.componentDidUpdate();
 	        }
 	        else {
 	            this.nextLoadAnnotations = data;
@@ -38304,7 +38305,7 @@
 	    if(text_anchor == "end") left_offset = -wrapper_width + anchor.width;
 	    var wrapper = getRootContainer().append("div").style({
 	        "position": "absolute",
-	        "z-index": 1000001,
+	        "z-index": 110,
 	        "width": wrapper_width + "px",
 	        "font-family": font_family,
 	        "font-size": font_size + "px",
@@ -38410,7 +38411,7 @@
 	    if(text_anchor == "end") left_offset = -wrapper_width + anchor.width;
 	    var wrapper = getRootContainer().append("div").style({
 	        "position": "absolute",
-	        "z-index": 1000001,
+	        "z-index": 110,
 	        "width": wrapper_width + "px",
 	        "font-family": font_family,
 	        "font-size": font_size + "px",
@@ -42944,7 +42945,7 @@
 	    }
 	    wrapper.style({
 	        "position": "absolute",
-	        "z-index": "1000000",
+	        "z-index": "100",
 	        "background": "white",
 	        "border": "1px solid #444",
 	        "box-shadow": "0 0 2px rgba(0,0,0,0.3)"

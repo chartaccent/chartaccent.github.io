@@ -2439,7 +2439,7 @@ chartaccent-suggestions {
   -webkit-user-select: none;
   cursor: default;
   position: absolute;
-  z-index: 1000000;
+  z-index: 100;
   left: 0;
   top: 0;
   border: 1px solid #AAA;
@@ -2467,7 +2467,7 @@ chartaccent-suggestions .item-list > div:hover {
 }
 .chartaccent-selection-hint {
   position: absolute;
-  z-index: 1000001;
+  z-index: 110;
   padding: 3px;
   background: transparent;
   border: 1px dashed #AAA;
@@ -2475,7 +2475,7 @@ chartaccent-suggestions .item-list > div:hover {
 }
 .chartaccent-selection-box {
   position: absolute;
-  z-index: 1000000;
+  z-index: 100;
   padding: 3px;
   background: transparent;
   border: 1px dashed #AAA;

@@ -38186,7 +38186,7 @@
 	    if(text_anchor == "end") left_offset = -wrapper_width + anchor.width;
 	    var wrapper = getRootContainer().append("div").style({
 	        "position": "absolute",
-	        "z-index": 1000001,
+	        "z-index": 110,
 	        "width": wrapper_width + "px",
 	        "font-family": font_family,
 	        "font-size": font_size + "px",
@@ -38292,7 +38292,7 @@
 	    if(text_anchor == "end") left_offset = -wrapper_width + anchor.width;
 	    var wrapper = getRootContainer().append("div").style({
 	        "position": "absolute",
-	        "z-index": 1000001,
+	        "z-index": 110,
 	        "width": wrapper_width + "px",
 	        "font-family": font_family,
 	        "font-size": font_size + "px",
@@ -42826,7 +42826,7 @@
 	    }
 	    wrapper.style({
 	        "position": "absolute",
-	        "z-index": "1000000",
+	        "z-index": "100",
 	        "background": "white",
 	        "border": "1px solid #444",
 	        "box-shadow": "0 0 2px rgba(0,0,0,0.3)"
