@@ -45654,11 +45654,19 @@
 	        axis: target.axis ? ctx.getChartElementsID(target.axis) : undefined,
 	        range: target.range ? target.range.toString() : undefined,
 	        items: target.items ? target.items.map(function(item) {
+	            var itemIDs = item.items.map(function(d) {
+	                return ctx.getDataItemID(d);
+	            });
+	            if(item.itemsSaved != null) {
+	                item.itemsSaved.forEach(function(id) {
+	                    if(itemIDs.indexOf(id) < 0) {
+	                        itemIDs.push(id);
+	                    }
+	                });
+	            }
 	            return {
 	                elements: ctx.getChartElementsID(item.elements),
-	                items: item.items.map(function(d) {
-	                    return ctx.getDataItemID(d);
-	                })
+	                items: itemIDs
 	            };
 	        }) : undefined
 	    }
@@ -45782,7 +45790,8 @@
 	                elements: ctx.getChartElementsByID(item.elements),
 	                items: item.items.map(function(d) {
 	                    return ctx.getDataItemByID(d);
-	                })
+	                }).filter(function(x) { return x != null; }), // make sure non-existant items are excluded
+	                itemsSaved: item.items // keep the original unfiltered items so we can serialize it back
 	            };
 	        }) : undefined
 	    });
@@ -48671,8 +48680,12 @@
 	    context.getDataItemID = function(d) {
 	        for(var i = 0; i < self.tables.length; i++) {
 	            if(self.tables[i].data.indexOf(d) >= 0) {
-	                var index = self.tables[i].data.indexOf(d);
-	                return { table: self.tables[i].name, index: index };
+	                if(d._id) {
+	                    return JSON.stringify([ self.tables[i].name, d._id ]);
+	                } else {
+	                    var index = self.tables[i].data.indexOf(d);
+	                    return JSON.stringify([ self.tables[i].name, "index", index ]);
+	                }
 	            }
 	        }
 	    };
@@ -48694,9 +48707,20 @@
 	        return self.chart_elements[parseInt(elementID.substr(1))];
 	    };
 	    context.getDataItemByID = function(idstruct) {
+	        var info = JSON.parse(idstruct);
 	        for(var i = 0; i < self.tables.length; i++) {
-	            if(self.tables[i].name == idstruct.table) {
-	                return self.tables[i].data[idstruct.index];
+	            if(self.tables[i].name == info[0]) {
+	                if(info.length == 2) {
+	                    var rows = self.tables[i].data;
+	                    for(var p = 0; p < rows.length; p++) {
+	                        if(info[1] == rows[p]._id) {
+	                            return rows[p];
+	                        }
+	                    }
+	                } else {
+	                    return rows[info[2]];
+	                }
+	                return null;
 	            }
 	        }
 	    };
