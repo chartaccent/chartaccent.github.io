@@ -66540,7 +66540,7 @@
 	                                    shareData: _this.refs.checkboxShareDataYes.checked
 	                                });
 	                            } }),
-	                        " Yes, share my chart with the authors. I consent that the authors may use my chart and the associated data for research and future publications.")),
+	                        " Yes, share my chart with the authors. I'm 18 years or older, I consent that the authors may use my chart and the associated data for research and future publications.")),
 	                React.createElement("p", null,
 	                    React.createElement("label", { style: { cursor: "pointer" } },
 	                        React.createElement("input", { ref: "checkboxShareDataNo", type: "radio", checked: !this.state.shareData, onChange: function (e) {
