@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>ChartAccent</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto:300,400,500,700" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="styles/pages.css" />
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img src="images/chartaccent-logo.svg" style="opacity: 0.7; height: 1em; vertical-align: top; display: inline"
+                    /> ChartAccent</a>
+            </div>
+            <div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.html#section-title">Home</a></li>
+                        <li><a href="index.html#section-examples">Examples</a></li>
+                        <li><a href="index.html#section-tutorial">Tutorial</a></li>
+                        <li><a href="index.html#section-survey">Survey</a></li>
+                        <li><a href="index.html#section-publication">Publication</a></li>
+                        <li><a href="index.html#section-team">Team</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-section page-section-examples" id="section-title">
+        <div class="container">
+            <h2 class="section-title"></h2>
+            <h3>ChartAccent PowerBI Visuals - Privacy Statement</h3>
+            <p>
+                While you are using the ChartAccent PowerBI visuals, we log anonymous interaction information to
+                help us improve your experience. Your data remains on your machine and your account in the Microsoft
+                Cloud (if you save or publish your reports via the PowerBI service).
+                We will use the anonymous information for research and may include them in future publications.
+            </p>
+        </div>
+    </div>
+    <script type="text/javascript" src="scripts/d3.v3.min.js"></script>
+    <script type="text/javascript" src="scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        //   // Auto resize sections.
+        //   d3.select(window).on("resize.mainframe", function() {
+        //     var win_height = window.innerHeight; // minus the navbar height.
+        //     d3.selectAll(".page-section").style("min-height", win_height + "px");
+        //   });
+        //   d3.select(window).on("resize.mainframe")();
+          $('body').scrollspy({ target: ".navbar", offset: 50 });
+          $(".navbar ul li a[href^='#']").on('click', function(e) {
+            // prevent default anchor click behavior
+            e.preventDefault();
+            // store hash
+            var hash = this.hash;
+            // animate
+            $('html, body').animate({
+                scrollTop: $(hash).offset().top
+                }, 300, function(){
+                // when done, add hash to url
+                // (default click behaviour)
+                window.location.hash = hash;
+                });
+            });
+            $(window).load(function() {
+                $('#main-carousel').carousel('pause');
+            })
+        </script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-85290907-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+</body>
+
+</html>
